@@ -1,5 +1,6 @@
 from pessoa import Pessoa
 from perfil import Perfil
+from biblioteca import Biblioteca
 
 class Usuario(Pessoa):
     def __init__(self, nome, nickname, idade, email: str, endereco: str, senha: str, cpf: str, saldo=0):
@@ -10,6 +11,7 @@ class Usuario(Pessoa):
         self.__cpf = cpf
         self.__saldo = 0
         self.perfil = Perfil(nome, nickname, idade, saldo)
+        self.biblioteca = Biblioteca()
 
     @property
     def email(self):

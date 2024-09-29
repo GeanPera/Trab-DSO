@@ -1,8 +1,7 @@
 from usuario import Usuario
 
 class Jogo():
-    def __init__(self, titulo: str, genero, desenvolvedora,
-                 faixa_etaria: int, descricao: str, preco: int, qntd_vendida: int):
+    def __init__(self, titulo: str, genero, desenvolvedora, faixa_etaria: int, descricao: str, preco: int, qntd_vendida: int):
         self.__titulo = titulo
         self.__genero = genero
         self.__desenvolvedora = desenvolvedora
@@ -69,5 +68,11 @@ class Jogo():
 
     def comprar(self, usuario):
         if usuario.perfil.descontar_saldo(self.__preco):
+            self.__qntd_vendida += 1
+            usuario.biblioteca.adicionar_jogo(self)
             print(f'Compra realizada com sucesso! O jogo {self.__titulo} está disponível em sua biblioteca. Seu saldo atual é R${usuario.perfil.saldo}')
-        
+
+    def presentear_amigo(self, usuario, Usuario):
+        if usuario.perfil.descontar_saldo(self.__preco):
+            Usuario.biblioteca.adicionar_jogo(self)
+            print(f'Compra realizada com sucesso! Você presenteou {Usuario.nickname} com o jogo {self.__titulo}. Seu saldo atual é R${usuario.perfil.saldo}')
