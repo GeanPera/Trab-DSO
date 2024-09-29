@@ -3,9 +3,8 @@ from abc import ABC, abstractmethod
 
 class Pessoa(ABC):
     @abstractmethod
-    def __init__(self, nome, email, nickname, idade):
+    def __init__(self, nome: str, nickname: str, idade: int):
         self.__nome = nome
-        self.__email = email
         self.__nickname = nickname
         self.__idade = idade
 

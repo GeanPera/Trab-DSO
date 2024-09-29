@@ -1,8 +1,8 @@
-
+from usuario import Usuario
 
 class Jogo():
-    def __init__(self, titulo, genero, desenvolvedora,
-                 faixa_etaria, descricao, preco, qntd_vendida):
+    def __init__(self, titulo: str, genero, desenvolvedora,
+                 faixa_etaria: int, descricao: str, preco: int, qntd_vendida: int):
         self.__titulo = titulo
         self.__genero = genero
         self.__desenvolvedora = desenvolvedora
@@ -67,5 +67,7 @@ class Jogo():
     def qntd_vendida(self, qntd_vendida):
         self.__qntd_vendida = qntd_vendida
 
-    def comprar(self):
-        pass
+    def comprar(self, usuario):
+        if usuario.perfil.descontar_saldo(self.__preco):
+            print(f'Compra realizada com sucesso! O jogo {self.__titulo} está disponível em sua biblioteca. Seu saldo atual é R${usuario.perfil.saldo}')
+        

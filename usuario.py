@@ -1,12 +1,23 @@
 from pessoa import Pessoa
-
+from perfil import Perfil
 
 class Usuario(Pessoa):
-    def __init__(self, nome, email, nickname, idade, endereco, senha, cpf):
-        super.__init__(nome, email, nickname, idade)
+    def __init__(self, nome, nickname, idade, email: str, endereco: str, senha: str, cpf: str, saldo=0):
+        super().__init__(nome, nickname, idade)
+        self.__email = email
         self.__endereco = endereco
         self.__senha = senha
         self.__cpf = cpf
+        self.__saldo = 0
+        self.perfil = Perfil(nome, nickname, idade, saldo)
+
+    @property
+    def email(self):
+        return self.__email
+    
+    @email.setter
+    def email(self, email):
+        self.__email = email
 
     @property
     def endereco(self):
@@ -26,8 +37,5 @@ class Usuario(Pessoa):
 
     @property
     def cpf(self):
-        return self.__senha
+        return self.__cpf
 
-    @cpf.setter
-    def cpf(self, cpf):
-        self.__cpf = cpf
