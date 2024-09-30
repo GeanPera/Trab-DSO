@@ -54,3 +54,13 @@ print(riot.listar_jogos())
 faturamento1 = supercell.faturamento()
 faturamento2 = riot.faturamento()
 print(f"{supercell.nome}: {faturamento1}, {riot.nome}: {faturamento2}")
+
+#Jogo mais vendido
+jogo_mais_vendido = Loja.jogo_mais_comprado()
+print(jogo_mais_vendido)
+
+#Jogos por desenvolvedora
+jogos_riot = Loja.jogos_por_desenvolvedora(riot)
+jogos_super = Loja.jogos_por_desenvolvedora(supercell)
+print(jogos_riot)
+print(jogos_super)
