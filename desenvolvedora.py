@@ -16,7 +16,7 @@ class Desenvolvedora:
 
     def listar_jogos(self):
         return [jogo.titulo for jogo in self.__jogos]
-    
+
     def faturamento(self):
         total_faturamento = sum(jogo.preco * jogo.qntd_vendida for jogo in self.__jogos)
         return f"R${total_faturamento:.2f}"

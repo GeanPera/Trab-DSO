@@ -1,3 +1,7 @@
+from usuario import Usuario
+from jogo import Jogo
+
+
 jogador = Usuario("Bruno", "Brubo", 21, "bruno@123", "rua 1", "123", "321")
 jogador.perfil.depositar_saldo(50)
 print(jogador.perfil.saldo)

@@ -3,9 +3,7 @@
 class Loja():
 
     jogos_disponiveis = []
-    
- 
-    
+
     @classmethod
     def novo_jogo(cls, Jogo):
         cls.jogos_disponiveis.append(Jogo)
@@ -31,6 +29,6 @@ class Loja():
             return f"Jogos da {desenvolvedora.nome}: {', '.join(jogos)}"
         else:
             return f"A desenvolvedora {desenvolvedora.nome} não tem jogos registrados."
-        
+
     def filtro_preco(self):
         pass
