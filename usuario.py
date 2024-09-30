@@ -3,6 +3,7 @@ from perfil import Perfil
 from biblioteca import Biblioteca
 
 class Usuario(Pessoa):
+
     def __init__(self, nome, nickname, idade, email: str, endereco: str, senha: str, cpf: str, saldo=0):
         super().__init__(nome, nickname, idade)
         self.__email = email
@@ -40,4 +41,3 @@ class Usuario(Pessoa):
     @property
     def cpf(self):
         return self.__cpf
-

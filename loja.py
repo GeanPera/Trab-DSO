@@ -1,9 +1,18 @@
-from jogo import Jogo
-
 
 class Loja():
-    def __init__(self, jogos: Jogo):
-        self.__jogos = []
+
+    jogos_disponiveis = []
+    
+ 
+    
+    @classmethod
+    def novo_jogo(cls, Jogo):
+        cls.jogos_disponiveis.append(Jogo)
+
+    @classmethod
+    def listar_jogos(cls):
+        return [jogo.titulo for jogo in cls.jogos_disponiveis]
+
 
     def jogo_mais_comprado(self):
         pass

@@ -1,5 +1,6 @@
 
 class Perfil():
+
     def __init__(self, nome, nickname, idade, saldo):
         self.nome = nome
         self.nickname = nickname

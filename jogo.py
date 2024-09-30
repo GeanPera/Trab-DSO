@@ -1,14 +1,21 @@
 from usuario import Usuario
+from loja import Loja
+from desenvolvedora import Desenvolvedora
 
 class Jogo():
-    def __init__(self, titulo: str, genero, desenvolvedora, faixa_etaria: int, descricao: str, preco: int, qntd_vendida: int):
+
+    def __init__(self, titulo: str, genero, desenvolvedora: Desenvolvedora, faixa_etaria: int, descricao: str, preco: int, qntd_vendida: int):
         self.__titulo = titulo
         self.__genero = genero
-        self.__desenvolvedora = desenvolvedora
+        self.__desenvolvedora = desenvolvedora  # Agora usando uma instância de Desenvolvedora
         self.__faixa_etaria = faixa_etaria
-        self.__descicao = descricao
+        self.__descricao = descricao  # Corrigido o erro de digitação (descicao -> descricao)
         self.__preco = preco
         self.__qntd_vendida = qntd_vendida
+
+        # Adiciona o jogo à loja e à lista de jogos da desenvolvedora
+        Loja.novo_jogo(self)
+        self.__desenvolvedora.lancar_jogo(self)
 
     @property
     def titulo(self):
@@ -29,10 +36,6 @@ class Jogo():
     @property
     def desenvolvedora(self):
         return self.__desenvolvedora
-
-    @desenvolvedora.setter
-    def desenvolvedora(self, desenvolvedora):
-        self.__desenvolvedora = desenvolvedora
 
     @property
     def faixa_etaria(self):
@@ -74,5 +77,6 @@ class Jogo():
 
     def presentear_amigo(self, usuario, Usuario):
         if usuario.perfil.descontar_saldo(self.__preco):
+            self.__qntd_vendida += 1
             Usuario.biblioteca.adicionar_jogo(self)
             print(f'Compra realizada com sucesso! Você presenteou {Usuario.nickname} com o jogo {self.__titulo}. Seu saldo atual é R${usuario.perfil.saldo}')
