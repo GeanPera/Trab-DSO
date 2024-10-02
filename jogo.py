@@ -70,12 +70,16 @@ class Jogo():
         self.__qntd_vendida = qntd_vendida
 
     def comprar(self, usuario):
-        if usuario.perfil.descontar_saldo(self.__preco):
-            self.__qntd_vendida += 1
-            usuario.biblioteca.adicionar_jogo(self)
-            print(f'Compra realizada com sucesso! O jogo {self.__titulo} está disponível em sua biblioteca. Seu saldo atual é R${usuario.perfil.saldo}')
+        if usuario.idade < self.__faixa_etaria:
+                return print("Você não possui idade suficiente para comprar esse jogo!")
+        elif usuario.biblioteca.adicionar_jogo(self):
+            if usuario.perfil.descontar_saldo(self.__preco):
+                self.__qntd_vendida += 1
+                print(f'Compra realizada com sucesso! O jogo {self.__titulo} está disponível em sua biblioteca. Seu saldo atual é R${usuario.perfil.saldo}')
+        else:
+            print(f'Você já possui esse jogo em sua biblioteca!')
 
-    def presentear_amigo(self, usuario: Usuario):
+    def presentear_amigo(self, usuario, Usuario):
         if usuario.perfil.descontar_saldo(self.__preco):
             self.__qntd_vendida += 1
             Usuario.biblioteca.adicionar_jogo(self)

@@ -27,6 +27,9 @@ jogador1.perfil.remover_amigo(jogador2)
 # Comprando jogo
 brawl.comprar(jogador1)
 
+# Comprando um jogo repetido
+brawl.comprar(jogador1)
+
 # Presenteando um amigo
 brawl.presentear_amigo(jogador1, jogador2)
 

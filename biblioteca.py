@@ -10,7 +10,14 @@ class Biblioteca():
         return self.__jogos
 
     def adicionar_jogo(self, jogo):
-        self.__jogos.append(jogo)
+        adiciona = True
+        for game in self.__jogos:
+            if game == jogo:
+                adiciona = False
+                return adiciona
+        if adiciona:
+            self.__jogos.append(jogo)
+            return True
 
     def remover_jogo(self, jogo):
         self.__jogos.remove(jogo)
@@ -26,3 +33,6 @@ class Biblioteca():
             return print(f"Você ganhou uma partida de {Jogo.titulo} contra {Usuario.nickname}")
         else:
             return print(f"Você perdeu uma partida de {Jogo.titulo} contra {Usuario.nickname}")
+
+    def mostrar_biblioteca(self):
+        return [jogo.titulo for jogo in self.__jogos]
