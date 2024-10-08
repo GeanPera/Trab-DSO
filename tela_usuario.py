@@ -1,6 +1,4 @@
 
-
-
 class TelaUsuario():
     def opcoes_tela(self):
         print("-------- Tela Usuario ----------")
@@ -13,12 +11,19 @@ class TelaUsuario():
         print("6 - Depositar Saldo")
         print("0 - Retornar")
 
-    opcao = int(input("Escolha a opcao: "))
-    return opcao
+        opcao = int(input("Escolha a opcao: "))
+        return opcao
 
     def dados_usuario():
-        pass
+       print("-----DADOS USUÁRIO-----")
+       nome = input("Nome: ")
+       nickname = input("Nickname: ")
+       idade = int(input("Idade: "))
+       email = input("E-mail: ")
+       endereco = input("Endereço: ")
+       senha = input("Senha: ")
+       cpf = input("CPF: ")
+       
 
     def alterar_usuario():
         pass
-    
