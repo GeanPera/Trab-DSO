@@ -12,8 +12,9 @@ class Usuario(Pessoa):
         self.__senha = senha
         self.__cpf = cpf
         self.__saldo = 0
-        self.perfil = Perfil(nome, nickname, idade, saldo)
+        self.__amigos = []
         self.biblioteca = Biblioteca()
+
 
     @property
     def email(self):
@@ -42,3 +43,15 @@ class Usuario(Pessoa):
     @property
     def cpf(self):
         return self.__cpf
+    
+    @property
+    def saldo(self):
+        return self.__saldo
+    
+    @saldo.setter
+    def saldo(self, saldo):
+        self.__saldo = saldo
+
+    @property
+    def amigos(self):
+        return self.__amigos

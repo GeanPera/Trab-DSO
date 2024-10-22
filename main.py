@@ -2,10 +2,13 @@ from jogo import Jogo
 from loja import Loja
 from usuario import Usuario
 from desenvolvedora import Desenvolvedora
+from controladorUsuário import ControladorUsuarios
 
 # Instanciando Jogadores
-jogador1 = Usuario("Luan", "Cellmander", 22, "luan@123", "rua 1", "senha123", "321")
-jogador2 = Usuario("Gean", "PeraGamer", 18, "gean@123", "rua vrau", "senha456", "654")
+jogador1 = ControladorUsuarios()
+jogador2 = ControladorUsuarios()
+#jogador1 = Usuario("Luan", "Cellmander", 22, "luan@123", "rua 1", "senha123", "321")
+#jogador2 = Usuario("Gean", "PeraGamer", 18, "gean@123", "rua vrau", "senha456", "654")
 
 # Instanciando desenvolvedora
 supercell = Desenvolvedora("Supercell")
@@ -64,3 +67,4 @@ jogos_riot = Loja.jogos_por_desenvolvedora(riot)
 jogos_super = Loja.jogos_por_desenvolvedora(supercell)
 print(jogos_riot)
 print(jogos_super)
+
