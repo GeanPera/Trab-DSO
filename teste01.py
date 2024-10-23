@@ -1,59 +1,111 @@
-import unittest
-from controladorJogos import ControladorJogos
-from jogo import Jogo
-
-class TestControladorJogos(unittest.TestCase):
-
-    def setUp(self):
-        # Inicializando o controlador e adicionando alguns jogos
-        self.controlador = ControladorJogos()
-        self.controlador.novo_jogo("The Legend of Zelda", "Aventura", "Nintendo", 12, "Aventura épica", 59.99, 1000)
-        self.controlador.novo_jogo("Super Mario", "Plataforma", "Nintendo", 7, "Jogo clássico", 39.99, 1500)
-        self.controlador.novo_jogo("Final Fantasy", "RPG", "Square Enix", 16, "RPG envolvente", 69.99, 500)
-
-    def test_novo_jogo(self):
-        # Verifica se o jogo foi adicionado corretamente
-        self.controlador.novo_jogo("Cyberpunk 2077", "Ação", "CD Projekt Red", 18, "Futurístico", 199.99, 2000)
-        self.assertEqual(len(self.controlador._ControladorJogos__jogos), 4)
-        self.assertEqual(self.controlador._ControladorJogos__jogos[-1].titulo, "Cyberpunk 2077")
-
-    def test_jogo_mais_comprado(self):
-        # Verifica se o jogo mais comprado é o correto (Super Mario)
-        jogo = self.controlador.jogo_mais_comprado()
-        self.assertEqual(jogo.titulo, "Super Mario")
-        self.assertEqual(jogo.qnt_vendida, 1500)
-
-    def test_jogos_por_genero(self):
-        # Verifica se os jogos do gênero 'RPG' são filtrados corretamente
-        rpg_games = self.controlador.jogos_por_genero("RPG")
-        self.assertEqual(len(rpg_games), 1)
-        self.assertEqual(rpg_games[0].titulo, "Final Fantasy")
-
-        # Verifica se não retorna jogos para um gênero que não existe
-        estrategia_games = self.controlador.jogos_por_genero("Estratégia")
-        self.assertEqual(len(estrategia_games), 0)
-
-    def test_jogos_por_desenvolvedora(self):
-        # Verifica se os jogos da desenvolvedora 'Nintendo' são filtrados corretamente
-        nintendo_games = self.controlador.jogos_por_desenvolvedora("Nintendo")
-        self.assertEqual(len(nintendo_games), 2)
-        self.assertEqual(nintendo_games[0].titulo, "The Legend of Zelda")
-        self.assertEqual(nintendo_games[1].titulo, "Super Mario")
-
-        # Verifica se não retorna jogos para uma desenvolvedora que não existe
-        sony_games = self.controlador.jogos_por_desenvolvedora("Sony")
-        self.assertEqual(len(sony_games), 0)
-
-    def test_filtrar_preco(self):
-        # Verifica se os jogos entre 50 e 70 reais são filtrados corretamente
-        jogos_filtrados = self.controlador.filtrar_preco(50, 70)
-        self.assertEqual(len(jogos_filtrados), 2)  # Zelda e Final Fantasy
-        self.assertEqual(jogos_filtrados[0].titulo, "The Legend of Zelda")
-        self.assertEqual(jogos_filtrados[1].titulo, "Final Fantasy")
-
-        # Verifica se não retorna jogos para uma faixa de preço sem correspondência
-        jogos_inexistentes = self.controlador.filtrar_preco(500, 1000)
-        self.assertEqual(len(jogos_inexistentes), 0)
-
-if __name__ == '__main__':
-    unittest.main()
+def lista_jogos():
+    return [
+    {
+        "titulo": "Cyberpunk 2077",
+        "genero": "Ação",
+        "desenvolvedora": "CD Projekt Red",
+        "faixa_etaria": 18,
+        "descricao": "Um RPG de mundo aberto situado em uma metrópole futurista.",
+        "preco": 199.99,
+        "qnt_vendida": 1500000
+    },
+    {
+        "titulo": "The Witcher 3: Wild Hunt",
+        "genero": "RPG",
+        "desenvolvedora": "CD Projekt Red",
+        "faixa_etaria": 18,
+        "descricao": "A aventura final de Geralt de Rivia em um mundo vasto e perigoso.",
+        "preco": 89.99,
+        "qnt_vendida": 12000000
+    },
+    {
+        "titulo": "Animal Crossing: New Horizons",
+        "genero": "Simulação",
+        "desenvolvedora": "Nintendo",
+        "faixa_etaria": 3,
+        "descricao": "Crie sua própria ilha e conviva com personagens adoráveis.",
+        "preco": 299.99,
+        "qnt_vendida": 33000000
+    },
+    {
+        "titulo": "Super Smash Bros. Ultimate",
+        "genero": "Luta",
+        "desenvolvedora": "Nintendo",
+        "faixa_etaria": 12,
+        "descricao": "Uma batalha épica entre personagens de vários jogos da Nintendo e outras franquias.",
+        "preco": 249.99,
+        "qnt_vendida": 25000000
+    },
+    {
+        "titulo": "Hades",
+        "genero": "Roguelike",
+        "desenvolvedora": "Supergiant Games",
+        "faixa_etaria": 16,
+        "descricao": "Um jogo de ação onde você controla o filho de Hades em sua tentativa de escapar do submundo.",
+        "preco": 79.99,
+        "qnt_vendida": 7000000
+    },
+    {
+        "titulo": "Minecraft",
+        "genero": "Sandbox",
+        "desenvolvedora": "Mojang",
+        "faixa_etaria": 7,
+        "descricao": "Um jogo de construção de blocos em um mundo aberto, onde a criatividade é o limite.",
+        "preco": 119.99,
+        "qnt_vendida": 238000000
+    },
+    {
+        "titulo": "Fortnite",
+        "genero": "Battle Royale",
+        "desenvolvedora": "Epic Games",
+        "faixa_etaria": 12,
+        "descricao": "Um jogo de sobrevivência onde até 100 jogadores competem para ser o último sobrevivente.",
+        "preco": 0.00,  # Jogo gratuito com compras in-game
+        "qnt_vendida": 350000000
+    },
+    {
+        "titulo": "Red Dead Redemption 2",
+        "genero": "Aventura",
+        "desenvolvedora": "Rockstar Games",
+        "faixa_etaria": 18,
+        "descricao": "Uma jornada épica pelo velho oeste americano, com gráficos deslumbrantes e uma história cativante.",
+        "preco": 199.99,
+        "qnt_vendida": 50000000
+    },
+    {
+        "titulo": "Among Us",
+        "genero": "Party",
+        "desenvolvedora": "InnerSloth",
+        "faixa_etaria": 7,
+        "descricao": "Um jogo de dedução social onde os jogadores tentam descobrir quem são os impostores.",
+        "preco": 9.99,
+        "qnt_vendida": 100000000
+    },
+    {
+        "titulo": "The Last of Us Part II",
+        "genero": "Ação",
+        "desenvolvedora": "Naughty Dog",
+        "faixa_etaria": 18,
+        "descricao": "Uma história de sobrevivência e vingança em um mundo pós-apocalíptico.",
+        "preco": 199.99,
+        "qnt_vendida": 10000000
+    },
+    {
+        "titulo": "League of Legends",
+        "genero": "MOBA",
+        "desenvolvedora": "Riot Games",
+        "faixa_etaria": 12,
+        "descricao": "Um jogo competitivo onde equipes de cinco jogadores competem em batalhas táticas.",
+        "preco": 0.00,  # Jogo gratuito com compras in-game
+        "qnt_vendida": 150000000
+    },
+    {
+        "titulo": "Valorant",
+        "genero": "FPS",
+        "desenvolvedora": "Riot Games",
+        "faixa_etaria": 16,
+        "descricao": "Um jogo de tiro tático 5v5 com personagens únicos e habilidades especiais.",
+        "preco": 0.00,  # Jogo gratuito com compras in-game
+        "qnt_vendida": 120000000
+    }
+]

@@ -14,9 +14,6 @@ class Jogo():
         self.__preco = preco
         self.__qntd_vendida = qntd_vendida
 
-        Loja.novo_jogo(self)
-        self.__desenvolvedora.lancar_jogo(self)
-
     @property
     def titulo(self):
         return self.__titulo

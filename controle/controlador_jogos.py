@@ -12,9 +12,9 @@ class ControladorJogos:
         self.__jogos.append(jogo)
 
     def jogo_mais_comprado(self):
-        if not self.__jogos:
-            return None
-        return max(self.__jogos, key=lambda jogo: jogo.qnt_vendida)
+        if self.__jogos:
+            return max(self.__jogos, key=lambda jogo: jogo.qntd_vendida)
+        return none
 
     def jogos_por_genero(self, genero):
         return [jogo for jogo in self.__jogos if jogo.genero == genero]
@@ -30,23 +30,23 @@ class ControladorJogos:
             opcao = self.__tela.exibir_menu()
 
             if opcao == '1':
-                jogo = self.jogo_mais_comprado()
-                self.__tela.mostrar_jogo_mais_comprado(jogo)
+                jogo_mais = self.jogo_mais_comprado()
+                self.__tela.mostrar_jogo_mais_comprado(jogo_mais)
 
             elif opcao == '2':
                 genero = self.__tela.solicitar_genero()
-                jogos = self.jogos_por_genero(genero)
-                self.__tela.mostrar_jogos_por_genero(jogos)
+                jogos_gen = self.jogos_por_genero(genero)
+                self.__tela.mostrar_jogos_por_genero(jogos_gen)
 
             elif opcao == '3':
                 desenvolvedora = self.__tela.solicitar_desenvolvedora()
-                jogos = self.jogos_por_desenvolvedora(desenvolvedora)
-                self.__tela.mostrar_jogos_por_desenvolvedora(jogos)
+                jogos_dev = self.jogos_por_desenvolvedora(desenvolvedora)
+                self.__tela.mostrar_jogos_por_desenvolvedora(jogos_dev)
 
             elif opcao == '4':
                 preco_min, preco_max = self.__tela.solicitar_faixa_preco()
-                jogos = self.filtrar_preco(preco_min, preco_max)
-                self.__tela.filtrar_jogos_por_preco(jogos)
+                jogos_preco = self.filtrar_preco(preco_min, preco_max)
+                self.__tela.filtrar_jogos_por_preco(jogos_preco)
 
             elif opcao == '0':
                 print("Saindo da loja.")

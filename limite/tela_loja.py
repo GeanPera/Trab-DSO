@@ -11,13 +11,13 @@ class TelaLoja:
 
     def mostrar_jogo_mais_comprado(self, jogo):
         if jogo:
-            print(f"\nO jogo mais comprado é: {jogo.titulo} com {jogo.qnt_vendida} vendas.")
+            print(f"O jogo mais comprado é: {jogo.titulo} com {jogo.qnt_vendida} vendas.")
         else:
             print("Nenhum jogo disponível.")
 
     def mostrar_jogos_por_genero(self, jogos):
         if jogos:
-            print("\nJogos no gênero selecionado:")
+            print("Jogos no gênero selecionado:")
             for jogo in jogos:
                 print(f"- {jogo.titulo}")
         else:
