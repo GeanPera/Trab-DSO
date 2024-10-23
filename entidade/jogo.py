@@ -1,7 +1,7 @@
 
-from loja import Loja
-from desenvolvedora import Desenvolvedora
-from usuario import Usuario
+from entidade.loja import Loja
+from entidade.desenvolvedora import Desenvolvedora
+from entidade.usuario import Usuario
 
 
 class Jogo():

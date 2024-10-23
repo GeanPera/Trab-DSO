@@ -1,11 +1,11 @@
-from tela_usuario import TelaUsuario
-from usuario import Usuario
+from limite.tela_usuario import TelaUsuario
+from entidade.usuario import Usuario
 
 class ControladorUsuarios():
-    def __init__(self):
+    def __init__(self, controlador_sistema):
         self.__usuarios = []
         self.__tela_usuario = TelaUsuario()
-        #self.__controlador_sistema = controlador_sistema
+        self.__controlador_sistema = controlador_sistema
 
     @property
     def usuarios(self):
