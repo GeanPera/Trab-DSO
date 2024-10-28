@@ -1,21 +1,22 @@
-from tela_usuario import TelaUsuario
-from usuario import Usuario
+from limite.tela_usuario import TelaUsuario
+from entidade.usuario import Usuario
 
 class ControladorUsuarios():
-    def __init__(self):
+    def __init__(self, controlador_sistema):
         self.__usuarios = []
         self.__tela_usuario = TelaUsuario()
+        self.__controlador_sistema = controlador_sistema
 
     @property
     def usuarios(self):
         return self.__usuarios
     
-    def encontrar_usuario(self, nickname):
+    def encontrar_usuario(self, cpf):
         for usuario in self.__usuarios:
-            if usuario.nickname == nickname:
+            if usuario.cpf == cpf:
                 return usuario
         return False
-
+        
 
     def cadastrar(self):
         dados_usuario = self.__tela_usuario.dados_usuario()
@@ -24,27 +25,25 @@ class ControladorUsuarios():
                 mensagem = "CPF já utilizado!"
                 self.__tela_usuario.mostra_mensagem()
                 return
-
+            
             elif usuario.email == dados_usuario["email"]: 
-                mensagem = "E-mail já utilizado!"
+                mensagem = "CPF já utilizado!"
                 self.__tela_usuario.mostra_mensagem()
                 return
 
             elif usuario.nickname == dados_usuario["nickname"]:
-                mensagem = "Nickname já utilizado!"
+                mensagem = "CPF já utilizado!"
                 self.__tela_usuario.mostra_mensagem()
                 return
 
         novo_usuario = Usuario(dados_usuario["nome"], dados_usuario["nickname"], dados_usuario["idade"], dados_usuario["email"], dados_usuario["endereco"], dados_usuario["senha"], dados_usuario["cpf"], 0)
         self.__usuarios.append(novo_usuario)
-        self.__tela_usuario.mostra_mensagem("O usuário foi cadastrado com sucesso!")
     
     def alterar_usuario(self):
-        mensagem = "Insira o nickname do usuário a ser alterado"
-        nickname = self.__tela_usuario.pede_nickname(mensagem)
+        cpf = self.__tela_usuario.pede_cpf()
         
-        if self.encontrar_usuario(nickname):
-            usuario_encontrado = self.encontrar_usuario(nickname)
+        if self.encontrar_usuario(cpf):
+            usuario_encontrado = self.encontrar_usuario(cpf)
             novos_dados = self.__tela_usuario.dados_alteracao()
             
             usuario_encontrado.nome = novos_dados.get("nome", usuario_encontrado.nome)
@@ -60,23 +59,21 @@ class ControladorUsuarios():
             self.__tela_usuario.mostra_mensagem("Usuário não encontrado.")
             
     def adicionar_amigo(self):
-        mensagem = "Insira seu nickname: "
-        nick_usuario = self.__tela_usuario.pede_nickname(mensagem)
+        cpf_user = self.__tela_usuario.pede_cpf()
         
-        if not self.encontrar_usuario(nick_usuario):
+        if not self.encontrar_usuario(cpf_user):
             self.__tela_usuario.mostra_mensagem("Usuário não encontrado.")
             return
         
-        usuario = self.encontrar_usuario(nick_usuario)
+        usuario = self.encontrar_usuario(cpf_user)
         
-        mensagem = "Insira o nickname do usuário que você deseja adicionar: "
-        nick_amigo = self.__tela_usuario.pede_nickname(mensagem)
+        cpf_amigo = self.__tela_usuario.pede_cpf()
         
-        if not self.encontrar_usuario(nick_amigo):
+        if not self.encontrar_usuario(cpf_amigo):
             self.__tela_usuario.mostra_mensagem("Usuário não encontrado.")
             return
         
-        amigo = self.encontrar_usuario(nick_amigo)
+        amigo = self.encontrar_usuario(cpf_amigo)
         
         if amigo in usuario.amigos:
             self.__tela_usuario.mostra_mensagem("Esse usuário já está na sua lista de amigos!")
@@ -84,37 +81,10 @@ class ControladorUsuarios():
         
         usuario.amigos.append(amigo)
         amigo.amigos.append(usuario)
-        self.__tela_usuario.mostra_mensagem(f"{amigo.nickname} foi adicionado à sua lista de amigos!")
-        
-    def excluir_amigo(self):
-        mensagem = "Insira seu nickname: "
-        nick_usuario = self.__tela_usuario.pede_nickname(mensagem)
-        
-        if not self.encontrar_usuario(nick_usuario):
-            self.__tela_usuario.mostra_mensagem("Usuário não encontrado.")
-            return
-        
-        usuario = self.encontrar_usuario(nick_usuario)
-        
-        mensagem = "Insira o nickname do usuário que você deseja excluir: "
-        nick_amigo = self.__tela_usuario.pede_nickname(mensagem)
-        
-        if not self.encontrar_usuario(nick_amigo):
-            self.__tela_usuario.mostra_mensagem("Usuário não encontrado.")
-            return
-        
-        amigo = self.encontrar_usuario(nick_amigo)
+        self.__tela_usuario.mostra_mensagem(f"{amigo.nome} foi adicionado à sua lista de amigos!")
 
-        if amigo not in usuario.amigos:
-            self.__tela_usuario.mostra_mensagem("Esse usuário não está na sua lista de amigos!")
-            return
-        
-        usuario.amigos.remove(amigo)
-        amigo.amigos.remove(usuario)
-        self.__tela_usuario.mostra_mensagem(f"{amigo.nickname} foi removido da sua lista de amigos!")
-        
     def abre_tela(self):
-        lista_opcoes = {1: self.cadastrar, 2: self.alterar_usuario, 3: self.adicionar_amigo, 4: self.excluir_amigo}
+        lista_opcoes = {1: self.cadastrar, 2: self.alterar_usuario, 3: self.adicionar_amigo}
         
         continua = True
         while continua:

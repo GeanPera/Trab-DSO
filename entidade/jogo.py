@@ -1,7 +1,7 @@
 
-from loja import Loja
-from desenvolvedora import Desenvolvedora
-from usuario import Usuario
+from entidade.loja import Loja
+from entidade.desenvolvedora import Desenvolvedora
+from entidade.usuario import Usuario
 
 
 class Jogo():
@@ -13,9 +13,6 @@ class Jogo():
         self.__descricao = descricao
         self.__preco = preco
         self.__qntd_vendida = qntd_vendida
-
-        Loja.novo_jogo(self)
-        self.__desenvolvedora.lancar_jogo(self)
 
     @property
     def titulo(self):
