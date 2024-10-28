@@ -23,10 +23,10 @@ class TelaUsuario():
        cpf = input("CPF: ")
 
        return {"nome": nome, "nickname": nickname, "idade": idade, "email": email, "endereco": endereco, "senha": senha, "cpf": cpf}
-   
-    def pede_cpf(self):
-        cpf = input("Digite o CPF para pesquisar: ")
-        return cpf
+    
+    def pede_nickname(self, mensagem):
+        nickname = input(mensagem)
+        return nickname
     
     def dados_alteracao(self):
         print("----- ALTERAR DADOS DO USUÁRIO -----")
