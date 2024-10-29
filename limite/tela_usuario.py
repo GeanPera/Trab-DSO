@@ -23,10 +23,18 @@ class TelaUsuario():
        cpf = input("CPF: ")
 
        return {"nome": nome, "nickname": nickname, "idade": idade, "email": email, "endereco": endereco, "senha": senha, "cpf": cpf}
-    
+
     def pede_nickname(self, mensagem):
         nickname = input(mensagem)
         return nickname
+
+    def pede_senha(self):
+        senha = input("Insira sua senha: ")
+        return senha
+
+    def valor_deposito(self):
+        valor = float(input("Insira a quantia que deseja depositar: "))
+        return valor
     
     def dados_alteracao(self):
         print("----- ALTERAR DADOS DO USUÁRIO -----")
