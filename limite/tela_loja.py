@@ -10,8 +10,9 @@ class TelaLoja:
         return opcao
 
     def mostrar_jogo_mais_comprado(self, jogo):
+        
         if jogo:
-            print(f"O jogo mais comprado é: {jogo.titulo} com {jogo.qnt_vendida} vendas.")
+            print(f"O jogo mais comprado é: {jogo.titulo} com {jogo.qntd_vendida} vendas.")
         else:
             print("Nenhum jogo disponível.")
 

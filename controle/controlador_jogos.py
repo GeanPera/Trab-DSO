@@ -12,9 +12,18 @@ class ControladorJogos:
         self.__jogos.append(jogo)
 
     def jogo_mais_comprado(self):
-        if self.__jogos:
-            return max(self.__jogos, key=lambda jogo: jogo.qntd_vendida)
-        return none
+# Ordena a lista de jogos por quantidade de vendas usando Bubble Sort
+        jogos_ordenados = self.__jogos
+        n = len(jogos_ordenados)
+        
+        for i in range(n - 1):
+            for j in range(n - i - 1):
+                if jogos_ordenados[j].qntd_vendida < jogos_ordenados[j + 1].qntd_vendida:
+                    # Troca os jogos de posição se o atual tiver menos vendas que o próximo
+                    jogos_ordenados[j], jogos_ordenados[j + 1] = jogos_ordenados[j + 1], jogos_ordenados[j]
+        
+        # Retorna o primeiro jogo da lista ordenada (com a maior quantidade de vendas)
+        return jogos_ordenados[0] if jogos_ordenados else None
 
     def jogos_por_genero(self, genero):
         return [jogo for jogo in self.__jogos if jogo.genero == genero]
