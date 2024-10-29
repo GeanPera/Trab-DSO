@@ -11,6 +11,11 @@ class ControladorJogos:
         jogo = Jogo(titulo, genero, desenvolvedora, faixa_etaria, descricao, preco, qnt_vendida)
         self.__jogos.append(jogo)
 
+    def listar_jogos(self):
+        self.__tela.mostra_mensagem("Todos os jogos disponíveis:")
+        for jogo in self.__jogos:
+            self.__tela.mostra_mensagem(f"- {jogo.titulo}")
+
     def jogo_mais_comprado(self):
 # Ordena a lista de jogos por quantidade de vendas usando Bubble Sort
         jogos_ordenados = self.__jogos
@@ -23,44 +28,64 @@ class ControladorJogos:
                     jogos_ordenados[j], jogos_ordenados[j + 1] = jogos_ordenados[j + 1], jogos_ordenados[j]
         
         # Retorna o primeiro jogo da lista ordenada (com a maior quantidade de vendas)
-        return jogos_ordenados[0] if jogos_ordenados else None
+        jogo = jogos_ordenados[0] if jogos_ordenados else None
+        if jogo:
+            mensagem = f"O jogo mais comprado é: {jogo.titulo} com {jogo.qntd_vendida} vendas."
+        else:
+            mensagem = "Nenhum jogo disponível."
+        return mensagem
+
 
     def jogos_por_genero(self, genero):
-        return [jogo for jogo in self.__jogos if jogo.genero == genero]
+        jogos_gen = [jogo for jogo in self.__jogos if jogo.genero == genero]
+        if jogos_gen:
+            self.__tela.mostra_mensagem("Jogos no gênero selecionado:")
+            for jogo in jogos_gen:
+                self.__tela.mostra_mensagem(f"- {jogo.titulo}")
+        else:
+            self.__tela.mostra_mensagem("Nenhum jogo encontrado no gênero informado.")
 
     def jogos_por_desenvolvedora(self, desenvolvedora):
-        return [jogo for jogo in self.__jogos if jogo.desenvolvedora == desenvolvedora]
+        jogos_por_dev = [jogo for jogo in self.__jogos if jogo.desenvolvedora == desenvolvedora]
+        if jogos_por_dev:
+            self.__tela.mostra_mensagem("Jogos da desenvolvedora selecionada:")
+            for jogo in jogos_por_dev:
+                self.__tela.mostra_mensagem(f"- {jogo.titulo}")
+        else:
+            self.__tela.mostra_mensagem("Nenhum jogo encontrado para a desenvolvedora informada.")
+        
 
     def filtrar_preco(self, preco_minimo, preco_maximo):
-        return [jogo for jogo in self.__jogos if preco_minimo <= jogo.preco <= preco_maximo]
-
+        jogos_preco = [jogo for jogo in self.__jogos if preco_minimo <= jogo.preco <= preco_maximo]
+        if jogos_preco:
+            self.__tela.mostra_mensagem("Jogos dentro da faixa de preço selecionada:")
+            for jogo in jogos_preco:
+                self.__tela.mostra_mensagem(f"- {jogo.titulo} ({jogo.preco} reais)")
+        else:
+            self.__tela.mostra_mensagem("Nenhum jogo encontrado nessa faixa de preço.")
     def abre_tela(self):
         while True:
             opcao = self.__tela.exibir_menu()
 
             if opcao == '1':
-                jogo_mais = self.jogo_mais_comprado()
-                self.__tela.mostrar_jogo_mais_comprado(jogo_mais)
+                self.listar_jogos()
 
             elif opcao == '2':
-                genero = self.__tela.solicitar_genero()
-                jogos_gen = self.jogos_por_genero(genero)
-                self.__tela.mostrar_jogos_por_genero(jogos_gen)
+                self.__tela.mostra_mensagem(self.jogo_mais_comprado())
 
             elif opcao == '3':
-                desenvolvedora = self.__tela.solicitar_desenvolvedora()
-                jogos_dev = self.jogos_por_desenvolvedora(desenvolvedora)
-                self.__tela.mostrar_jogos_por_desenvolvedora(jogos_dev)
+                self.jogos_por_genero(self.__tela.solicitar_genero())
 
             elif opcao == '4':
+                self.jogos_por_desenvolvedora(self.__tela.solicitar_desenvolvedora())
+
+            elif opcao == '5':
                 preco_min, preco_max = self.__tela.solicitar_faixa_preco()
                 jogos_preco = self.filtrar_preco(preco_min, preco_max)
-                self.__tela.filtrar_jogos_por_preco(jogos_preco)
 
             elif opcao == '0':
-                print("Saindo da loja.")
-                
+                self.__tela.mostra_mensagem("Saindo da loja.")
                 break
 
             else:
-                print("Opção inválida. Tente novamente.")
+                self.__tela.mostra_mensagem("Opção inválida. Tente novamente.")
