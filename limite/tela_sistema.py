@@ -1,5 +1,4 @@
 class TelaSistema:
-    #fazer aqui tratamento dos dados, caso a entrada seja diferente do esperado
     def tela_opcoes(self):
         print("-------- Tela Sistemas ---------")
         print("Escolha sua opcao")

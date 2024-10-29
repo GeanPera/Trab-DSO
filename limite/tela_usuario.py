@@ -13,21 +13,21 @@ class TelaUsuario():
         return opcao
 
     def dados_usuario(self):
-       print("-----DADOS USUÁRIO-----")
-       nome = input("Nome: ")
-       nickname = input("Nickname: ")
-       idade = int(input("Idade: "))
-       email = input("E-mail: ")
-       endereco = input("Endereço: ")
-       senha = input("Senha: ")
-       cpf = input("CPF: ")
+        print("-----DADOS USUÁRIO-----")
+        nome = input("Nome: ")
+        nickname = input("Nickname: ")
+        idade = int(input("Idade: "))
+        email = input("E-mail: ")
+        endereco = input("Endereço: ")
+        senha = input("Senha: ")
+        cpf = input("CPF: ")
 
-       return {"nome": nome, "nickname": nickname, "idade": idade, "email": email, "endereco": endereco, "senha": senha, "cpf": cpf}
-    
+        return {"nome": nome, "nickname": nickname, "idade": idade, "email": email, "endereco": endereco, "senha": senha, "cpf": cpf}
+
     def pede_nickname(self, mensagem):
         nickname = input(mensagem)
         return nickname
-    
+
     def dados_alteracao(self):
         print("----- ALTERAR DADOS DO USUÁRIO -----")
         nome = input("Novo Nome (deixe em branco para manter o atual): ")
@@ -48,7 +48,7 @@ class TelaUsuario():
 
     def mostra_mensagem(self, mensagem):
         print(f"{mensagem}")
-        
+
 
     def alterar_usuario():
         pass
