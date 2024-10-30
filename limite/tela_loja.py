@@ -7,7 +7,7 @@ class TelaLoja:
         print("4 - Jogos por desenvolvedora")
         print("5 - Filtrar por preço")
         print("0 - Retornar")
-        opcao = input("Escolha uma opção: ")
+        opcao = int(input("Escolha uma opção: "))
         return opcao
 
     def solicitar_genero(self):

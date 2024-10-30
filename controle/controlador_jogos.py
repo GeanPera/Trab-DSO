@@ -34,9 +34,10 @@ class ControladorJogos:
             mensagem = f"O jogo mais comprado é: {jogo.titulo} com {jogo.qntd_vendida} vendas."
         else:
             mensagem = "Nenhum jogo disponível."
-        return mensagem
+        self.__tela.mostra_mensagem(mensagem)
 
-    def jogos_por_genero(self, genero):
+    def jogos_por_genero(self):
+        genero = self.__tela.solicitar_genero()
         jogos_gen = [jogo for jogo in self.__jogos if jogo.genero == genero]
         if jogos_gen:
             self.__tela.mostra_mensagem("Jogos no gênero selecionado:")
@@ -45,7 +46,8 @@ class ControladorJogos:
         else:
             self.__tela.mostra_mensagem("Nenhum jogo encontrado no gênero informado.")
 
-    def jogos_por_desenvolvedora(self, desenvolvedora):
+    def jogos_por_desenvolvedora(self):
+        desenvolvedora = self.__tela.solicitar_desenvolvedora()
         jogos_por_dev = [jogo for jogo in self.__jogos if jogo.desenvolvedora == desenvolvedora]
         if jogos_por_dev:
             self.__tela.mostra_mensagem("Jogos da desenvolvedora selecionada:")
@@ -55,37 +57,27 @@ class ControladorJogos:
             self.__tela.mostra_mensagem("Nenhum jogo encontrado para a desenvolvedora informada.")
         
 
-    def filtrar_preco(self, preco_minimo, preco_maximo):
-        jogos_preco = [jogo for jogo in self.__jogos if preco_minimo <= jogo.preco <= preco_maximo]
+    def jogos_por_preco(self):
+        preco_min, preco_max = self.__tela.solicitar_faixa_preco()
+        jogos_preco = [jogo for jogo in self.__jogos if preco_min <= jogo.preco <= preco_max]
         if jogos_preco:
             self.__tela.mostra_mensagem("Jogos dentro da faixa de preço selecionada:")
             for jogo in jogos_preco:
                 self.__tela.mostra_mensagem(f"- {jogo.titulo} ({jogo.preco} reais)")
         else:
             self.__tela.mostra_mensagem("Nenhum jogo encontrado nessa faixa de preço.")
+
+    def retornar(self):
+        self.__tela.mostra_mensagem("Saindo da loja.")
+        self.__controlador_sistema.abre_tela()
     def abre_tela(self):
+        opcoes = {1: self.listar_jogos, 2: self.jogo_mais_comprado, 3: self.jogos_por_genero,
+                        4: self.jogos_por_desenvolvedora, 5: self.jogos_por_preco, 0: self.retornar}
+
         while True:
-            opcao = self.__tela.exibir_menu()
-
-            if opcao == '1':
-                self.listar_jogos()
-
-            elif opcao == '2':
-                self.__tela.mostra_mensagem(self.jogo_mais_comprado())
-
-            elif opcao == '3':
-                self.jogos_por_genero(self.__tela.solicitar_genero())
-
-            elif opcao == '4':
-                self.jogos_por_desenvolvedora(self.__tela.solicitar_desenvolvedora())
-
-            elif opcao == '5':
-                preco_min, preco_max = self.__tela.solicitar_faixa_preco()
-                jogos_preco = self.filtrar_preco(preco_min, preco_max)
-
-            elif opcao == '0':
-                self.__tela.mostra_mensagem("Saindo da loja.")
-                break
-
+            opcao_escolhida = self.__tela.exibir_menu()
+            if opcao_escolhida in opcoes:
+                funcao_escolhida = opcoes[opcao_escolhida]
+                funcao_escolhida()
             else:
                 self.__tela.mostra_mensagem("Opção inválida. Tente novamente.")
