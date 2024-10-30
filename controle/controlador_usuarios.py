@@ -132,8 +132,12 @@ class ControladorUsuarios():
         amigo.amigos.remove(usuario)
         self.__tela_usuario.mostra_mensagem(f"{amigo.nickname} foi removido da sua lista de amigos!")
 
+    def retornar(self):
+        self.__tela_usuario.mostra_mensagem("Retornando...")
+        self.__controlador_sistema.abre_tela()
+
     def abre_tela(self):
-        lista_opcoes = {1: self.cadastrar, 2: self.alterar_usuario, 3: self.adicionar_amigo, 4: self.excluir_amigo}
+        lista_opcoes = {1: self.cadastrar, 2: self.alterar_usuario, 3: self.adicionar_amigo, 4: self.excluir_amigo, 0: self.retornar}
 
         continua = True
         while continua:
