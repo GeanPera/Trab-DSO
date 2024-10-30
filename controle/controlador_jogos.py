@@ -1,6 +1,7 @@
 from limite.tela_loja import TelaLoja
 from entidade.jogo import Jogo
 
+
 class ControladorJogos:
     def __init__(self, controlador_sistema):
         self.__jogos = []
@@ -34,7 +35,6 @@ class ControladorJogos:
         else:
             mensagem = "Nenhum jogo disponível."
         return mensagem
-
 
     def jogos_por_genero(self, genero):
         jogos_gen = [jogo for jogo in self.__jogos if jogo.genero == genero]

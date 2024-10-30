@@ -4,7 +4,6 @@ from controle.controlador_usuarios import ControladorUsuarios
 
 
 class ControladorSistema:
-    
     def __init__(self):
         self.__controlador_usuarios = ControladorUsuarios(self)
         self.__controlador_jogos = ControladorJogos(self)
@@ -13,10 +12,13 @@ class ControladorSistema:
     def inicializa_sistema(self):
         self.abre_tela()
 
+    def encerra_sistema(self):
+        exit(0)
+
     @property
     def controlador_usuarios(self):
         return self.__controlador_usuarios
-    
+
     def cadastra_usuario(self):
         self.__controlador_usuarios.abre_tela()
 
@@ -29,13 +31,16 @@ class ControladorSistema:
         self.__controlador_jogos.novo_jogo("FIFA 22", "Esportes", "EA Sports", 3, "Simulador de futebol", 49.99, 3000)
         self.__controlador_jogos.novo_jogo("NBA 2K22", "Esportes", "2K Games", 3, "Simulador de basquete", 59.99, 2500)
         self.__controlador_jogos.novo_jogo("Among Us", "Casual", "InnerSloth", 10, "Jogo de dedução social", 9.99, 4000)
-# Executa o menu interativo
+
         self.__controlador_jogos.abre_tela()
 
     def abre_tela(self):
-        lista_opcoes = {1: self.menu_loja, 2: self.cadastra_usuario}
+        lista_opcoes = {1: self.menu_loja, 2: self.cadastra_usuario, 0: self.encerra_sistema}
 
         while True:
             opcao_escolhida = self.__tela_sistema.tela_opcoes()
-            funcao_escolhida = lista_opcoes[opcao_escolhida]
-            funcao_escolhida()
+            if opcao_escolhida in lista_opcoes:
+                funcao_escolhida = lista_opcoes[opcao_escolhida]
+                funcao_escolhida()
+            else:
+                self.__tela_sistema.mostra_mensagem("Opção inválida. Tente novamente.")
