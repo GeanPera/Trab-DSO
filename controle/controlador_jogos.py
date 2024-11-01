@@ -67,45 +67,28 @@ class ControladorJogos:
         else:
             self.__tela.mostra_mensagem("Nenhum jogo encontrado nessa faixa de preço.")
 
-    def comprar(self):
-#------------------- Faltra criar a Lógica -------------------------
-        nome_jogo = self.__tela.solicitar_jogo("Nome do jogo que deseja comprar?  ")
-        jogo_escolhido = [jogo for jogo in self.__jogos if jogo.titulo == nome_jogo]
-        if jogo_escolhido:
-            self.__tela.mostra_mensagem(f"Comprando {jogo_escolhido[0].titulo}")
-        else:
-            self.__tela.mostra_mensagem("Jogo não encontrado.")
-    def presentear(self):
-        nome_jogo = self.__tela.solicitar_jogo("Nome do jogo que deseja presentear?  ")
-        jogo_escolhido = [jogo for jogo in self.__jogos if jogo.titulo == nome_jogo]
-        if jogo_escolhido:
-            self.__tela.mostra_mensagem(f"Presentando {jogo_escolhido[0].titulo}")
-        else:
-            self.__tela.mostra_mensagem("Jogo não encontrado.")
-
     def retornar_inicio(self):
         self.__tela.mostra_mensagem("Retornando...")
-        self.__controlador_sistema.abre_tela()
-    def retornar_menu(self):
-        self.__tela.mostra_mensagem("Retornando...")
-        self.abre_tela()
+        return
+
+    def jogo(self, nome_jogo):
+        jogo_escolhido = None
+        for jogo in self.__jogos:
+            if jogo.titulo == nome_jogo:
+                jogo_escolhido = jogo
+                break
+        return jogo_escolhido
 
     def abre_tela(self):
         opcoes_menu = {1: self.listar_jogos, 2: self.jogo_mais_comprado, 3: self.jogos_por_genero,
                         4: self.jogos_por_desenvolvedora, 5: self.jogos_por_preco, 0: self.retornar_inicio}
-        opcoes_compra = {1: self.comprar, 2: self.presentear, 0: self.retornar_menu}
         while True:
             opcao_menu = self.__tela.exibir_menu()
-            if opcao_menu in opcoes_menu:
+            try:
                 funcao_menu = opcoes_menu[opcao_menu]
                 funcao_menu()
-                if opcao_menu != 0:
-                    opcao_compra = self.__tela.opcao_compra()
-                    if opcao_compra in opcoes_compra:
-                        funcao_compra = opcoes_compra[opcao_compra]
-                        funcao_compra()
-                    else:
-                        self.__tela.mostra_mensagem("Opção de compra inválida. Tente novamente.")
-
-            else:
+                if opcao_menu == 0:
+                    break
+                self.__controlador_sistema.controlador_compra.abre_tela()
+            except KeyError:
                 self.__tela.mostra_mensagem("Opção inválida. Tente novamente.")

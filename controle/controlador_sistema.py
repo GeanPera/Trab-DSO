@@ -1,21 +1,27 @@
 from limite.tela_sistema import TelaSistema
 from controle.controlador_jogos import ControladorJogos
 from controle.controlador_usuarios import ControladorUsuarios
+from controle.controlador_compra import ControladorCompra
 
 
 class ControladorSistema:
     def __init__(self):
         self.__controlador_usuarios = ControladorUsuarios(self)
         self.__controlador_jogos = ControladorJogos(self)
+        self.__controlador_compra = ControladorCompra(self)
         self.__tela_sistema = TelaSistema()
 
     @property
     def controlador_usuarios(self):
         return self.__controlador_usuarios
-    
+
     @property
     def controlador_jogos(self):
         return self.__controlador_jogos
+
+    @property
+    def controlador_compra(self):
+        return self.__controlador_compra
 
     def inicializa_sistema(self):
         self.__tela_sistema.mostra_mensagem("Bem-vindo!")

@@ -7,6 +7,7 @@ class TelaUsuario():
         print("3 - Adicionar Amigo")
         print("4 - Excluir Amigo")
         print("5 - Depositar Saldo")
+        print("6 - Meus Jogos")
         print("0 - Retornar")
 
         opcao = int(input("Escolha a opcao: "))

@@ -10,17 +10,6 @@ class TelaLoja:
         opcao = int(input("Escolha uma opção: "))
         return opcao
 
-    def opcao_compra(self):
-        print("--- Opção de Compra ---")
-        print("1 - Comprar")
-        print("2 - Presentear")
-        print("0 - Voltar")
-        opcao = int(input("Escolha uma opção: "))
-        return opcao
-
-    def solicitar_jogo(self, mensagem):
-        return input(mensagem)
-
     def solicitar_genero(self):
         return input("Digite o gênero desejado: ")
 

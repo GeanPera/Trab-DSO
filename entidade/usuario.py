@@ -1,6 +1,6 @@
 from entidade.pessoa import Pessoa
 from entidade.perfil import Perfil
-from entidade.biblioteca import Biblioteca
+#from entidade.biblioteca import Biblioteca
 
 
 class Usuario(Pessoa):
@@ -13,7 +13,7 @@ class Usuario(Pessoa):
         self.__cpf = cpf
         self.__saldo = 0
         self.__amigos = []
-        self.biblioteca = Biblioteca()
+        self.__jogos = []
 
 
     @property
@@ -55,3 +55,7 @@ class Usuario(Pessoa):
     @property
     def amigos(self):
         return self.__amigos
+
+    @property
+    def biblioteca(self):
+        return self.__biblioteca

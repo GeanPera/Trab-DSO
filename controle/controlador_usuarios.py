@@ -158,12 +158,39 @@ class ControladorUsuarios():
         usuario.saldo += valor
         self.__tela_usuario.mostra_mensagem(f"Depósito realizado! Seu saldo atual é R${usuario.saldo:.2f}")
 
+    def adicionar_jogo(self, jogo):
+
+        while True:
+            mensagem = "Insira seu nickname: "
+            nick_usuario = self.__tela_usuario.pede_nickname(mensagem)
+
+            if nick_usuario == "0":
+                self.abre_tela()
+            if not self.encontrar_usuario(nick_usuario):
+                self.__tela_usuario.mostra_mensagem("Usuário não encontrado, tente novamente ou digite 0 para voltar pro menu anterior.")
+            else:
+                usuario = self.encontrar_usuario(nick_usuario)
+                break
+
+        if jogo in usuario.jogos:
+            self.__tela_usuario.mostra_mensagem("Esse jogo já está na sua biblioteca!")
+            return
+
+        usuario.jogos.append(jogo)
+        self.__tela_usuario.mostra_mensagem(f"{jogo.titulo} foi adicionado à sua biblioteca!")
+        return
+    def meus_jogos(self):
+        nickname = self.__tela_usuario.pede_nickname("Qual seu Nickname?")
+        usuario = self.encontrar_usuario(nickname)
+        self.__tela_usuario.mostra_mensagem("Seus jogos:")
+        for jogo in usuario.jogos:
+            self.__tela_usuario.mostra_mensagem(f"- {jogo.titulo}")
     def retornar(self):
         self.__tela_usuario.mostra_mensagem("Retornando ao menu principal...")
         return
 
     def abre_tela(self):
-        lista_opcoes = {1: self.cadastrar, 2: self.alterar_usuario, 3: self.adicionar_amigo, 4: self.excluir_amigo, 5: self.depositar_saldo, 0: self.retornar}
+        lista_opcoes = {1: self.cadastrar, 2: self.alterar_usuario, 3: self.adicionar_amigo, 4: self.excluir_amigo, 5: self.depositar_saldo, 6: self.meus_jogos, 0: self.retornar}
 
         continua = True
         while continua:
