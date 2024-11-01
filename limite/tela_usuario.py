@@ -24,16 +24,10 @@ class TelaUsuario():
 
         return {"nome": nome, "nickname": nickname, "idade": idade, "email": email, "endereco": endereco, "senha": senha, "cpf": cpf}
 
-<<<<<<< HEAD
-       return {"nome": nome, "nickname": nickname, "idade": idade, "email": email, "endereco": endereco, "senha": senha, "cpf": cpf}
-
-=======
->>>>>>> 210f136eaae04ddd2a5f7cfc054577d1372c387b
     def pede_nickname(self, mensagem):
         nickname = input(mensagem)
         return nickname
 
-<<<<<<< HEAD
     def pede_senha(self):
         senha = input("Insira sua senha: ")
         return senha
@@ -41,9 +35,7 @@ class TelaUsuario():
     def valor_deposito(self):
         valor = float(input("Insira a quantia que deseja depositar: "))
         return valor
-    
-=======
->>>>>>> 210f136eaae04ddd2a5f7cfc054577d1372c387b
+
     def dados_alteracao(self):
         print("----- ALTERAR DADOS DO USUÁRIO -----")
         nome = input("Novo Nome (deixe em branco para manter o atual): ")
@@ -64,7 +56,6 @@ class TelaUsuario():
 
     def mostra_mensagem(self, mensagem):
         print(f"{mensagem}")
-
 
     def alterar_usuario():
         pass

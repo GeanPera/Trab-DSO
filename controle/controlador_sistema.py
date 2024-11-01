@@ -9,20 +9,24 @@ class ControladorSistema:
         self.__controlador_jogos = ControladorJogos(self)
         self.__tela_sistema = TelaSistema()
 
-    def inicializa_sistema(self):
-        self.abre_tela()
-
-    def encerra_sistema(self):
-        exit(0)
-
     @property
     def controlador_usuarios(self):
         return self.__controlador_usuarios
+    
+    @property
+    def controlador_jogos(self):
+        return self.__controlador_jogos
 
-    def cadastra_usuario(self):
-        self.__controlador_usuarios.abre_tela()
+    def inicializa_sistema(self):
+        self.__tela_sistema.mostra_mensagem("Bem-vindo!")
+        self.inicializa_jogos()
+        self.abre_tela()
 
-    def menu_loja(self):
+    def encerra_sistema(self):
+        self.__tela_sistema.mostra_mensagem("Sistema encerrado com sucesso.")
+        exit(0)
+
+    def inicializa_jogos(self):
         self.__controlador_jogos.novo_jogo("The Legend of Zelda", "Aventura", "Nintendo", 12, "Aventura épica", 59.99, 1000)
         self.__controlador_jogos.novo_jogo("Super Mario", "Plataforma", "Nintendo", 7, "Jogo clássico", 39.99, 1500)
         self.__controlador_jogos.novo_jogo("Final Fantasy", "RPG", "Square Enix", 16, "RPG envolvente", 69.99, 500)
@@ -32,15 +36,19 @@ class ControladorSistema:
         self.__controlador_jogos.novo_jogo("NBA 2K22", "Esportes", "2K Games", 3, "Simulador de basquete", 59.99, 2500)
         self.__controlador_jogos.novo_jogo("Among Us", "Casual", "InnerSloth", 10, "Jogo de dedução social", 9.99, 4000)
 
+    def usuario_tela(self):
+        self.__controlador_usuarios.abre_tela()
+
+    def loja_tela(self):
         self.__controlador_jogos.abre_tela()
 
     def abre_tela(self):
-        lista_opcoes = {1: self.menu_loja, 2: self.cadastra_usuario, 0: self.encerra_sistema}
+        lista_opcoes = {1: self.loja_tela, 2: self.usuario_tela, 0: self.encerra_sistema}
 
         while True:
             opcao_escolhida = self.__tela_sistema.tela_opcoes()
-            if opcao_escolhida in lista_opcoes:
+            try:
                 funcao_escolhida = lista_opcoes[opcao_escolhida]
                 funcao_escolhida()
-            else:
+            except KeyError:
                 self.__tela_sistema.mostra_mensagem("Opção inválida. Tente novamente.")
