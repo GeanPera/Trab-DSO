@@ -41,8 +41,7 @@ class ControladorUsuarios():
         self.__tela_usuario.mostra_mensagem("O usuário foi cadastrado com sucesso!")
 
     def alterar_usuario(self):
-<<<<<<< HEAD
-        
+
         while True:
             mensagem = "Insira o nickname do usuário a ser alterado: "
             nickname = self.__tela_usuario.pede_nickname(mensagem)
@@ -67,28 +66,7 @@ class ControladorUsuarios():
 
             else:
                 self.__tela_usuario.mostra_mensagem("Usuário não encontrado, tente novamente ou digite 0 para voltar pro menu anterior.")
-            
-=======
-        mensagem = "Insira o nickname do usuário a ser alterado"
-        nickname = self.__tela_usuario.pede_nickname(mensagem)
 
-        if self.encontrar_usuario(nickname):
-            usuario_encontrado = self.encontrar_usuario(nickname)
-            novos_dados = self.__tela_usuario.dados_alteracao()
-
-            usuario_encontrado.nome = novos_dados.get("nome", usuario_encontrado.nome)
-            usuario_encontrado.nickname = novos_dados.get("nickname", usuario_encontrado.nickname)
-            usuario_encontrado.idade = novos_dados.get("idade", usuario_encontrado.idade)
-            usuario_encontrado.email = novos_dados.get("email", usuario_encontrado.email)
-            usuario_encontrado.endereco = novos_dados.get("endereco", usuario_encontrado.endereco)
-            usuario_encontrado.senha = novos_dados.get("senha", usuario_encontrado.senha)
-
-            self.__tela_usuario.mostra_mensagem("Dados do usuário alterados com sucesso!")
-
-        else:
-            self.__tela_usuario.mostra_mensagem("Usuário não encontrado.")
-
->>>>>>> 210f136eaae04ddd2a5f7cfc054577d1372c387b
     def adicionar_amigo(self):
             while True:
                 mensagem = "Insira seu nickname: "
@@ -160,8 +138,7 @@ class ControladorUsuarios():
         usuario.amigos.remove(amigo)
         amigo.amigos.remove(usuario)
         self.__tela_usuario.mostra_mensagem(f"{amigo.nickname} foi removido da sua lista de amigos!")
-<<<<<<< HEAD
-        
+
     def depositar_saldo(self):
         while True:
             mensagem = "Insira seu nickname: "
@@ -176,34 +153,21 @@ class ControladorUsuarios():
             else:
                 usuario = self.encontrar_usuario(nick_usuario)
                 break
-        
+
         valor = self.__tela_usuario.valor_deposito()
         usuario.saldo += valor
         self.__tela_usuario.mostra_mensagem(f"Depósito realizado! Seu saldo atual é R${usuario.saldo:.2f}")
-        
+
     def retornar(self):
         self.__tela_usuario.mostra_mensagem("Retornando ao menu principal...")
         return
-        
+
     def abre_tela(self):
         lista_opcoes = {1: self.cadastrar, 2: self.alterar_usuario, 3: self.adicionar_amigo, 4: self.excluir_amigo, 5: self.depositar_saldo, 0: self.retornar}
-        
+
         continua = True
         while continua:
             opcao = self.__tela_usuario.opcoes_tela()
             lista_opcoes[opcao]()
             if opcao == 0:
                 break
-=======
-
-    def retornar(self):
-        self.__tela_usuario.mostra_mensagem("Retornando...")
-        self.__controlador_sistema.abre_tela()
-
-    def abre_tela(self):
-        lista_opcoes = {1: self.cadastrar, 2: self.alterar_usuario, 3: self.adicionar_amigo, 4: self.excluir_amigo, 0: self.retornar}
-
-        continua = True
-        while continua:
-            lista_opcoes[self.__tela_usuario.opcoes_tela()]()
->>>>>>> 210f136eaae04ddd2a5f7cfc054577d1372c387b
