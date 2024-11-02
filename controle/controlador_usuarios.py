@@ -41,7 +41,7 @@ class ControladorUsuarios():
         self.__tela_usuario.mostra_mensagem("O usuário foi cadastrado com sucesso!")
 
     def alterar_usuario(self):
-
+        
         while True:
             mensagem = "Insira o nickname do usuário a ser alterado: "
             nickname = self.__tela_usuario.pede_nickname(mensagem)
@@ -102,6 +102,12 @@ class ControladorUsuarios():
             self.__tela_usuario.mostra_mensagem(f"{amigo.nickname} foi adicionado à sua lista de amigos!")
             return
 
+    def mostrar_amigos(self):
+        mensagem = "Insira seu nickname: "
+        nick_usuario = self.__tela_usuario.pede_nickname(mensagem)
+        usuario = self.encontrar_usuario(nick_usuario)
+        self.__tela_usuario.mostra_mensagem([usuario.nome for usuario in usuario.amigos])
+    
     def excluir_amigo(self):
         while True:
             mensagem = "Insira seu nickname: "
@@ -143,42 +149,38 @@ class ControladorUsuarios():
         while True:
             mensagem = "Insira seu nickname: "
             nick_usuario = self.__tela_usuario.pede_nickname(mensagem)
+            senha = self.__tela_usuario.pede_senha()
+            usuario = self.encontrar_usuario(nick_usuario)
             
             if nick_usuario == "0":
                 self.abre_tela()
                 
+            if not senha == usuario.senha:
+                self.__tela_usuario.mostra_mensagem("Senha inválida! Tente novamente ou digite 0 para voltar pro menu anterior.")
+            
             if not self.encontrar_usuario(nick_usuario):
                 self.__tela_usuario.mostra_mensagem("Usuário não encontrado, tente novamente ou digite 0 para voltar pro menu anterior.")
             
             else:
                 usuario = self.encontrar_usuario(nick_usuario)
                 break
-
+        
         valor = self.__tela_usuario.valor_deposito()
         usuario.saldo += valor
         self.__tela_usuario.mostra_mensagem(f"Depósito realizado! Seu saldo atual é R${usuario.saldo:.2f}")
 
-    def adicionar_jogo(self, jogo):
-
-        while True:
-            mensagem = "Insira seu nickname: "
-            nick_usuario = self.__tela_usuario.pede_nickname(mensagem)
-
-            if nick_usuario == "0":
-                self.abre_tela()
-            if not self.encontrar_usuario(nick_usuario):
-                self.__tela_usuario.mostra_mensagem("Usuário não encontrado, tente novamente ou digite 0 para voltar pro menu anterior.")
-            else:
-                usuario = self.encontrar_usuario(nick_usuario)
-                break
-
-        if jogo in usuario.jogos:
-            self.__tela_usuario.mostra_mensagem("Esse jogo já está na sua biblioteca!")
-            return
-
+    def adicionar_jogo(self, jogo, usuario):
+        
+        for game in usuario.jogos:
+            if game == jogo:
+                return "Você já possui esse jogo!"
+        
+                    
         usuario.jogos.append(jogo)
-        self.__tela_usuario.mostra_mensagem(f"{jogo.titulo} foi adicionado à sua biblioteca!")
-        return
+        usuario.saldo -= jogo.preco
+        return f"Jogo comprado com sucesso! Seu saldo atual é R${usuario.saldo}"
+
+        
     def meus_jogos(self):
         nickname = self.__tela_usuario.pede_nickname("Qual seu Nickname?")
         usuario = self.encontrar_usuario(nickname)
