@@ -14,9 +14,8 @@ class ControladorCompra:
 
         if jogo_escolhido:
             if usuario:
-                if usuario.saldo >= jogo_escolhido.preco:
-                    self.__controlador_sistema.controlador_usuarios.adicionar_jogo(jogo_escolhido)
-                    usuario.saldo -= jogo_escolhido.preco
+                if usuario.saldo >= jogo_escolhido.preco and usuario.idade >= jogo_escolhido.faixa_etaria:
+                    self.__controlador_sistema.controlador_usuarios.adicionar_jogo(jogo_escolhido, usuario)
                     self.__tela_compra.mostra_mensagem(f"Compra realizada com sucesso. Saldo atual: {usuario.saldo}")
             else:
                 self.__tela_compra.mostra_mensagem("Usuário não encontrado.")            
@@ -24,13 +23,20 @@ class ControladorCompra:
             self.__tela_compra.mostra_mensagem("Jogo não encontrado.")
 
     def presentear(self):
-        nome_jogo = self.__tela_compra.solicitar_jogo("Nome do jogo que deseja presentear?  ")
-        jogo_escolhido = [jogo for jogo in self.__jogos if jogo.titulo == nome_jogo]
+        nome_jogo = self.__tela_compra.solicitar_jogo("Nome do jogo que deseja comprar?  ")
+        jogo_escolhido = self.__controlador_sistema.controlador_jogos.jogo(nome_jogo)
+        my_nickname = self.__tela_compra.pede_nickname("Qual seu Nickname? ")
+        usuario = self.__controlador_sistema.controlador_usuarios.encontrar_usuario(my_nickname)
+        amigo_nickname = self.__tela_compra.mostra_mensagem("")
         if jogo_escolhido:
-            self.__tela_compra.mostra_mensagem(f"Presentando {jogo_escolhido[0].titulo}")
+            if usuario:
+                if usuario.saldo >= jogo_escolhido.preco:
+                    self.__controlador_sistema.controlador_usuarios.adicionar_jogo(jogo_escolhido, usuario)
+                    self.__tela_compra.mostra_mensagem(f"Presente enviado com sucesso. Saldo atual: {usuario.saldo}")
+            else:
+                self.__tela_compra.mostra_mensagem("Usuário não encontrado.")            
         else:
             self.__tela_compra.mostra_mensagem("Jogo não encontrado.")
-
     def voltar(self):
         self.__tela_compra.mostra_mensagem("Retornando...")
         return
