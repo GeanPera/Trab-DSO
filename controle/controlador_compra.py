@@ -32,7 +32,7 @@ class ControladorCompra:
         if jogo_escolhido:
             if usuario:
                 if usuario.saldo >= jogo_escolhido.preco:
-                    self.__controlador_sistema.controlador_usuarios.presentear_amigo(jogo_escolhido, amigo)
+                    self.__controlador_sistema.controlador_usuarios.presentear_amigo(jogo_escolhido, amigo, usuario)
                     self.__tela_compra.mostra_mensagem(f"Presente enviado com sucesso. Saldo atual: {usuario.saldo}")
             else:
                 self.__tela_compra.mostra_mensagem("Usuário não encontrado.")            

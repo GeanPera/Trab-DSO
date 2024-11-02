@@ -15,7 +15,6 @@ class Usuario(Pessoa):
         self.__amigos = []
         self.__jogos = []
 
-
     @property
     def email(self):
         return self.__email
