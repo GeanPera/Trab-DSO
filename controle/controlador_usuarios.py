@@ -170,17 +170,21 @@ class ControladorUsuarios():
         self.__tela_usuario.mostra_mensagem(f"Depósito realizado! Seu saldo atual é R${usuario.saldo:.2f}")
 
     def adicionar_jogo(self, jogo, usuario):
-        
         for game in usuario.jogos:
             if game == jogo:
                 return "Você já possui esse jogo!"
-        
-                    
         usuario.jogos.append(jogo)
         usuario.saldo -= jogo.preco
         return f"Jogo comprado com sucesso! Seu saldo atual é R${usuario.saldo}"
 
-        
+    def presentear_amigo(self, jogo, usuario, amigo):
+        for game in amigo.jogos:
+            if game == jogo:
+                return "Você já possui esse jogo!"
+        amigo.jogos.append(jogo)
+        usuario.saldo -= jogo.preco
+        return f"Jogo enviado com sucesso! Seu saldo atual é R${usuario.saldo}"
+
     def meus_jogos(self):
         nickname = self.__tela_usuario.pede_nickname("Qual seu Nickname?")
         usuario = self.encontrar_usuario(nickname)
