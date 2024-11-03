@@ -97,10 +97,14 @@ class ControladorUsuarios():
                 self.__tela_usuario.mostra_mensagem("Esse usuário já está na sua lista de amigos!")
                 return
 
-            usuario.amigos.append(amigo)
-            amigo.amigos.append(usuario)
-            self.__tela_usuario.mostra_mensagem(f"{amigo.nickname} foi adicionado à sua lista de amigos!")
-            return
+            if (usuario.idade >= 18 and amigo.idade >= 18) or (usuario.idade < 18 and amigo.idade < 18):
+                usuario.amigos.append(amigo)
+                amigo.amigos.append(usuario)
+                self.__tela_usuario.mostra_mensagem(f"{amigo.nickname} foi adicionado à sua lista de amigos!")
+                return
+            else:
+                self.__tela_usuario.mostra_mensagem("Não foi possível adicionar esse usuário! As faixas etárias não são compatíveis.")
+                return
 
     def mostrar_amigos(self):
         nick_usuario = self.__tela_usuario.pede_nickname("Insira seu nickname: ")
