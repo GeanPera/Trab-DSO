@@ -59,7 +59,7 @@ class ControladorSistema:
         for x in relatorio_faixa_etaria:
             self.__tela_sistema.mostra_mensagem(x)
 
-        self.__tela_sistema.mostra_mensagem(f"\nRelatório de Usuários com Saldo e Compras: ")
+        self.__tela_sistema.mostra_mensagem(f"\nRelatório de Usuários: ")
         relatorio_usuarios = self.controlador_usuarios.relatorio_usuarios_com_saldo_e_compras()
         for x in relatorio_usuarios:
             self.__tela_sistema.mostra_mensagem(x)
