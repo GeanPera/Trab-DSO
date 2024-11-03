@@ -106,8 +106,9 @@ class ControladorUsuarios():
         mensagem = "Insira seu nickname: "
         nick_usuario = self.__tela_usuario.pede_nickname(mensagem)
         usuario = self.encontrar_usuario(nick_usuario)
-        self.__tela_usuario.mostra_mensagem([usuario.nome for usuario in usuario.amigos])
-    
+        for amigo in usuario.amigos:
+            self.__tela_usuario.mostra_mensagem(f"- {amigo.nome}")
+
     def excluir_amigo(self):
         while True:
             mensagem = "Insira seu nickname: "
@@ -185,6 +186,13 @@ class ControladorUsuarios():
         usuario.saldo -= jogo.preco
         return f"Jogo enviado com sucesso! Seu saldo atual é R${usuario.saldo}"
 
+    def relatorio_usuarios_com_saldo_e_compras(self):
+        relatorios = []
+        for usuario in self.__usuarios:
+            total_gasto = sum(jogo.preco for jogo in usuario.jogos)
+            amigos = [amigo.nickname for amigo in usuario.amigos]
+            relatorios.append(f"Nome: {usuario.nome}, Nickname: {usuario.nickname}, Idade: {usuario.idade}, Saldo: {usuario.saldo}, Quantidade de Jogos Comprados: {len(usuario.jogos)}, Total Gasto: {total_gasto}, Amigos: {', '.join(amigos) if amigos else 'Sem amigos'}")
+        return relatorios
     def meus_jogos(self):
         nickname = self.__tela_usuario.pede_nickname("Qual seu Nickname?")
         usuario = self.encontrar_usuario(nickname)
@@ -196,7 +204,7 @@ class ControladorUsuarios():
         return
 
     def abre_tela(self):
-        lista_opcoes = {1: self.cadastrar, 2: self.alterar_usuario, 3: self.adicionar_amigo, 4: self.excluir_amigo, 5: self.depositar_saldo, 6: self.meus_jogos, 0: self.retornar}
+        lista_opcoes = {1: self.cadastrar, 2: self.alterar_usuario, 3: self.adicionar_amigo, 4: self.excluir_amigo, 5: self.depositar_saldo, 6: self.meus_jogos, 7: self.mostrar_amigos, 0: self.retornar}
 
         continua = True
         while continua:

@@ -2,32 +2,42 @@
 class Perfil():
 
     def __init__(self, nome, nickname, idade, saldo):
-        self.nome = nome
-        self.nickname = nickname
-        self.idade = idade
+        self.__nome = nome
+        self.__nickname = nickname
+        self.__idade = idade
         self.__saldo = saldo
         self.__amigos = []
+        self.__jogos = []
+
+    @property
+    def nome(self):
+        return self.__nome
+
+    @nome.setter
+    def nome(self, nome):
+        self.__nome = nome
+
+    @property
+    def nickname(self):
+        return self.__nickname
+
+    @nickname.setter
+    def nickname(self, nickname):
+        self.__nickname = nickname
+
+    @property
+    def idade(self):
+        return self.__idade
+
+    @idade.setter
+    def idade(self, idade):
+            self.__idade = idade
 
     @property
     def saldo(self):
         return self.__saldo
 
-    def adicionar_amigo(self, Usuario):
-        self.__amigos.append(Usuario)
-        return print(f"Agora {Usuario.nickname} está na sua lista de amigos!")
+    @saldo.setter
+    def saldo(self, saldo):
 
-    def remover_amigo(self, Usuario):
-        self.__amigos.remove(Usuario)
-        return print(f"Você removeu {Usuario.nickname} da sua lista de amigos!")
-
-    def depositar_saldo(self, valor):
-        self.__saldo += valor
-        print(f"Depósito realizado! Saldo atual é R${self.__saldo:.2f}")
-
-    def descontar_saldo(self, valor):
-        if valor > self.__saldo:
-            print(f"Saldo insuficiente para esta compra! Seu saldo atual é R${self.__saldo:.2f}")
-            return False
-        else:
-            self.__saldo -= valor
-            return True
+        self.__saldo = saldo

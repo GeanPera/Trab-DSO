@@ -42,7 +42,11 @@ class Usuario(Pessoa):
     @property
     def cpf(self):
         return self.__cpf
-    
+
+    @cpf.setter
+    def cpf(self, cpf):
+        self.__cpf = cpf
+
     @property
     def saldo(self):
         return self.__saldo
@@ -56,5 +60,5 @@ class Usuario(Pessoa):
         return self.__amigos
 
     @property
-    def biblioteca(self):
-        return self.__biblioteca
+    def jogos(self):
+        return self.__jogos

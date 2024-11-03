@@ -79,6 +79,50 @@ class ControladorJogos:
                 break
         return jogo_escolhido
 
+    def relatorio_vendas_por_jogo(self):
+        relatorios = []
+        jogos_por_desenvolvedora = {}
+        for jogo in self.__jogos:
+            desenvolvedora = jogo.desenvolvedora
+            if desenvolvedora not in jogos_por_desenvolvedora:
+                jogos_por_desenvolvedora[desenvolvedora] = []
+            jogos_por_desenvolvedora[desenvolvedora].append(jogo)
+            
+        for desenvolvedora, jogos in jogos_por_desenvolvedora.items():
+            for jogo in jogos:
+                receita_dev = jogo._Jogo__preco * jogo._Jogo__qntd_vendida
+            relatorios.append(f"\nDesenvolvedora: {desenvolvedora} - Receita da desenvolvedora: {receita_dev}")
+            
+            receita = jogo.preco * jogo.qntd_vendida
+            relatorios.append(f"Título: {jogo._Jogo__titulo}, Quantidade Vendida: {jogo._Jogo__qntd_vendida}, Preço: {jogo._Jogo__preco}, Receita Total: {receita}")
+        return relatorios
+
+    def relatorio_jogos_por_faixa_etaria(self):
+        relatorios = []
+        jogos_por_faixa = {}
+        for jogo in self.__jogos:
+            faixa = jogo.faixa_etaria
+            if faixa not in jogos_por_faixa:
+                jogos_por_faixa[faixa] = []
+            jogos_por_faixa[faixa].append(jogo)
+
+        for faixa, jogos in jogos_por_faixa.items():
+            relatorios.append(f"\nFaixa Etária: {faixa}+")
+            for jogo in jogos:
+                relatorios.append(f"Título: {jogo.titulo}, Gênero: {jogo.genero}, Desenvolvedora: {jogo.desenvolvedora}")
+        return relatorios
+
+    def relatorio_generos_populares(self):
+        relatorios = []
+        generos = {}
+        for jogo in self.__jogos:
+            genero = jogo.genero
+            generos[genero] = generos.get(genero, 0) + jogo.qntd_vendida
+
+        for genero, total_vendas in generos.items():
+            relatorios.append(f"Gênero: {genero}, Quantidade Total Vendida: {total_vendas}")
+        return relatorios
+
     def abre_tela(self):
         opcoes_menu = {1: self.listar_jogos, 2: self.jogo_mais_comprado, 3: self.jogos_por_genero,
                         4: self.jogos_por_desenvolvedora, 5: self.jogos_por_preco, 0: self.retornar_inicio}

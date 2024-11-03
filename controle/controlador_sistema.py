@@ -48,8 +48,29 @@ class ControladorSistema:
     def loja_tela(self):
         self.__controlador_jogos.abre_tela()
 
+    def relatorio(self):
+        self.__tela_sistema.mostra_mensagem(f"\nRelatório de Vendas por Jogo: ")
+        relatorio_vendas = self.controlador_jogos.relatorio_vendas_por_jogo()
+        for x in relatorio_vendas:
+            self.__tela_sistema.mostra_mensagem(x)
+
+        self.__tela_sistema.mostra_mensagem(f"\nRelatório de Jogos por Faixa Etária: ")
+        relatorio_faixa_etaria = self.controlador_jogos.relatorio_jogos_por_faixa_etaria()
+        for x in relatorio_faixa_etaria:
+            self.__tela_sistema.mostra_mensagem(x)
+
+        self.__tela_sistema.mostra_mensagem(f"\nRelatório de Usuários com Saldo e Compras: ")
+        relatorio_usuarios = self.controlador_usuarios.relatorio_usuarios_com_saldo_e_compras()
+        for x in relatorio_usuarios:
+            self.__tela_sistema.mostra_mensagem(x)
+
+        self.__tela_sistema.mostra_mensagem(f"\nRelatório de Gêneros Populares: ")
+        relatorio_genero = self.controlador_jogos.relatorio_generos_populares()
+        for x in relatorio_genero:
+            self.__tela_sistema.mostra_mensagem(x)
+
     def abre_tela(self):
-        lista_opcoes = {1: self.loja_tela, 2: self.usuario_tela, 0: self.encerra_sistema}
+        lista_opcoes = {1: self.loja_tela, 2: self.usuario_tela,3: self.relatorio, 0: self.encerra_sistema}
 
         while True:
             opcao_escolhida = self.__tela_sistema.tela_opcoes()
