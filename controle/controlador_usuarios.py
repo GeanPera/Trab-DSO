@@ -211,7 +211,7 @@ class ControladorUsuarios():
         usuario.saldo -= jogo.preco
         return f"Jogo enviado com sucesso! Seu saldo atual é R${usuario.saldo}"
 
-    def relatorio_usuarios_com_saldo_e_compras(self):
+    def relatorio_usuarios(self):
         relatorios = []
         for usuario in self.__usuarios:
             total_gasto = sum(jogo.preco for jogo in usuario.jogos)

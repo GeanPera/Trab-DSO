@@ -1,6 +1,4 @@
 from entidade.pessoa import Pessoa
-from entidade.perfil import Perfil
-#from entidade.biblioteca import Biblioteca
 
 
 class Usuario(Pessoa):

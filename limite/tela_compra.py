@@ -17,5 +17,9 @@ class TelaCompra:
     def solicitar_jogo(self, mensagem):
         return input(mensagem)
 
+    def pede_senha(self):
+        senha = input("Insira sua senha: ")
+        return senha
+
     def mostra_mensagem(self, mensagem):
         print(f"{mensagem}")

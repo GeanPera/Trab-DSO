@@ -31,8 +31,8 @@ class TelaUsuario():
 
         return {"nome": nome, "nickname": nickname, "idade": idade, "email": email, "endereco": endereco, "senha": senha, "cpf": cpf}
 
-    def pede_nickname(self, mensagem):
-        nickname = input(mensagem)
+    def pede_nickname(self, nome):
+        nickname = input(nome)
         return nickname
 
     def pede_senha(self):
@@ -63,6 +63,3 @@ class TelaUsuario():
 
     def mostra_mensagem(self, mensagem):
         print(f"{mensagem}")
-
-    def alterar_usuario():
-        pass
