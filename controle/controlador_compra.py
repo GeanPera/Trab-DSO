@@ -9,14 +9,17 @@ class ControladorCompra:
     def comprar(self):
         nome_jogo = self.__tela_compra.solicitar_jogo("Nome do jogo que deseja comprar?  ")
         jogo_escolhido = self.__controlador_sistema.controlador_jogos.jogo(nome_jogo)
-        nickname = self.__tela_compra.pede_nickname("Qual seu Nickname? ")
-        usuario = self.__controlador_sistema.controlador_usuarios.encontrar_usuario(nickname)
-        senha = self.__tela_compra.pede_senha()
-
         if not jogo_escolhido:
             self.__tela_compra.mostra_mensagem("Jogo não encontrado.")
             return
-        if usuario and not usuario.senha == senha:
+        
+        nickname = self.__tela_compra.pede_nickname("Qual seu Nickname? ")
+        usuario = self.__controlador_sistema.controlador_usuarios.encontrar_usuario(nickname)
+        if not usuario:
+            self.__tela_compra.mostra_mensagem("Usuário inválido!")
+            return
+        senha = self.__tela_compra.pede_senha()
+        if not usuario.senha == senha:
             self.__tela_compra.mostra_mensagem("Senha incorreta!")
             return
         
