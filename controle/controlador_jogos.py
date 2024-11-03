@@ -87,14 +87,16 @@ class ControladorJogos:
             if desenvolvedora not in jogos_por_desenvolvedora:
                 jogos_por_desenvolvedora[desenvolvedora] = []
             jogos_por_desenvolvedora[desenvolvedora].append(jogo)
-            
+
         for desenvolvedora, jogos in jogos_por_desenvolvedora.items():
+            receita_dev = 0
+            relatorios.append(f"\nDesenvolvedora: {desenvolvedora}")
             for jogo in jogos:
-                receita_dev = jogo._Jogo__preco * jogo._Jogo__qntd_vendida
-            relatorios.append(f"\nDesenvolvedora: {desenvolvedora} - Receita da desenvolvedora: {receita_dev}")
-            
-            receita = jogo.preco * jogo.qntd_vendida
-            relatorios.append(f"Título: {jogo._Jogo__titulo}, Quantidade Vendida: {jogo._Jogo__qntd_vendida}, Preço: {jogo._Jogo__preco}, Receita Total: {receita}")
+                receita_jogo = jogo.preco * jogo.qntd_vendida
+                receita_dev += receita_jogo
+                relatorios.append(f"Título: {jogo.titulo}, Quantidade Vendida: {jogo.qntd_vendida}, Preço: {jogo.preco}, Receita do Jogo: {receita_jogo}")
+            relatorios.append(f"Receita Total da Desenvolvedora: {receita_dev}\n")
+
         return relatorios
 
     def relatorio_jogos_por_faixa_etaria(self):

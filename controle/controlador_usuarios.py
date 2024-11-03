@@ -103,9 +103,9 @@ class ControladorUsuarios():
             return
 
     def mostrar_amigos(self):
-        mensagem = "Insira seu nickname: "
-        nick_usuario = self.__tela_usuario.pede_nickname(mensagem)
+        nick_usuario = self.__tela_usuario.pede_nickname("Insira seu nickname: ")
         usuario = self.encontrar_usuario(nick_usuario)
+        self.__tela_usuario.mostra_mensagem("seus Amigos:")
         for amigo in usuario.amigos:
             self.__tela_usuario.mostra_mensagem(f"- {amigo.nome}")
 
@@ -178,7 +178,7 @@ class ControladorUsuarios():
         usuario.saldo -= jogo.preco
         return f"Jogo comprado com sucesso! Seu saldo atual é R${usuario.saldo}"
 
-    def presentear_amigo(self, jogo, usuario, amigo):
+    def presentear_amigo(self, jogo, amigo, usuario):
         for game in amigo.jogos:
             if game == jogo:
                 return "Você já possui esse jogo!"
