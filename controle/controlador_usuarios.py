@@ -173,6 +173,27 @@ class ControladorUsuarios():
         valor = self.__tela_usuario.valor_deposito()
         usuario.saldo += valor
         self.__tela_usuario.mostra_mensagem(f"Depósito realizado! Seu saldo atual é R${usuario.saldo:.2f}")
+    
+    def verificar_saldo(self):
+        while True:
+            mensagem = "Insira seu nickname: "
+            nick_usuario = self.__tela_usuario.pede_nickname(mensagem)
+            senha = self.__tela_usuario.pede_senha()
+            usuario = self.encontrar_usuario(nick_usuario)
+            
+            if nick_usuario == "0":
+                self.abre_tela()
+                
+            if not senha == usuario.senha:
+                self.__tela_usuario.mostra_mensagem("Senha inválida! Tente novamente ou digite 0 para voltar pro menu anterior.")
+            
+            if not self.encontrar_usuario(nick_usuario):
+                self.__tela_usuario.mostra_mensagem("Usuário não encontrado, tente novamente ou digite 0 para voltar pro menu anterior.")
+            
+            else:
+                usuario = self.encontrar_usuario(nick_usuario)
+                self.__tela_usuario.mostra_mensagem(f"Seu saldo é R${usuario.saldo:.2f}")
+                return
 
     def adicionar_jogo(self, jogo, usuario):
         for game in usuario.jogos:
@@ -208,7 +229,7 @@ class ControladorUsuarios():
         return
 
     def abre_tela(self):
-        lista_opcoes = {1: self.cadastrar, 2: self.alterar_usuario, 3: self.adicionar_amigo, 4: self.excluir_amigo, 5: self.depositar_saldo, 6: self.meus_jogos, 7: self.mostrar_amigos, 0: self.retornar}
+        lista_opcoes = {1: self.cadastrar, 2: self.alterar_usuario, 3: self.adicionar_amigo, 4: self.excluir_amigo, 5: self.depositar_saldo, 6: self.meus_jogos, 7: self.mostrar_amigos, 8: self.verificar_saldo, 0: self.retornar}
 
         continua = True
         while continua:

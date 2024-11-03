@@ -95,7 +95,7 @@ class ControladorJogos:
                 receita_jogo = jogo.preco * jogo.qntd_vendida
                 receita_dev += receita_jogo
                 relatorios.append(f"Título: {jogo.titulo}, Quantidade Vendida: {jogo.qntd_vendida}, Preço: {jogo.preco}, Receita do Jogo: {receita_jogo}")
-            relatorios.append(f"Receita Total da Desenvolvedora: {receita_dev}\n")
+            relatorios.append(f"Receita Total da Desenvolvedora: {receita_dev}")
 
         return relatorios
 

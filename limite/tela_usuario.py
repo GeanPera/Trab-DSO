@@ -1,18 +1,23 @@
 class TelaUsuario():
     def opcoes_tela(self):
-        print("-------- Tela Usuario ----------")
-        print("Escolha a opcao")
-        print("1 - Cadastrar")
-        print("2 - Alterar")
-        print("3 - Adicionar Amigo")
-        print("4 - Excluir Amigo")
-        print("5 - Depositar Saldo")
-        print("6 - Meus Jogos")
-        print("7 - Meus amigos")
-        print("0 - Retornar")
+        while True:
+            print("-------- Tela Usuario ----------")
+            print("Escolha a opcao")
+            print("1 - Cadastrar")
+            print("2 - Alterar")
+            print("3 - Adicionar Amigo")
+            print("4 - Excluir Amigo")
+            print("5 - Depositar Saldo")
+            print("6 - Meus Jogos")
+            print("7 - Meus amigos")
+            print("8 - Verificar saldo")
+            print("0 - Retornar")
 
-        opcao = int(input("Escolha a opcao: "))
-        return opcao
+            try:
+                opcao = int(input("Escolha uma opção: "))
+                return opcao
+            except ValueError:
+                self.mostra_mensagem("Entrada inválida! Por favor, insira um número correspondente à opção.")
 
     def dados_usuario(self):
         print("-----DADOS USUÁRIO-----")

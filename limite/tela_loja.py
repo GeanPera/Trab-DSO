@@ -1,14 +1,18 @@
 class TelaLoja:
     def exibir_menu(self):
-        print("--- Menu da Loja ---")
-        print("1 - Todos os jogos")
-        print("2 - Jogo mais comprado")
-        print("3 - Jogos por gênero")
-        print("4 - Jogos por desenvolvedora")
-        print("5 - Filtrar por preço")
-        print("0 - Retornar")
-        opcao = int(input("Escolha uma opção: "))
-        return opcao
+        while True:
+            print("--- Menu da Loja ---")
+            print("1 - Todos os jogos")
+            print("2 - Jogo mais comprado")
+            print("3 - Jogos por gênero")
+            print("4 - Jogos por desenvolvedora")
+            print("5 - Filtrar por preço")
+            print("0 - Retornar")
+            try:
+                opcao = int(input("Escolha uma opção: "))
+                return opcao
+            except ValueError:
+                self.mostra_mensagem("Entrada inválida! Por favor, insira um número correspondente à opção.")
 
     def solicitar_genero(self):
         return input("Digite o gênero desejado: ")
