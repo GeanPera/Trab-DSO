@@ -3,33 +3,40 @@ class TelaUsuario():
         while True:
             print("-------- Tela Usuario ----------")
             print("Escolha a opcao")
-            print("1 - Cadastrar")
-            print("2 - Alterar")
-            print("3 - Adicionar Amigo")
-            print("4 - Excluir Amigo")
-            print("5 - Depositar Saldo")
-            print("6 - Meus Jogos")
-            print("7 - Meus amigos")
-            print("8 - Verificar saldo")
+            print("1 - Cadastrar Usuário")
+            print("2 - Alterar Usuário")
+            print("3 - Excluir Usuário")
+            print("4 - Adicionar Amigo")
+            print("5 - Excluir Amigo")
+            print("6 - Depositar Saldo")
+            print("7 - Meus Jogos")
+            print("8 - Meus amigos")
+            print("9 - Verificar saldo")
             print("0 - Retornar")
 
             try:
                 opcao = int(input("Escolha uma opção: "))
+                if opcao > 9 or opcao < 0:
+                    raise ValueError
                 return opcao
             except ValueError:
                 self.mostra_mensagem("Entrada inválida! Por favor, insira um número correspondente à opção.")
 
     def dados_usuario(self):
-        print("-----DADOS USUÁRIO-----")
-        nome = input("Nome: ")
-        nickname = input("Nickname: ")
-        idade = int(input("Idade: "))
-        email = input("E-mail: ")
-        endereco = input("Endereço: ")
-        senha = input("Senha: ")
-        cpf = input("CPF: ")
+        while True:
+            try:
+                print("-----DADOS USUÁRIO-----")
+                nome = input("Nome: ")
+                nickname = input("Nickname: ")
+                idade = int(input("Idade: "))
+                email = input("E-mail: ")
+                endereco = input("Endereço: ")
+                senha = input("Senha: ")
+                cpf = input("CPF: ")
+                return {"nome": nome, "nickname": nickname, "idade": idade, "email": email, "endereco": endereco, "senha": senha, "cpf": cpf}
+            except ValueError:
+                self.mostra_mensagem("Informação inválida, tente novamente!")
 
-        return {"nome": nome, "nickname": nickname, "idade": idade, "email": email, "endereco": endereco, "senha": senha, "cpf": cpf}
 
     def pede_nickname(self, nome):
         nickname = input(nome)

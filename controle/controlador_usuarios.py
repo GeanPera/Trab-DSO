@@ -1,5 +1,6 @@
 from limite.tela_usuario import TelaUsuario
 from entidade.usuario import Usuario
+from excecao.CampoVazioException import CamposVaziosError
 
 class ControladorUsuarios():
     def __init__(self, controlador_sistema):
@@ -19,26 +20,41 @@ class ControladorUsuarios():
 
 
     def cadastrar(self):
-        dados_usuario = self.__tela_usuario.dados_usuario()
-        for usuario in self.__usuarios:
-            if self.encontrar_usuario(dados_usuario["cpf"]):
-                mensagem = "CPF já utilizado!"
-                self.__tela_usuario.mostra_mensagem()
-                return
+        while True:
+            try:
+                dados_usuario = self.__tela_usuario.dados_usuario()
+                
+                if not all(dados_usuario.values()):
+                    raise CamposVaziosError
+                
+                for usuario in self.__usuarios:
+                    if self.encontrar_usuario(dados_usuario["cpf"]):
+                        mensagem = "CPF já utilizado!"
+                        self.__tela_usuario.mostra_mensagem(mensagem)
+                        return
 
-            elif usuario.email == dados_usuario["email"]: 
-                mensagem = "E-mail já utilizado!"
-                self.__tela_usuario.mostra_mensagem()
-                return
+                    elif usuario.email == dados_usuario["email"]: 
+                        mensagem = "E-mail já utilizado!"
+                        self.__tela_usuario.mostra_mensagem(mensagem)
+                        return
 
-            elif usuario.nickname == dados_usuario["nickname"]:
-                mensagem = "Nickname já utilizado!"
-                self.__tela_usuario.mostra_mensagem()
-                return
+                    elif usuario.nickname == dados_usuario["nickname"]:
+                        mensagem = "Nickname já utilizado!"
+                        self.__tela_usuario.mostra_mensagem(mensagem)
+                        return
+                    
+                if len(dados_usuario["nickname"]) < 4:
+                    mensagem = "Seu nickname precisa ter pelo menos 4 caracteres"
+                    self.__tela_usuario.mostra_mensagem(mensagem)
+                    return
 
-        novo_usuario = Usuario(dados_usuario["nome"], dados_usuario["nickname"], dados_usuario["idade"], dados_usuario["email"], dados_usuario["endereco"], dados_usuario["senha"], dados_usuario["cpf"], 0)
-        self.__usuarios.append(novo_usuario)
-        self.__tela_usuario.mostra_mensagem("O usuário foi cadastrado com sucesso!")
+                novo_usuario = Usuario(dados_usuario["nome"], dados_usuario["nickname"], dados_usuario["idade"], dados_usuario["email"], dados_usuario["endereco"], dados_usuario["senha"], dados_usuario["cpf"], 0)
+                self.__usuarios.append(novo_usuario)
+                self.__tela_usuario.mostra_mensagem("O usuário foi cadastrado com sucesso!")
+                return
+            
+            except CamposVaziosError as mensagem:
+                self.__tela_usuario.mostra_mensagem(str(mensagem))
 
     def alterar_usuario(self):
         
@@ -53,14 +69,33 @@ class ControladorUsuarios():
                 if senha == usuario_encontrado.senha:
                 
                     novos_dados = self.__tela_usuario.dados_alteracao()
-                    usuario_encontrado.nome = novos_dados.get("nome", usuario_encontrado.nome)
-                    usuario_encontrado.nickname = novos_dados.get("nickname", usuario_encontrado.nickname)
-                    usuario_encontrado.idade = novos_dados.get("idade", usuario_encontrado.idade)
-                    usuario_encontrado.email = novos_dados.get("email", usuario_encontrado.email)
-                    usuario_encontrado.endereco = novos_dados.get("endereco", usuario_encontrado.endereco)
-                    usuario_encontrado.senha = novos_dados.get("senha", usuario_encontrado.senha)
-                    self.__tela_usuario.mostra_mensagem("Dados do usuário alterados com sucesso!")
-                    return
+                    for usuario in self.__usuarios:
+                        if self.encontrar_usuario(novos_dados["cpf"]):
+                            mensagem = "CPF já utilizado!"
+                            self.__tela_usuario.mostra_mensagem(mensagem)
+                            return
+
+                        elif usuario.email == novos_dados["email"]: 
+                            mensagem = "E-mail já utilizado!"
+                            self.__tela_usuario.mostra_mensagem(mensagem)
+                            return
+
+                        elif usuario.nickname == novos_dados["nickname"]:
+                            mensagem = "Nickname já utilizado!"
+                            self.__tela_usuario.mostra_mensagem(mensagem)
+                            return
+                    
+                    if len(usuario_encontrado.nickname) < 4:
+                        self.__tela_usuario.mostra_mensagem("Seu nickname precisa ter pelo menos 4 caracteres")
+                    else:
+                        usuario_encontrado.nome = novos_dados.get("nome", usuario_encontrado.nome)
+                        usuario_encontrado.nickname = novos_dados.get("nickname", usuario_encontrado.nickname)
+                        usuario_encontrado.idade = novos_dados.get("idade", usuario_encontrado.idade)
+                        usuario_encontrado.email = novos_dados.get("email", usuario_encontrado.email)
+                        usuario_encontrado.endereco = novos_dados.get("endereco", usuario_encontrado.endereco)
+                        usuario_encontrado.senha = novos_dados.get("senha", usuario_encontrado.senha)
+                        self.__tela_usuario.mostra_mensagem("Dados do usuário alterados com sucesso!")
+                        return
                 else:
                     self.__tela_usuario.mostra_mensagem("Senha incorreta!")
 
