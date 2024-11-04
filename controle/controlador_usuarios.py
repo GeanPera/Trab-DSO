@@ -67,6 +67,27 @@ class ControladorUsuarios():
             else:
                 self.__tela_usuario.mostra_mensagem("Usuário não encontrado, tente novamente ou digite 0 para voltar pro menu anterior.")
 
+    def excluir_usuario(self):
+        while True:
+            mensagem = "Insira seu nickname: "
+            nick_usuario = self.__tela_usuario.pede_nickname(mensagem)
+
+            if nick_usuario == "0":
+                self.abre_tela()
+
+            if not self.encontrar_usuario(nick_usuario):
+                self.__tela_usuario.mostra_mensagem("Usuário não encontrado, tente novamente ou digite 0 para voltar pro menu anterior.")
+
+            else:
+                usuario = self.encontrar_usuario(nick_usuario)
+                break
+        self.__tela_usuario.mostra_mensagem("Você está excluindo seu usuário. Ao confirmar, você não poderá reverter esse processo. Para confirmar, digite sua senha abaixo.")
+        senha = self.__tela_usuario.pede_senha()
+        if usuario.senha == senha:
+            self.__tela_usuario.mostra_mensagem(f"O usuário {usuario.nickname} foi excluído com sucesso!")
+            self.usuarios.remove(usuario)
+        else:
+            self.__tela_usuario.mostra_mensagem("Senha Incorreta!")
     def adicionar_amigo(self):
             while True:
                 mensagem = "Insira seu nickname: "
@@ -206,12 +227,12 @@ class ControladorUsuarios():
     def presentear_amigo(self, jogo, amigo, usuario):
         for game in amigo.jogos:
             if game == jogo:
-                return "Você já possui esse jogo!"
+                return "O usuário já possui esse jogo!"
         amigo.jogos.append(jogo)
         usuario.saldo -= jogo.preco
         return f"Jogo enviado com sucesso! Seu saldo atual é R${usuario.saldo}"
 
-    def relatorio_usuarios(self):
+    def relatorio_usuarios_com_saldo_e_compras(self):
         relatorios = []
         for usuario in self.__usuarios:
             total_gasto = sum(jogo.preco for jogo in usuario.jogos)
@@ -229,7 +250,7 @@ class ControladorUsuarios():
         return
 
     def abre_tela(self):
-        lista_opcoes = {1: self.cadastrar, 2: self.alterar_usuario, 3: self.adicionar_amigo, 4: self.excluir_amigo, 5: self.depositar_saldo, 6: self.meus_jogos, 7: self.mostrar_amigos, 8: self.verificar_saldo, 0: self.retornar}
+        lista_opcoes = {1: self.cadastrar, 2: self.alterar_usuario, 3: self.excluir_usuario, 4: self.adicionar_amigo, 5: self.excluir_amigo, 6: self.depositar_saldo, 7: self.meus_jogos, 8: self.mostrar_amigos, 9: self.verificar_saldo, 0: self.retornar}
 
         continua = True
         while continua:

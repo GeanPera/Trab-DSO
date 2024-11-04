@@ -39,22 +39,29 @@ class ControladorCompra:
     def presentear(self):
         nome_jogo = self.__tela_compra.solicitar_jogo("Nome do jogo que deseja comprar?  ")
         jogo_escolhido = self.__controlador_sistema.controlador_jogos.jogo(nome_jogo)
+        if not jogo_escolhido:
+            self.__tela_compra.mostra_mensagem("Jogo não encontrado.")
+            return
         my_nickname = self.__tela_compra.pede_nickname("Qual seu Nickname? ")
         usuario = self.__controlador_sistema.controlador_usuarios.encontrar_usuario(my_nickname)
-        amigo_nickname = self.__tela_compra.mostra_mensagem("Qual o Nickname do seu amigo? ")
+        if not usuario:
+            self.__tela_compra.mostra_mensagem("Usuário não encontrado.")
+            return
+        amigo_nickname = self.__tela_compra.pede_nickname("Qual o Nickname do seu amigo? ")
         amigo = self.__controlador_sistema.controlador_usuarios.encontrar_usuario(amigo_nickname)
-        if jogo_escolhido:
-            if usuario:
-                if amigo:
-                    if usuario.saldo >= jogo_escolhido.preco:
-                        self.__controlador_sistema.controlador_usuarios.presentear_amigo(jogo_escolhido, amigo, usuario)
-                        self.__tela_compra.mostra_mensagem(f"Presente enviado com sucesso. Saldo atual: {usuario.saldo}")
-                else:
-                    self.__tela_compra.mostra_mensagem("Amigo não encontrado.")
-            else:
-                self.__tela_compra.mostra_mensagem("Usuário não encontrado.")            
-        else:
-            self.__tela_compra.mostra_mensagem("Jogo não encontrado.")
+        if not amigo:
+            self.__tela_compra.mostra_mensagem("Amigo não encontrado.")
+            return
+        if usuario.saldo < jogo_escolhido.preco:
+            self.__tela_compra.mostra_mensagem("Saldo Insuficiente!")
+            return
+        if amigo.idade < jogo_escolhido.faixa_etaria:
+            self.__tela_compra.mostra_mensagem(f"{amigo.nickname} não possui idade suficiente para comprar esse jogo!")
+            return
+        
+        self.__controlador_sistema.controlador_usuarios.presentear_amigo(jogo_escolhido, amigo, usuario)
+        self.__tela_compra.mostra_mensagem(f"Presente enviado com sucesso. Saldo atual: {usuario.saldo}")
+
     def voltar(self):
         self.__tela_compra.mostra_mensagem("Retornando...")
         return
