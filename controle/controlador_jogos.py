@@ -1,5 +1,6 @@
 from limite.tela_loja import TelaLoja
 from entidade.jogo import Jogo
+from exceptions.campo_vazio_exception import CamposVaziosError
 
 
 class ControladorJogos:
@@ -18,7 +19,7 @@ class ControladorJogos:
             self.__tela.mostra_mensagem(f"- {jogo.titulo} R$: {jogo.preco}")
 
     def jogo_mais_comprado(self):
-# Ordena a lista de jogos por quantidade de vendas usando Bubble Sort
+    # Ordena a lista de jogos por quantidade de vendas usando Bubble Sort
         jogos_ordenados = self.__jogos
         n = len(jogos_ordenados)
         
@@ -37,35 +38,56 @@ class ControladorJogos:
         self.__tela.mostra_mensagem(mensagem)
 
     def jogos_por_genero(self):
-        genero = self.__tela.solicitar_genero()
-        jogos_gen = [jogo for jogo in self.__jogos if jogo.genero == genero]
-        if jogos_gen:
-            self.__tela.mostra_mensagem("Jogos no gênero selecionado:")
-            for jogo in jogos_gen:
-                self.__tela.mostra_mensagem(f"- {jogo.titulo} R$: {jogo.preco}")
-        else:
-            self.__tela.mostra_mensagem("Nenhum jogo encontrado no gênero informado.")
+        try:
+            genero = self.__tela.solicitar_genero()
+            if not genero:
+                raise CamposVaziosError
+            
+            jogos_gen = [jogo for jogo in self.__jogos if jogo.genero == genero]
+            if jogos_gen:
+                self.__tela.mostra_mensagem("Jogos no gênero selecionado:")
+                for jogo in jogos_gen:
+                    self.__tela.mostra_mensagem(f"- {jogo.titulo} R$: {jogo.preco}")
+        except CamposVaziosError as e:
+            self.__tela.mostra_mensagem(str(e))
+        except Exception as e:
+            self.__tela.mostra_mensagem(f"Erro inesperado: {str(e)}")
 
     def jogos_por_desenvolvedora(self):
-        desenvolvedora = self.__tela.solicitar_desenvolvedora()
-        jogos_por_dev = [jogo for jogo in self.__jogos if jogo.desenvolvedora == desenvolvedora]
-        if jogos_por_dev:
-            self.__tela.mostra_mensagem("Jogos da desenvolvedora selecionada:")
-            for jogo in jogos_por_dev:
-                self.__tela.mostra_mensagem(f"- {jogo.titulo} R$: {jogo.preco}")
-        else:
-            self.__tela.mostra_mensagem("Nenhum jogo encontrado para a desenvolvedora informada.")
-        
+        try:
+            desenvolvedora = self.__tela.solicitar_desenvolvedora()
+            if not desenvolvedora:
+                raise CamposVaziosError
+            
+            jogos_por_dev = [jogo for jogo in self.__jogos if jogo.desenvolvedora == desenvolvedora]
+            if jogos_por_dev:
+                self.__tela.mostra_mensagem("Jogos da desenvolvedora selecionada:")
+                for jogo in jogos_por_dev:
+                    self.__tela.mostra_mensagem(f"- {jogo.titulo} R$: {jogo.preco}")
+            else:
+                self.__tela.mostra_mensagem("Nenhum jogo encontrado para a desenvolvedora informada.")
+        except CamposVaziosError as e:
+            self.__tela.mostra_mensagem(str(e))
+        except Exception as e:
+            self.__tela.mostra_mensagem(f"Erro inesperado: {str(e)}")
 
     def jogos_por_preco(self):
-        preco_min, preco_max = self.__tela.solicitar_faixa_preco()
-        jogos_preco = [jogo for jogo in self.__jogos if preco_min <= jogo.preco <= preco_max]
-        if jogos_preco:
-            self.__tela.mostra_mensagem("Jogos dentro da faixa de preço selecionada:")
-            for jogo in jogos_preco:
-                self.__tela.mostra_mensagem(f"- {jogo.titulo} (R$: {jogo.preco})")
-        else:
-            self.__tela.mostra_mensagem("Nenhum jogo encontrado nessa faixa de preço.")
+        try:
+            preco_min, preco_max = self.__tela.solicitar_faixa_preco()
+            if not preco_min or not preco_max:
+                raise CamposVaziosError
+
+            jogos_preco = [jogo for jogo in self.__jogos if preco_min <= jogo.preco <= preco_max]
+            if jogos_preco:
+                self.__tela.mostra_mensagem("Jogos dentro da faixa de preço selecionada:")
+                for jogo in jogos_preco:
+                    self.__tela.mostra_mensagem(f"- {jogo.titulo} (R$: {jogo.preco})")
+            else:
+                self.__tela.mostra_mensagem("Nenhum jogo encontrado nessa faixa de preço.")
+        except CamposVaziosError as e:
+            self.__tela.mostra_mensagem(str(e))
+        except Exception as e:
+            self.__tela.mostra_mensagem(f"Erro inesperado: {str(e)}")
 
     def retornar_inicio(self):
         self.__tela.mostra_mensagem("Retornando...")

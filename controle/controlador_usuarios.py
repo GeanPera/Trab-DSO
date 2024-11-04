@@ -1,6 +1,6 @@
 from limite.tela_usuario import TelaUsuario
 from entidade.usuario import Usuario
-from excecao.CampoVazioException import CamposVaziosError
+from exceptions.campo_vazio_exception import CamposVaziosError
 
 class ControladorUsuarios():
     def __init__(self, controlador_sistema):
