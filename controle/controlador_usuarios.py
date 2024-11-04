@@ -1,6 +1,8 @@
 from limite.tela_usuario import TelaUsuario
 from entidade.usuario import Usuario
 from excecao.CampoVazioException import CamposVaziosError
+from excecao.AmigoRepetidoException import AmigoRepetidoError
+from excecao.UsuarioNaoEncontradoException import UsuarioNaoEncontradoError
 
 class ControladorUsuarios():
     def __init__(self, controlador_sistema):
@@ -57,13 +59,14 @@ class ControladorUsuarios():
                 self.__tela_usuario.mostra_mensagem(str(mensagem))
 
     def alterar_usuario(self):
-        
-        while True:
-            mensagem = "Insira o nickname do usuário a ser alterado: "
-            nickname = self.__tela_usuario.pede_nickname(mensagem)
-            if nickname == 0:
-                self.abre_tela()
-            if self.encontrar_usuario(nickname):
+        try:
+            while True:
+                mensagem = "Insira o nickname do usuário a ser alterado: "
+                nickname = self.__tela_usuario.pede_nickname(mensagem)
+
+                if not self.encontrar_usuario(nickname):
+                    raise UsuarioNaoEncontradoError
+                    
                 usuario_encontrado = self.encontrar_usuario(nickname)
                 senha = self.__tela_usuario.pede_senha()
                 if senha == usuario_encontrado.senha:
@@ -99,68 +102,72 @@ class ControladorUsuarios():
                 else:
                     self.__tela_usuario.mostra_mensagem("Senha incorreta!")
 
-            else:
-                self.__tela_usuario.mostra_mensagem("Usuário não encontrado, tente novamente ou digite 0 para voltar pro menu anterior.")
+        except UsuarioNaoEncontradoError as e:
+            self.__tela_usuario.mostra_mensagem(str(e))
 
+            
     def excluir_usuario(self):
-        while True:
-            mensagem = "Insira seu nickname: "
-            nick_usuario = self.__tela_usuario.pede_nickname(mensagem)
-
-            if nick_usuario == "0":
-                self.abre_tela()
-
-            if not self.encontrar_usuario(nick_usuario):
-                self.__tela_usuario.mostra_mensagem("Usuário não encontrado, tente novamente ou digite 0 para voltar pro menu anterior.")
-
-            else:
-                usuario = self.encontrar_usuario(nick_usuario)
-                break
-        self.__tela_usuario.mostra_mensagem("Você está excluindo seu usuário. Ao confirmar, você não poderá reverter esse processo. Para confirmar, digite sua senha abaixo.")
-        senha = self.__tela_usuario.pede_senha()
-        if usuario.senha == senha:
-            self.__tela_usuario.mostra_mensagem(f"O usuário {usuario.nickname} foi excluído com sucesso!")
-            self.usuarios.remove(usuario)
-        else:
-            self.__tela_usuario.mostra_mensagem("Senha Incorreta!")
-    def adicionar_amigo(self):
+        try:
             while True:
                 mensagem = "Insira seu nickname: "
                 nick_usuario = self.__tela_usuario.pede_nickname(mensagem)
 
-                if nick_usuario == "0":
-                    self.abre_tela()
                 if not self.encontrar_usuario(nick_usuario):
-                    self.__tela_usuario.mostra_mensagem("Usuário não encontrado, tente novamente ou digite 0 para voltar pro menu anterior.")
+                    raise UsuarioNaoEncontradoError
+
                 else:
                     usuario = self.encontrar_usuario(nick_usuario)
                     break
-
-            while True:
-                mensagem = "Insira o nickname do usuário que você deseja adicionar: "
-                nick_amigo = self.__tela_usuario.pede_nickname(mensagem)
-
-                if nick_amigo == "0":
-                    self.abre_tela()
-
-                if not self.encontrar_usuario(nick_amigo):
-                    self.__tela_usuario.mostra_mensagem("Usuário não encontrado, tente novamente ou digite 0 para voltar pro menu anterior.")
-                else:
-                    amigo = self.encontrar_usuario(nick_amigo)
-                    break
-
-            if amigo in usuario.amigos:
-                self.__tela_usuario.mostra_mensagem("Esse usuário já está na sua lista de amigos!")
-                return
-
-            if (usuario.idade >= 18 <= amigo.idade) or (usuario.idade < 18 and amigo.idade < 18):
-                usuario.amigos.append(amigo)
-                amigo.amigos.append(usuario)
-                self.__tela_usuario.mostra_mensagem(f"{amigo.nickname} foi adicionado à sua lista de amigos!")
-                return
+            self.__tela_usuario.mostra_mensagem("Você está excluindo seu usuário. Ao confirmar, você não poderá reverter esse processo. Para confirmar, digite sua senha abaixo.")
+            senha = self.__tela_usuario.pede_senha()
+            if usuario.senha == senha:
+                self.__tela_usuario.mostra_mensagem(f"O usuário {usuario.nickname} foi excluído com sucesso!")
+                self.usuarios.remove(usuario)
             else:
-                self.__tela_usuario.mostra_mensagem("Não foi possível adicionar esse usuário! As faixas etárias não são compatíveis.")
-                return
+                self.__tela_usuario.mostra_mensagem("Senha Incorreta!")
+                
+        except UsuarioNaoEncontradoError as e:
+            self.__tela_usuario.mostra_mensagem(str(e))
+            
+    def adicionar_amigo(self):
+            try:
+                while True:
+                    mensagem = "Insira seu nickname: "
+                    nick_usuario = self.__tela_usuario.pede_nickname(mensagem)
+
+                    if not self.encontrar_usuario(nick_usuario):
+                        raise UsuarioNaoEncontradoError
+                    else:
+                        usuario = self.encontrar_usuario(nick_usuario)
+                        break
+
+                while True:
+                    mensagem = "Insira o nickname do usuário que você deseja adicionar: "
+                    nick_amigo = self.__tela_usuario.pede_nickname(mensagem)
+
+                    if not self.encontrar_usuario(nick_amigo):
+                        raise UsuarioNaoEncontradoError
+                    else:
+                        amigo = self.encontrar_usuario(nick_amigo)
+                        break
+                    
+                if amigo in usuario.amigos:
+                    raise AmigoRepetidoError(nick_amigo)
+
+                if (usuario.idade >= 18 <= amigo.idade) or (usuario.idade < 18 and amigo.idade < 18):
+                    usuario.amigos.append(amigo)
+                    amigo.amigos.append(usuario)
+                    self.__tela_usuario.mostra_mensagem(f"{amigo.nickname} foi adicionado à sua lista de amigos!")
+                    return
+                else:
+                    self.__tela_usuario.mostra_mensagem("Não foi possível adicionar esse usuário! As faixas etárias não são compatíveis.")
+                    return
+            except AmigoRepetidoError as e:
+                self.__tela_usuario.mostra_mensagem(str(e))
+                
+            except UsuarioNaoEncontradoError as e:
+                self.__tela_usuario.mostra_mensagem(str(e))
+
 
     def mostrar_amigos(self):
         nick_usuario = self.__tela_usuario.pede_nickname("Insira seu nickname: ")
@@ -170,86 +177,85 @@ class ControladorUsuarios():
             self.__tela_usuario.mostra_mensagem(f"- {amigo.nome}")
 
     def excluir_amigo(self):
-        while True:
-            mensagem = "Insira seu nickname: "
-            nick_usuario = self.__tela_usuario.pede_nickname(mensagem)
+        try:
+            while True:
+                mensagem = "Insira seu nickname: "
+                nick_usuario = self.__tela_usuario.pede_nickname(mensagem)
 
-            if nick_usuario == "0":
-                self.abre_tela()
+                if not self.encontrar_usuario(nick_usuario):
+                    raise UsuarioNaoEncontradoError
 
-            if not self.encontrar_usuario(nick_usuario):
-                self.__tela_usuario.mostra_mensagem("Usuário não encontrado, tente novamente ou digite 0 para voltar pro menu anterior.")
+                else:
+                    usuario = self.encontrar_usuario(nick_usuario)
+                    break
 
-            else:
-                usuario = self.encontrar_usuario(nick_usuario)
-                break
+            while True:
+                mensagem = "Insira o nickname do usuário que você deseja excluir: "
+                nick_amigo = self.__tela_usuario.pede_nickname(mensagem)
 
-        while True:
-            mensagem = "Insira o nickname do usuário que você deseja excluir: "
-            nick_amigo = self.__tela_usuario.pede_nickname(mensagem)
+                if not self.encontrar_usuario(nick_amigo):
+                    raise UsuarioNaoEncontradoError
 
-            if nick_amigo == "0":
-                self.abre_tela()
+                else:
+                    amigo = self.encontrar_usuario(nick_amigo)
+                    break
 
-            if not self.encontrar_usuario(nick_amigo):
-                self.__tela_usuario.mostra_mensagem("Usuário não encontrado, tente novamente ou digite 0 para voltar pro menu anterior.")
+            if amigo not in usuario.amigos:
+                self.__tela_usuario.mostra_mensagem("Esse usuário não está na sua lista de amigos!")
+                return
 
-            else:
-                amigo = self.encontrar_usuario(nick_amigo)
-                break
+            usuario.amigos.remove(amigo)
+            amigo.amigos.remove(usuario)
+            self.__tela_usuario.mostra_mensagem(f"{amigo.nickname} foi removido da sua lista de amigos!")
+        except UsuarioNaoEncontradoError as e:
+            self.__tela_usuario.mostra_mensagem(str(e))
 
-        if amigo not in usuario.amigos:
-            self.__tela_usuario.mostra_mensagem("Esse usuário não está na sua lista de amigos!")
-            return
-
-        usuario.amigos.remove(amigo)
-        amigo.amigos.remove(usuario)
-        self.__tela_usuario.mostra_mensagem(f"{amigo.nickname} foi removido da sua lista de amigos!")
 
     def depositar_saldo(self):
-        while True:
-            mensagem = "Insira seu nickname: "
-            nick_usuario = self.__tela_usuario.pede_nickname(mensagem)
-            senha = self.__tela_usuario.pede_senha()
-            usuario = self.encontrar_usuario(nick_usuario)
-            
-            if nick_usuario == "0":
-                self.abre_tela()
-                
-            if not senha == usuario.senha:
-                self.__tela_usuario.mostra_mensagem("Senha inválida! Tente novamente ou digite 0 para voltar pro menu anterior.")
-            
-            if not self.encontrar_usuario(nick_usuario):
-                self.__tela_usuario.mostra_mensagem("Usuário não encontrado, tente novamente ou digite 0 para voltar pro menu anterior.")
-            
-            else:
+        try:
+            while True:
+                mensagem = "Insira seu nickname: "
+                nick_usuario = self.__tela_usuario.pede_nickname(mensagem)
+                senha = self.__tela_usuario.pede_senha()
                 usuario = self.encontrar_usuario(nick_usuario)
-                break
-        
-        valor = self.__tela_usuario.valor_deposito()
-        usuario.saldo += valor
-        self.__tela_usuario.mostra_mensagem(f"Depósito realizado! Seu saldo atual é R${usuario.saldo:.2f}")
+                    
+                if not senha == usuario.senha:
+                    self.__tela_usuario.mostra_mensagem("Senha inválida! Tente novamente ou digite 0 para voltar pro menu anterior.")
+                
+                if not self.encontrar_usuario(nick_usuario):
+                    raise UsuarioNaoEncontradoError
+                
+                else:
+                    usuario = self.encontrar_usuario(nick_usuario)
+                    break
+            
+            valor = self.__tela_usuario.valor_deposito()
+            usuario.saldo += valor
+            self.__tela_usuario.mostra_mensagem(f"Depósito realizado! Seu saldo atual é R${usuario.saldo:.2f}")
+        except UsuarioNaoEncontradoError as e:
+            self.__tela_usuario.mostra_mensagem(str(e))
+
     
     def verificar_saldo(self):
-        while True:
-            mensagem = "Insira seu nickname: "
-            nick_usuario = self.__tela_usuario.pede_nickname(mensagem)
-            senha = self.__tela_usuario.pede_senha()
-            usuario = self.encontrar_usuario(nick_usuario)
-            
-            if nick_usuario == "0":
-                self.abre_tela()
-                
-            if not senha == usuario.senha:
-                self.__tela_usuario.mostra_mensagem("Senha inválida! Tente novamente ou digite 0 para voltar pro menu anterior.")
-            
-            if not self.encontrar_usuario(nick_usuario):
-                self.__tela_usuario.mostra_mensagem("Usuário não encontrado, tente novamente ou digite 0 para voltar pro menu anterior.")
-            
-            else:
+        try:
+            while True:
+                mensagem = "Insira seu nickname: "
+                nick_usuario = self.__tela_usuario.pede_nickname(mensagem)
+                senha = self.__tela_usuario.pede_senha()
                 usuario = self.encontrar_usuario(nick_usuario)
-                self.__tela_usuario.mostra_mensagem(f"Seu saldo é R${usuario.saldo:.2f}")
-                return
+                    
+                if not senha == usuario.senha:
+                    self.__tela_usuario.mostra_mensagem("Senha inválida! Tente novamente ou digite 0 para voltar pro menu anterior.")
+                
+                if not self.encontrar_usuario(nick_usuario):
+                    raise UsuarioNaoEncontradoError
+                
+                else:
+                    usuario = self.encontrar_usuario(nick_usuario)
+                    self.__tela_usuario.mostra_mensagem(f"Seu saldo é R${usuario.saldo:.2f}")
+                    return
+        except UsuarioNaoEncontradoError as e:
+            self.__tela_usuario.mostra_mensagem(str(e))
 
     def adicionar_jogo(self, jogo, usuario):
         for game in usuario.jogos:
@@ -275,11 +281,17 @@ class ControladorUsuarios():
             relatorios.append(f"Nome: {usuario.nome}, Nickname: {usuario.nickname}, Idade: {usuario.idade}, Saldo: {usuario.saldo}, Quantidade de Jogos Comprados: {len(usuario.jogos)}, Total Gasto: {total_gasto}, Amigos: {', '.join(amigos) if amigos else 'Sem amigos'}")
         return relatorios
     def meus_jogos(self):
-        nickname = self.__tela_usuario.pede_nickname("Qual seu Nickname?")
-        usuario = self.encontrar_usuario(nickname)
-        self.__tela_usuario.mostra_mensagem("Seus jogos:")
-        for jogo in usuario.jogos:
-            self.__tela_usuario.mostra_mensagem(f"- {jogo.titulo}")
+        try:
+            nickname = self.__tela_usuario.pede_nickname("Insira seu nickname: ")
+            usuario = self.encontrar_usuario(nickname)
+            if not self.encontrar_usuario(nickname):
+                raise UsuarioNaoEncontradoError
+            self.__tela_usuario.mostra_mensagem("Seus jogos:")
+            for jogo in usuario.jogos:
+                self.__tela_usuario.mostra_mensagem(f"- {jogo.titulo}")
+        except UsuarioNaoEncontradoError as e:
+            self.__tela_usuario.mostra_mensagem(str(e))
+            
     def retornar(self):
         self.__tela_usuario.mostra_mensagem("Retornando ao menu principal...")
         return
