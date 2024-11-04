@@ -153,7 +153,7 @@ class ControladorUsuarios():
                 self.__tela_usuario.mostra_mensagem("Esse usuário já está na sua lista de amigos!")
                 return
 
-            if (usuario.idade >= 18 and amigo.idade >= 18) or (usuario.idade < 18 and amigo.idade < 18):
+            if (usuario.idade >= 18 <= amigo.idade) or (usuario.idade < 18 and amigo.idade < 18):
                 usuario.amigos.append(amigo)
                 amigo.amigos.append(usuario)
                 self.__tela_usuario.mostra_mensagem(f"{amigo.nickname} foi adicionado à sua lista de amigos!")
@@ -267,7 +267,7 @@ class ControladorUsuarios():
         usuario.saldo -= jogo.preco
         return f"Jogo enviado com sucesso! Seu saldo atual é R${usuario.saldo}"
 
-    def relatorio_usuarios_com_saldo_e_compras(self):
+    def relatorio_usuarios(self):
         relatorios = []
         for usuario in self.__usuarios:
             total_gasto = sum(jogo.preco for jogo in usuario.jogos)
