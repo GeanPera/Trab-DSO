@@ -61,8 +61,11 @@ class ControladorSistema:
 
         self.__tela_sistema.mostra_mensagem(f"\nRelatório de Usuários: ")
         relatorio_usuarios = self.controlador_usuarios.relatorio_usuarios()
-        for x in relatorio_usuarios:
-            self.__tela_sistema.mostra_mensagem(x)
+        if relatorio_usuarios != []:
+            for x in relatorio_usuarios:
+                self.__tela_sistema.mostra_mensagem(x)
+        else:
+            self.__tela_sistema.mostra_mensagem("Nenhum usuário cadastrado.")
 
         self.__tela_sistema.mostra_mensagem(f"\nRelatório de Gêneros Populares: ")
         relatorio_genero = self.controlador_jogos.relatorio_generos_populares()
