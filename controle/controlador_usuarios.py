@@ -81,7 +81,7 @@ class ControladorUsuarios():
             else:
                 usuario = self.encontrar_usuario(nick_usuario)
                 break
-                self.__tela_usuario.mostra_mensagem("Você está excluindo seu usuário. Ao confirmar, você não poderá reverter esse processo. Para confirmar, digite sua senha abaixo.")
+        self.__tela_usuario.mostra_mensagem("Você está excluindo seu usuário. Ao confirmar, você não poderá reverter esse processo. Para confirmar, digite sua senha abaixo.")
         senha = self.__tela_usuario.pede_senha()
         if usuario.senha == senha:
             self.__tela_usuario.mostra_mensagem(f"O usuário {usuario.nickname} foi excluído com sucesso!")
@@ -250,7 +250,7 @@ class ControladorUsuarios():
         return
 
     def abre_tela(self):
-        lista_opcoes = {1: self.cadastrar, 2: self.alterar_usuario, 3: self.adicionar_amigo, 4: self.excluir_amigo, 5: self.depositar_saldo, 6: self.meus_jogos, 7: self.mostrar_amigos, 8: self.verificar_saldo, 0: self.retornar}
+        lista_opcoes = {1: self.cadastrar, 2: self.alterar_usuario, 3: self.excluir_usuario, 4: self.adicionar_amigo, 5: self.excluir_amigo, 6: self.depositar_saldo, 7: self.meus_jogos, 8: self.mostrar_amigos, 9: self.verificar_saldo, 0: self.retornar}
 
         continua = True
         while continua:
