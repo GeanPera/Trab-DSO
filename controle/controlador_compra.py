@@ -47,7 +47,7 @@ class ControladorCompra:
         if not usuario:
             self.__tela_compra.mostra_mensagem("Usuário não encontrado.")
             return
-        amigo_nickname = self.__tela_compra.mostra_mensagem("Qual o Nickname do seu amigo? ")
+        amigo_nickname = self.__tela_compra.pede_nickname("Qual o Nickname do seu amigo? ")
         amigo = self.__controlador_sistema.controlador_usuarios.encontrar_usuario(amigo_nickname)
         if not amigo:
             self.__tela_compra.mostra_mensagem("Amigo não encontrado.")
