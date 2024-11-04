@@ -97,7 +97,7 @@ class ControladorUsuarios():
                 self.__tela_usuario.mostra_mensagem("Esse usuário já está na sua lista de amigos!")
                 return
 
-            if (usuario.idade >= 18 and amigo.idade >= 18) or (usuario.idade < 18 and amigo.idade < 18):
+            if (usuario.idade >= 18 <= amigo.idade) or (usuario.idade < 18 and amigo.idade < 18):
                 usuario.amigos.append(amigo)
                 amigo.amigos.append(usuario)
                 self.__tela_usuario.mostra_mensagem(f"{amigo.nickname} foi adicionado à sua lista de amigos!")
