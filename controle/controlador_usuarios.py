@@ -1,8 +1,8 @@
 from limite.tela_usuario import TelaUsuario
 from entidade.usuario import Usuario
-from excecao.CampoVazioException import CamposVaziosError
-from excecao.AmigoRepetidoException import AmigoRepetidoError
-from excecao.UsuarioNaoEncontradoException import UsuarioNaoEncontradoError
+from exceptions.campo_vazio_exception import CamposVaziosError
+from exceptions.amigo_repetido_exception import AmigoRepetidoError
+from exceptions.usuario_nao_encontrado_exception import UsuarioNaoEncontradoError
 
 class ControladorUsuarios():
     def __init__(self, controlador_sistema):
