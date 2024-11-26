@@ -1,4 +1,5 @@
 import PySimpleGUI as sg
+import pygame
 
 class TelaSistema:
     def __init__(self):
@@ -7,36 +8,47 @@ class TelaSistema:
         
     def tela_opcoes(self):
         self.init_components()
-        button, values = self.__window.Read()
-        opcao = 0
-        if values['1']:
-            opcao = 1
-        if values['2']:
-            opcao = 2
-        if values['3']:
-            opcao = 3
-        if button in (None, 'Cancelar'):
+        while True:
+            button, values = self.__window.Read()
             opcao = 0
+            if button == 'Loja':
+                self.som()
+                opcao = 1
+            if button == 'Opçoes de Usuário':
+                self.som()
+                opcao = 2
+            if button == 'Relatórios':
+                self.som()
+                opcao = 3
+            if button == sg.WIN_CLOSED or button == 'Encerrar sessão':
+                self.som()
+                opcao = 0
+            self.close()
+            return opcao
 
-        self.close()
-        return opcao
-
+    pygame.mixer.init()
+    def som(self):
+        pygame.mixer.music.load('sound.mp3')
+        pygame.mixer.music.play()
             
     def close(self):
         self.__window.Close()
                 
     def init_components(self):
         #sg.theme_previewer()
-        sg.ChangeLookAndFeel('DarkAmber')
+        sg.ChangeLookAndFeel('DarkBrown7')
         layout = [
-            [sg.Text('SIN Games', font=("Verdana", 25, ), colors='Cyan')],
-            [sg.Text('Escolha uma opção!', font=("Verdana", 18))],
-            [sg.Radio('Menu Loja', 'RD1', key ='1')],
-            [sg.Radio('Usuário', 'RD1', key ='2')],
-            [sg.Radio('Relatório', 'RD1', key='3')],
-            [sg.Button('Confirmar', button_color='Green'), sg.Cancel('Encerrar sessão', button_color='Red')]
+            
+            [sg.Push(), sg.Text('SIN Games', font=("Minecrafter Alt", 25), colors='LightGray'), sg.Push()],
+            [sg.Push(), sg.Text('Escolha uma opçao!', font=("Minecraft"), colors="#f7cb05"), sg.Push()],
+            [sg.Push(), sg.Button('Loja', button_color=("White", "#aaabad"), size= 20, font="Minecraft", mouseover_colors="#6e6f70"), sg.Push()],
+            [sg.Push(), sg.Button('Opçoes de Usuário', button_color=("White", "#aaabad"), size = 20, font="Minecraft", mouseover_colors="#6e6f70"), sg.Push()],
+            [sg.Push(), sg.Button('Relatórios', button_color=("White", "#aaabad"), size = 20, font="Minecraft", mouseover_colors="#6e6f70"), sg.Push()],
+            [sg.Push(), sg.Cancel('Encerrar sessao', button_color=("White", "Red"), pad = 10, font="Minecraft"), sg.Push()]
         ]
-        self.__window = sg.Window('SIN Games').Layout(layout)
+        self.__window = sg.Window('SIN Games', size=(600, 300)).Layout(layout)
 
     def mostra_mensagem(self, mensagem):
         print(f"{mensagem}")
+        
+        
