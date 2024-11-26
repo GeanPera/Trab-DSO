@@ -74,6 +74,8 @@ class ControladorJogos:
     def jogos_por_preco(self):
         try:
             preco_min, preco_max = self.__tela.solicitar_faixa_preco()
+            preco_min = float(preco_min)
+            preco_max = float(preco_max)
             if not preco_min or not preco_max:
                 raise CamposVaziosError
 
