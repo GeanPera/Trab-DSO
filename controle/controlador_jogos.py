@@ -14,12 +14,15 @@ class ControladorJogos:
         self.__jogos.append(jogo)
 
     def listar_jogos(self):
-        self.__tela.mostra_mensagem("Todos os jogos disponíveis:")
+        lista_jogos = []
         for jogo in self.__jogos:
-            self.__tela.mostra_mensagem(f"- {jogo.titulo} R$: {jogo.preco}")
+            lista_jogos.append({'nome': jogo.titulo, 'preco': jogo.preco})
+        mensagem = "Todos os Jogos:"
+        self.__tela.exibir_lista_jogos(mensagem, lista_jogos)
 
     def jogo_mais_comprado(self):
     # Ordena a lista de jogos por quantidade de vendas usando Bubble Sort
+        lista_jogos = []
         jogos_ordenados = self.__jogos
         n = len(jogos_ordenados)
         
@@ -32,12 +35,14 @@ class ControladorJogos:
         # Retorna o primeiro jogo da lista ordenada (com a maior quantidade de vendas)
         jogo = jogos_ordenados[0] if jogos_ordenados else None
         if jogo:
-            mensagem = f"O jogo mais comprado é: {jogo.titulo} com {jogo.qntd_vendida} vendas."
+            lista_jogos.append({'nome': jogo.titulo, 'preco': f"{jogo.qntd_vendida} vendas."})
         else:
-            mensagem = "Nenhum jogo disponível."
-        self.__tela.mostra_mensagem(mensagem)
+            self.__tela.mostra_mensagem("Nenhum jogo disponível.")
+        mensagem = "Jogo mais comprado:"
+        self.__tela.exibir_lista_jogos(mensagem, lista_jogos)
 
     def jogos_por_genero(self):
+        lista_jogos = []
         try:
             genero = self.__tela.solicitar_genero()
             if not genero:
@@ -45,15 +50,19 @@ class ControladorJogos:
             
             jogos_gen = [jogo for jogo in self.__jogos if jogo.genero == genero]
             if jogos_gen:
-                self.__tela.mostra_mensagem("Jogos no gênero selecionado:")
                 for jogo in jogos_gen:
-                    self.__tela.mostra_mensagem(f"- {jogo.titulo} R$: {jogo.preco}")
+                    lista_jogos.append({'nome': jogo.titulo, 'preco': jogo.preco})
+                mensagem = "Jogos no gênero selecionado:"
+                self.__tela.exibir_lista_jogos(mensagem, lista_jogos)
+            else:
+                self.__tela.mostra_mensagem("Nenhum jogo desse gênero foi encontrado")
         except CamposVaziosError as e:
             self.__tela.mostra_mensagem(str(e))
         except Exception as e:
             self.__tela.mostra_mensagem(f"Erro inesperado: {str(e)}")
 
     def jogos_por_desenvolvedora(self):
+        lista_jogos = []
         try:
             desenvolvedora = self.__tela.solicitar_desenvolvedora()
             if not desenvolvedora:
@@ -61,9 +70,10 @@ class ControladorJogos:
             
             jogos_por_dev = [jogo for jogo in self.__jogos if jogo.desenvolvedora == desenvolvedora]
             if jogos_por_dev:
-                self.__tela.mostra_mensagem("Jogos da desenvolvedora selecionada:")
                 for jogo in jogos_por_dev:
-                    self.__tela.mostra_mensagem(f"- {jogo.titulo} R$: {jogo.preco}")
+                    lista_jogos.append({'nome': jogo.titulo, 'preco': jogo.preco})
+                mensagem = "Jogos da desenvolvedora selecionada:"
+                self.__tela.exibir_lista_jogos(mensagem, lista_jogos)
             else:
                 self.__tela.mostra_mensagem("Nenhum jogo encontrado para a desenvolvedora informada.")
         except CamposVaziosError as e:
@@ -72,6 +82,7 @@ class ControladorJogos:
             self.__tela.mostra_mensagem(f"Erro inesperado: {str(e)}")
 
     def jogos_por_preco(self):
+        lista_jogos = []
         try:
             preco_min, preco_max = self.__tela.solicitar_faixa_preco()
             preco_min = float(preco_min)
@@ -81,9 +92,10 @@ class ControladorJogos:
 
             jogos_preco = [jogo for jogo in self.__jogos if preco_min <= jogo.preco <= preco_max]
             if jogos_preco:
-                self.__tela.mostra_mensagem("Jogos dentro da faixa de preço selecionada:")
                 for jogo in jogos_preco:
-                    self.__tela.mostra_mensagem(f"- {jogo.titulo} (R$: {jogo.preco})")
+                    lista_jogos.append({'nome': jogo.titulo, 'preco': jogo.preco})
+                mensagem = "Jogos dentro da faixa de preço selecionada:"
+                self.__tela.exibir_lista_jogos(mensagem, lista_jogos)
             else:
                 self.__tela.mostra_mensagem("Nenhum jogo encontrado nessa faixa de preço.")
         except CamposVaziosError as e:
@@ -92,7 +104,6 @@ class ControladorJogos:
             self.__tela.mostra_mensagem(f"Erro inesperado: {str(e)}")
 
     def retornar_inicio(self):
-        self.__tela.mostra_mensagem("Retornando...")
         return
 
     def jogo(self, nome_jogo):

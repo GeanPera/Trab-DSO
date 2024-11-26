@@ -89,7 +89,6 @@ class ControladorCompra:
             self.__tela_compra.mostra_mensagem(f"Erro inesperado: {str(e)}")
 
     def voltar(self):
-        self.__tela_compra.mostra_mensagem("Retornando...")
         return
 
     def abre_tela(self):
