@@ -1,27 +1,68 @@
+import PySimpleGUI as sg
+import pygame
+
 class TelaUsuario():
+    def __init__(self):
+        self.__window = None
+        self.init_components()
     def opcoes_tela(self):
         while True:
-            print("-------- Tela Usuario ----------")
-            print("Escolha a opcao")
-            print("1 - Cadastrar Usuário")
-            print("2 - Alterar Usuário")
-            print("3 - Excluir Usuário")
-            print("4 - Adicionar Amigo")
-            print("5 - Excluir Amigo")
-            print("6 - Depositar Saldo")
-            print("7 - Meus Jogos")
-            print("8 - Meus amigos")
-            print("9 - Verificar saldo")
-            print("0 - Retornar")
+            button, values = self.__window.read()
+            opcao = 0
+            if button == '-Cadastro-':
+                opcao = 1
+            if button == '-Alterar-':
+                opcao = 2
+            if button == '-Excluir-':
+                opcao = 3
+            if button == '-Adicionar-':
+                opcao = 4
+            if button == '-Remover-':
+                opcao = 5
+            if button == '-Depositar-':
+                opcao = 6
+            if button == '-Jogos-':
+                opcao = 7
+            if button == '-Amigos-':
+                opcao = 8
+            if button == '-Saldo-':
+                opcao = 9
+            if button == sg.WIN_CLOSED  or button == 'Retornar':
+                self.som()
+                opcao = 0
+            self.close()
+            return opcao
+            
 
-            try:
-                opcao = int(input("Escolha uma opção: "))
-                if opcao > 9 or opcao < 0:
-                    raise ValueError
-                return opcao
-            except ValueError:
-                self.mostra_mensagem("Entrada inválida! Por favor, insira um número correspondente à opção.")
-
+    def init_components(self):
+        #sg.theme_previewer()
+        sg.ChangeLookAndFeel('DarkGray8')
+        
+        layout = [
+            [sg.Push(), sg.Text('Opçoes de usuário', font=('Minecraft', 25), pad=30, colors='#f7cb05'), sg.Push()],
+            [sg.Push(), sg.Button('+ Novo Cadastro', key='-Cadastro-', button_color=("White", "#1c1d1f"), size= 20, font=("Minecraft", 15), mouseover_colors="#6e6f70"), sg.Push()],
+            [sg.Push(), sg.Button('📝 Alterar Cadastro', key='-Alterar-', button_color=("White", "#1c1d1f"), size= 20, font=("Minecraft", 15), mouseover_colors="#6e6f70"), sg.Push()],
+            [sg.Push(), sg.Button('❌ Excluir Usuário', key='-Excluir-', button_color=("White", "#1c1d1f"), size= 20, font=("Minecraft", 15), mouseover_colors="#6e6f70"), sg.Push()],
+            [sg.Push(), sg.Button('👤 Adicionar Amigo', key='-Adicionar-', button_color=("White", "#1c1d1f"), size= 20, font=("Minecraft", 15), mouseover_colors="#6e6f70"), sg.Push()],
+            [sg.Push(), sg.Button('💔 Remover Amigo', key='-Remover-', button_color=("White", "#1c1d1f"), size= 20, font=("Minecraft", 15), mouseover_colors="#6e6f70"), sg.Push()],
+            [sg.Push(), sg.Button('💰 Depositar Saldo', key='-Depositar-', button_color=("White", "#1c1d1f"), size= 20, font=("Minecraft", 15), mouseover_colors="#6e6f70"), sg.Push()],
+            [sg.Push(), sg.Button('🎮 Meus Jogos', key='-Jogos-', button_color=("White", "#1c1d1f"), size= 20, font=("Minecraft", 15), mouseover_colors="#6e6f70"), sg.Push()],
+            [sg.Push(), sg.Button('👥 Meus Amigos', key='-Amigos-', button_color=("White", "#1c1d1f"), size= 20, font=("Minecraft", 15), mouseover_colors="#6e6f70"), sg.Push()],
+            [sg.Push(), sg.Button('$ Verificar Saldo', key='-Saldo-', button_color=("White", "#1c1d1f"), size= 20, font=("Minecraft", 15), mouseover_colors="#6e6f70"), sg.Push()],
+            [sg.Push(), sg.Button('↩️ Retornar', key='-Retornar-', button_color=("White", "Red"), size= 15, pad = 25, font=("Minecraft", 15)), sg.Push()]
+            
+            
+        ]
+        self.__window = sg.Window('Opções de usuário', size=(700,650)).Layout(layout)
+    
+    def close(self):
+        self.__window.Close()
+        
+    pygame.mixer.init()
+    def som(self):
+        pygame.mixer.music.load('sound.mp3')
+        pygame.mixer.music.play()
+        
     def dados_usuario(self):
         while True:
             try:
