@@ -43,8 +43,8 @@ class TelaSistema:
             [sg.Push(), sg.Text('SIN Games', font=("Minecrafter Alt", 35), colors='LightGray', pad=10), sg.Push()],
             [sg.Push(), sg.Text('Escolha uma opçao!', font=("Minecraft", 20), pad=15, colors="#f7cb05"), sg.Push()],
             [sg.Push(), sg.Button('Loja', key='-Loja-', button_color=("White", "#1c1d1f"), size= 25, font=("Minecraft", 15), mouseover_colors="#6e6f70"), sg.Push()],
-            [sg.Push(), sg.Button('⚙️ Opçoes de Usuário', key='-Opcoes-', button_color=("White", "#1c1d1f"), size = 25, font=("Minecraft", 15), mouseover_colors="#6e6f70", tooltip='Cadastre um usuário, acesse sua lista de jogos e amigos, ou realize um depósito'), sg.Push()],
-            [sg.Push(), sg.Button('📄 Relatórios', key='-Relatorios-', button_color=("White", "#1c1d1f"), size = 25, font=("Minecraft", 15), mouseover_colors="#6e6f70"), sg.Push()],
+            [sg.Push(), sg.Button('Opçoes de Usuário', key='-Opcoes-', button_color=("White", "#1c1d1f"), size = 25, font=("Minecraft", 15), mouseover_colors="#6e6f70", tooltip='Cadastre um usuário, acesse sua lista de jogos e amigos, ou realize um depósito'), sg.Push()],
+            [sg.Push(), sg.Button('Relatórios', key='-Relatorios-', button_color=("White", "#1c1d1f"), size = 25, font=("Minecraft", 15), mouseover_colors="#6e6f70"), sg.Push()],
             [sg.Push(), sg.Cancel('Encerrar sessao', button_color=("White", "Red"), pad = 25, font=("Minecraft", 15)), sg.Push()]
         ]
         self.__window = sg.Window('SIN Games', size=(600, 500), border_depth=15).Layout(layout)

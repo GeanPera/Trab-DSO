@@ -26,8 +26,8 @@ class ControladorUsuarios():
             try:
                 dados_usuario = self.__tela_usuario.dados_usuario()
                 
-                if not all(dados_usuario.values()):
-                    raise CamposVaziosError
+                #if not all(dados_usuario.values()):
+                    #raise CamposVaziosError
                 
                 for usuario in self.__usuarios:
                     if self.encontrar_usuario(dados_usuario["cpf"]):
@@ -293,15 +293,18 @@ class ControladorUsuarios():
             self.__tela_usuario.mostra_mensagem(str(e))
             
     def retornar(self):
-        self.__tela_usuario.mostra_mensagem("Retornando ao menu principal...")
         return
 
     def abre_tela(self):
-        lista_opcoes = {1: self.cadastrar, 2: self.alterar_usuario, 3: self.excluir_usuario, 4: self.adicionar_amigo, 5: self.excluir_amigo, 6: self.depositar_saldo, 7: self.meus_jogos, 8: self.mostrar_amigos, 9: self.verificar_saldo, 0: self.retornar}
+        lista_opcoes = {1: self.cadastrar, 2: self.alterar_usuario, 3: self.excluir_usuario, 4: self.adicionar_amigo, 5: self.excluir_amigo, 
+                        6: self.depositar_saldo, 7: self.meus_jogos, 8: self.mostrar_amigos, 9: self.verificar_saldo, 0: self.retornar}
 
-        continua = True
-        while continua:
+        while True:
             opcao = self.__tela_usuario.opcoes_tela()
-            lista_opcoes[opcao]()
-            if opcao == 0:
-                break
+            try:
+                opcao_escolhida = lista_opcoes[opcao]
+                opcao_escolhida()
+                if opcao == 0:
+                    break
+            except KeyError:
+                self.__tela_usuario.mostra_mensagem("Opção inválida")
