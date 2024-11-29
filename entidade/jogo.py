@@ -3,7 +3,7 @@ from entidade.usuario import Usuario
 
 
 class Jogo():
-    def __init__(self, titulo: str, genero, desenvolvedora: Desenvolvedora, faixa_etaria: int, descricao: str, preco: int, qntd_vendida: int):
+    def __init__(self, titulo: str, genero, desenvolvedora: Desenvolvedora, faixa_etaria: int, descricao: str, preco: int, qntd_vendida: int, imagem):
         self.__titulo = titulo
         self.__genero = genero
         self.__desenvolvedora = desenvolvedora
@@ -11,6 +11,7 @@ class Jogo():
         self.__descricao = descricao
         self.__preco = preco
         self.__qntd_vendida = qntd_vendida
+        self.__imagem = imagem
 
     @property
     def titulo(self):
@@ -63,3 +64,11 @@ class Jogo():
     @qntd_vendida.setter
     def qntd_vendida(self, qntd_vendida):
         self.__qntd_vendida = qntd_vendida
+
+    @property
+    def imagem(self):
+        return self.__imagem
+
+    @imagem.setter
+    def imagem(self, imagem):
+        self.__imagem = imagem
