@@ -8,7 +8,7 @@ class ControladorCompra:
 
     def comprar(self, jogo):
         jogo_escolhido = self.__controlador_sistema.controlador_jogos.jogo(jogo)
-
+        print(jogo_escolhido.titulo, jogo_escolhido.preco)
         try:
             nickname = self.__tela_compra.pede_nickname("Qual seu Nickname? ")
             usuario = self.__controlador_sistema.controlador_usuarios.encontrar_usuario(nickname)
@@ -72,18 +72,12 @@ class ControladorCompra:
         except Exception as e:
             self.__tela_compra.mostra_mensagem(f"Erro inesperado ao presentear: {str(e)}")
 
-    def voltar(self):
-        return
-
     def abre_tela(self, jogo):
-        lista_opcoes = {1: self.comprar(jogo), 2: self.presentear(jogo), 0: self.voltar}
-
         while True:
             opcao_escolhida = self.__tela_compra.opcao_compra()
-            try:
-                funcao_escolhida = lista_opcoes[opcao_escolhida]
-                funcao_escolhida()
-                if opcao_escolhida == 0:
-                    break
-            except KeyError:
-                self.__tela_compra.mostra_mensagem("Opção inválida. Tente novamente.")
+            if opcao_escolhida == 1:
+                self.comprar(jogo)
+            if opcao_escolhida == 2:
+                self.presentear(jogo)
+            if opcao_escolhida == 0:
+                return

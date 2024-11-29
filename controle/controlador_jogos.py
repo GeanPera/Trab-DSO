@@ -45,17 +45,18 @@ class ControladorJogos:
         lista_jogos = []
         try:
             genero = self.__tela.solicitar_genero()
-            if not genero:
-                raise CamposVaziosError
-            
-            jogos_gen = [jogo for jogo in self.__jogos if jogo.genero == genero]
-            if jogos_gen:
-                for jogo in jogos_gen:
-                    lista_jogos.append({'nome': jogo.titulo, 'preco': jogo.preco, 'imagem': jogo.imagem})
-                mensagem = "Jogos no gênero selecionado:"
-                self.exibir_comprar(mensagem, lista_jogos)
-            else:
-                self.__tela.mostra_mensagem("Nenhum jogo desse gênero foi encontrado")
+            if genero != None:
+                if not genero:
+                    raise CamposVaziosError
+                
+                jogos_gen = [jogo for jogo in self.__jogos if jogo.genero == genero]
+                if jogos_gen:
+                    for jogo in jogos_gen:
+                        lista_jogos.append({'nome': jogo.titulo, 'preco': jogo.preco, 'imagem': jogo.imagem})
+                    mensagem = "Jogos no gênero selecionado:"
+                    self.exibir_comprar(mensagem, lista_jogos)
+                else:
+                    self.__tela.mostra_mensagem("Nenhum jogo desse gênero foi encontrado")
         except CamposVaziosError as e:
             self.__tela.mostra_mensagem(str(e))
         except Exception as e:
@@ -65,17 +66,18 @@ class ControladorJogos:
         lista_jogos = []
         try:
             desenvolvedora = self.__tela.solicitar_desenvolvedora()
-            if not desenvolvedora:
-                raise CamposVaziosError
-            
-            jogos_por_dev = [jogo for jogo in self.__jogos if jogo.desenvolvedora == desenvolvedora]
-            if jogos_por_dev:
-                for jogo in jogos_por_dev:
-                    lista_jogos.append({'nome': jogo.titulo, 'preco': jogo.preco, 'imagem': jogo.imagem})
-                mensagem = "Jogos da desenvolvedora selecionada:"
-                self.exibir_comprar(mensagem, lista_jogos)
-            else:
-                self.__tela.mostra_mensagem("Nenhum jogo encontrado para a desenvolvedora informada.")
+            if desenvolvedora != None:
+                if not desenvolvedora:
+                    raise CamposVaziosError
+                
+                jogos_por_dev = [jogo for jogo in self.__jogos if jogo.desenvolvedora == desenvolvedora]
+                if jogos_por_dev:
+                    for jogo in jogos_por_dev:
+                        lista_jogos.append({'nome': jogo.titulo, 'preco': jogo.preco, 'imagem': jogo.imagem})
+                    mensagem = "Jogos da desenvolvedora selecionada:"
+                    self.exibir_comprar(mensagem, lista_jogos)
+                else:
+                    self.__tela.mostra_mensagem("Nenhum jogo encontrado para a desenvolvedora informada.")
         except CamposVaziosError as e:
             self.__tela.mostra_mensagem(str(e))
         except Exception as e:
@@ -85,19 +87,20 @@ class ControladorJogos:
         lista_jogos = []
         try:
             preco_min, preco_max = self.__tela.solicitar_faixa_preco()
-            preco_min = float(preco_min)
-            preco_max = float(preco_max)
-            if not preco_min or not preco_max:
-                raise CamposVaziosError
+            if preco_min != None:
+                preco_min = float(preco_min)
+                preco_max = float(preco_max)
+                if not preco_min or not preco_max:
+                    raise CamposVaziosError
 
-            jogos_preco = [jogo for jogo in self.__jogos if preco_min <= jogo.preco <= preco_max]
-            if jogos_preco:
-                for jogo in jogos_preco:
-                    lista_jogos.append({'nome': jogo.titulo, 'preco': jogo.preco, 'imagem': jogo.imagem})
-                mensagem = "Jogos dentro da faixa de preço selecionada:"
-                self.exibir_comprar(mensagem, lista_jogos)
-            else:
-                self.__tela.mostra_mensagem("Nenhum jogo encontrado nessa faixa de preço.")
+                jogos_preco = [jogo for jogo in self.__jogos if preco_min <= jogo.preco <= preco_max]
+                if jogos_preco:
+                    for jogo in jogos_preco:
+                        lista_jogos.append({'nome': jogo.titulo, 'preco': jogo.preco, 'imagem': jogo.imagem})
+                    mensagem = "Jogos dentro da faixa de preço selecionada:"
+                    self.exibir_comprar(mensagem, lista_jogos)
+                else:
+                    self.__tela.mostra_mensagem("Nenhum jogo encontrado nessa faixa de preço.")
         except CamposVaziosError as e:
             self.__tela.mostra_mensagem(str(e))
         except Exception as e:
@@ -105,7 +108,10 @@ class ControladorJogos:
 
     def exibir_comprar(self, mensagem, lista_jogos):
         jogo = self.__tela.exibir_lista_jogos(mensagem, lista_jogos)
-        self.__controlador_sistema.controlador_compra.abre_tela(jogo)
+        if jogo == '-Retornar-':
+            return
+        else:
+            self.__controlador_sistema.controlador_compra.abre_tela(jogo)
     def retornar_inicio(self):
         return
 
@@ -168,10 +174,9 @@ class ControladorJogos:
                         4: self.jogos_por_desenvolvedora, 5: self.jogos_por_preco, 0: self.retornar_inicio}
         while True:
             opcao_menu = self.__tela.exibir_menu()
-            try:
-                funcao_menu = opcoes_menu[opcao_menu]
-                funcao_menu()
-                if opcao_menu == 0:
-                    break
-            except KeyError:
-                self.__tela.mostra_mensagem("Opção inválida. Tente novamente.")
+
+            funcao_menu = opcoes_menu[opcao_menu]
+            funcao_menu()
+            if opcao_menu == 0:
+                break
+
