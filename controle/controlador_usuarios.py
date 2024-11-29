@@ -3,6 +3,7 @@ from entidade.usuario import Usuario
 from exceptions.campo_vazio_exception import CamposVaziosError
 from exceptions.amigo_repetido_exception import AmigoRepetidoError
 from exceptions.usuario_nao_encontrado_exception import UsuarioNaoEncontradoError
+from exceptions.campo_ja_utilizado_exception import DadoJaUtilizadoError
 
 class ControladorUsuarios():
     def __init__(self, controlador_sistema):
@@ -26,25 +27,22 @@ class ControladorUsuarios():
             try:
                 dados_usuario = self.__tela_usuario.dados_usuario()
                 
-                #if not all(dados_usuario.values()):
-                    #raise CamposVaziosError
+                if not all(dados_usuario.values()):
+                    raise CamposVaziosError
                 
                 for usuario in self.__usuarios:
                     if self.encontrar_usuario(dados_usuario["cpf"]):
                         mensagem = "CPF já utilizado!"
-                        self.__tela_usuario.mostra_mensagem(mensagem)
-                        return
+                        raise DadoJaUtilizadoError(mensagem)
 
                     elif usuario.email == dados_usuario["email"]: 
                         mensagem = "E-mail já utilizado!"
-                        self.__tela_usuario.mostra_mensagem(mensagem)
-                        return
+                        raise DadoJaUtilizadoError(mensagem)
 
                     elif usuario.nickname == dados_usuario["nickname"]:
                         mensagem = "Nickname já utilizado!"
-                        self.__tela_usuario.mostra_mensagem(mensagem)
-                        return
-                    
+                        raise DadoJaUtilizadoError(mensagem)
+
                 if len(dados_usuario["nickname"]) < 4:
                     mensagem = "Seu nickname precisa ter pelo menos 4 caracteres"
                     self.__tela_usuario.mostra_mensagem(mensagem)
@@ -56,6 +54,9 @@ class ControladorUsuarios():
                 return
             
             except CamposVaziosError as mensagem:
+                self.__tela_usuario.mostra_mensagem(str(mensagem))
+                
+            except DadoJaUtilizadoError as mensagem:
                 self.__tela_usuario.mostra_mensagem(str(mensagem))
 
     def alterar_usuario(self):
