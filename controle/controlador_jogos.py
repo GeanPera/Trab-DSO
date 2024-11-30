@@ -43,45 +43,47 @@ class ControladorJogos:
 
     def jogos_por_genero(self):
         lista_jogos = []
-        try:
-            genero = self.__tela.solicitar_genero()
-            if genero != None:
-                if not genero:
-                    raise CamposVaziosError
-                
-                jogos_gen = [jogo for jogo in self.__jogos if jogo.genero == genero]
-                if jogos_gen:
-                    for jogo in jogos_gen:
-                        lista_jogos.append({'nome': jogo.titulo, 'preco': jogo.preco, 'imagem': jogo.imagem})
-                    mensagem = "Jogos no gênero selecionado:"
-                    self.exibir_comprar(mensagem, lista_jogos)
-                else:
-                    self.__tela.mostra_mensagem("Nenhum jogo desse gênero foi encontrado")
-        except CamposVaziosError as e:
-            self.__tela.mostra_mensagem(str(e))
-        except Exception as e:
-            self.__tela.mostra_mensagem(f"Erro inesperado: {str(e)}")
+        generos = self.generos()
+
+        genero = self.__tela.solicitar_genero(generos)
+        if genero != None:
+            jogos_gen = [jogo for jogo in self.__jogos if jogo.genero == genero]
+            if jogos_gen:
+                for jogo in jogos_gen:
+                    lista_jogos.append({'nome': jogo.titulo, 'preco': jogo.preco, 'imagem': jogo.imagem})
+                mensagem = "Jogos no gênero selecionado:"
+                self.exibir_comprar(mensagem, lista_jogos)
+        else:
+            return None
+
+    def generos(self):
+        generos = []
+        for jogo in self.__jogos:
+            if jogo.genero not in generos:
+                generos.append(jogo.genero)
+        return generos
 
     def jogos_por_desenvolvedora(self):
         lista_jogos = []
-        try:
-            desenvolvedora = self.__tela.solicitar_desenvolvedora()
-            if desenvolvedora != None:
-                if not desenvolvedora:
-                    raise CamposVaziosError
-                
-                jogos_por_dev = [jogo for jogo in self.__jogos if jogo.desenvolvedora == desenvolvedora]
-                if jogos_por_dev:
-                    for jogo in jogos_por_dev:
-                        lista_jogos.append({'nome': jogo.titulo, 'preco': jogo.preco, 'imagem': jogo.imagem})
-                    mensagem = "Jogos da desenvolvedora selecionada:"
-                    self.exibir_comprar(mensagem, lista_jogos)
-                else:
-                    self.__tela.mostra_mensagem("Nenhum jogo encontrado para a desenvolvedora informada.")
-        except CamposVaziosError as e:
-            self.__tela.mostra_mensagem(str(e))
-        except Exception as e:
-            self.__tela.mostra_mensagem(f"Erro inesperado: {str(e)}")
+        desenvolvedoras = self.desenvolvedoras()
+
+        desenvolvedora = self.__tela.solicitar_desenvolvedora(desenvolvedoras)
+        if desenvolvedora != None:
+            jogos_por_dev = [jogo for jogo in self.__jogos if jogo.desenvolvedora == desenvolvedora]
+            if jogos_por_dev:
+                for jogo in jogos_por_dev:
+                    lista_jogos.append({'nome': jogo.titulo, 'preco': jogo.preco, 'imagem': jogo.imagem})
+                mensagem = "Jogos da desenvolvedora selecionada:"
+                self.exibir_comprar(mensagem, lista_jogos)
+        else:
+            return None
+
+    def desenvolvedoras(self):
+        desenvolvedoras = []
+        for jogo in self.__jogos:
+            if jogo.desenvolvedora not in desenvolvedoras:
+                desenvolvedoras.append(jogo.desenvolvedora)
+        return desenvolvedoras
 
     def jogos_por_preco(self):
         lista_jogos = []
@@ -134,7 +136,7 @@ class ControladorJogos:
 
         for desenvolvedora, jogos in jogos_por_desenvolvedora.items():
             receita_dev = 0
-            relatorios.append(f"\nDesenvolvedora: {desenvolvedora}")
+            relatorios.append(f"Desenvolvedora: {desenvolvedora}")
             for jogo in jogos:
                 receita_jogo = jogo.preco * jogo.qntd_vendida
                 receita_dev += receita_jogo

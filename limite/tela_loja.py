@@ -50,42 +50,66 @@ class TelaLoja:
         ]
         self.__window = sg.Window('Menu da Loja', border_depth=15).Layout(layout)
 
-    def solicitar_genero(self):
+    def solicitar_genero(self, generos):
         sg.ChangeLookAndFeel('DarkGray8')
-        layout = [
-            [sg.Push(), sg.Text('Insira o Gênero!', font=('Minecraft', 25), pad=15, colors='White'), sg.Push()],
-            [sg.Text('Gênero:', font=('Minecraft', 15), pad=6, colors='LightGray'), sg.InputText('', key='-gen-', background_color='Gray', size=100, text_color='Black')],
-            [sg.Push(),sg.Button('Confirmar', pad=10, key='-confirmar-', button_color=('White', 'DarkGreen'), size=30, font=("Minecraft", 15)), sg.Cancel('Retornar', key='-Retornar-', button_color=("White", "Red"), pad = 10, font=("Minecraft", 15)), sg.Push()]
+        gen_layout = [
+            [sg.Radio(genero, "RD1", key=genero, font=('Minecraft', 15), pad=0, text_color='LightGray')]
+            for genero in generos
         ]
-        self.__window = sg.Window('Solicitar gen', size=(600, 500), border_depth=15).Layout(layout)
+
+        layout = [
+            [sg.Text('Generos disponiveis:', font=('Minecraft', 15), pad=3, colors='LightGray')],
+            [sg.Column(gen_layout, scrollable=True, vertical_scroll_only=True, size=(400, 450), pad=(0, 1))],
+            [sg.Push(),sg.Button('Confirmar', pad=10, key='-confirmar-', button_color=('White', 'DarkGreen'), font=("Minecraft", 15)), 
+            sg.Cancel('Retornar', key='-Retornar-', button_color=("White", "Red"), pad = 10, font=("Minecraft", 15))]
+        ]
+        self.__window = sg.Window('Solicitar Gen', size=(400, 600), border_depth=15).Layout(layout)
 
         button, values = self.open()
-        genero = values['-gen-']
         self.som()
         self.close()
-        if button == '-confirmar-':
+        for value in values:
+            if values[value] == True:
+                genero = value
+                break
+            else:
+                genero = None
+
+        if button == '-Retornar-' or (button == '-Confirmar-' and genero == None):
+            return None
+        else:
             return genero
-        elif button == '-Retornar-':
-            return None
-        
-    def solicitar_desenvolvedora(self):
+
+    def solicitar_desenvolvedora(self, desenvolvedoras):
         sg.ChangeLookAndFeel('DarkGray8')
-        layout = [
-            [sg.Push(), sg.Text('Insira a Desenvolvedora!', font=('Minecraft', 25), pad= 15, colors='White'), sg.Push()],
-            [sg.Text('Desenvolvedora:', font=('Minecraft', 15), pad=6, colors='LightGray'), sg.InputText('', key='-dev-', background_color='Gray', size=100, text_color='Black')],
-            [sg.Push(),sg.Button('Confirmar', pad=10, key='-confirmar-', button_color=('White', 'DarkGreen'), size=30, font=("Minecraft", 15)), sg.Cancel('Retornar', key='-Retornar-', button_color=("White", "Red"), pad = 10, font=("Minecraft", 15)), sg.Push()]
+        devs_layout = [
+            [sg.Radio(desenvolvedora, "RD1", key=desenvolvedora, font=('Minecraft', 15), pad=0, text_color='LightGray')]
+            for desenvolvedora in desenvolvedoras
         ]
-        self.__window = sg.Window('Solicitar Dev', size=(600, 500), border_depth=15).Layout(layout)
+
+        layout = [
+            [sg.Text('Desenvolvedoras disponiveis:', font=('Minecraft', 15), pad=3, colors='LightGray')],
+            [sg.Column(devs_layout, scrollable=True, vertical_scroll_only=True, size=(400, 450), pad=(0, 1))],
+            [sg.Push(),sg.Button('Confirmar', pad=10, key='-confirmar-', button_color=('White', 'DarkGreen'), font=("Minecraft", 15)), 
+            sg.Cancel('Retornar', key='-Retornar-', button_color=("White", "Red"), pad = 10, font=("Minecraft", 15))]
+        ]
+        self.__window = sg.Window('Solicitar Dev', size=(400, 600), border_depth=15).Layout(layout)
 
         button, values = self.open()
-        desenvolvedora = values['-dev-']
-        
+        print(button, values)
         self.som()
         self.close()
-        if button == '-confirmar-':
-            return desenvolvedora
-        elif button == '-Retornar-':
+        for value in values:
+            if values[value] == True:
+                desenvolvedora = value
+                break
+            else:
+                desenvolvedora = None
+
+        if button == '-Retornar-' or (button == '-Confirmar-' and desenvolvedora == None):
             return None
+        else:
+            return desenvolvedora
 
     def solicitar_faixa_preco(self):
         sg.ChangeLookAndFeel('DarkGray8')
@@ -111,16 +135,25 @@ class TelaLoja:
     def exibir_lista_jogos(self, mensagem, jogos):
         sg.ChangeLookAndFeel('DarkGray8')
         jogos_layout = [
-            [sg.Image(filename= jogo['imagem'], size=(115, 54), pad=(10)), sg.Text(f"{jogo['nome']} - R$: {jogo['preco']}", font=('Minecraft', 15), colors='LightGray'),sg.Push(),sg.Button('Comprar', key=f'{jogo['nome']}', button_color=('White', 'DarkGreen'), font=("Minecraft", 15))]
+            [sg.Image(filename= jogo['imagem'], size=(115, 54), pad=(10)),
+             sg.Text(f"{jogo['nome']} - R$: {jogo['preco']}", font=('Minecraft', 15), colors='LightGray'),
+             sg.Push(),
+             sg.Button('Comprar', key=f'{jogo['nome']}', button_color=('White', 'DarkGreen'), font=("Minecraft", 15))]
             for jogo in jogos
         ]
 
+        jogos_count = len(jogos)
+        altura_base = 175
+        altura_por_jogo = 60
+        altura_max = 600
+        altura_dinamica = min(altura_base + jogos_count * altura_por_jogo, altura_max)
+
         layout = [
             [sg.Text(mensagem, font=('Minecraft', 15), pad=6, colors='LightGray')],
-            [sg.Column(jogos_layout, scrollable=True, vertical_scroll_only=True, size=(800, 450))],
+            [sg.Column(jogos_layout, scrollable=True, vertical_scroll_only=True, size=(800, (altura_dinamica - 150)))],
             [sg.Push(), sg.Cancel('Retornar', key='-Retornar-', button_color=("White", "Red"), pad = 10, font=("Minecraft", 15))]
         ]
-        self.__window = sg.Window('Lista de Jogos', size=(800, 600), border_depth=15).Layout(layout)
+        self.__window = sg.Window('Lista de Jogos', size=(800, altura_dinamica), border_depth=15).Layout(layout)
 
         button, values = self.open()
         self.som()
