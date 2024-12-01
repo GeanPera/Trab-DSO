@@ -8,7 +8,6 @@ class ControladorCompra:
 
     def comprar(self, jogo):
         jogo_escolhido = self.__controlador_sistema.controlador_jogos.jogo(jogo)
-        print(jogo_escolhido.titulo, jogo_escolhido.preco)
         try:
             nickname = self.__tela_compra.pede_nickname("Qual seu Nickname? ")
             usuario = self.__controlador_sistema.controlador_usuarios.encontrar_usuario(nickname)
@@ -61,7 +60,6 @@ class ControladorCompra:
             if amigo.idade < jogo_escolhido.faixa_etaria:
                 raise ValueError(f"{amigo.nickname} não possui idade suficiente para receber esse jogo!")
 
-            # Presentear o amigo caso todas as condições sejam atendidas
             self.__controlador_sistema.controlador_usuarios.presentear_amigo(jogo_escolhido, amigo, usuario)
             self.__tela_compra.mostra_mensagem(f"Presente enviado com sucesso. Saldo atual: {usuario.saldo}")
 
@@ -73,8 +71,9 @@ class ControladorCompra:
             self.__tela_compra.mostra_mensagem(f"Erro inesperado ao presentear: {str(e)}")
 
     def abre_tela(self, jogo):
+        jogo_escolhido = self.__controlador_sistema.controlador_jogos.jogo(jogo)
         while True:
-            opcao_escolhida = self.__tela_compra.opcao_compra()
+            opcao_escolhida = self.__tela_compra.opcao_compra(jogo_escolhido)
             if opcao_escolhida == 1:
                 self.comprar(jogo)
             if opcao_escolhida == 2:

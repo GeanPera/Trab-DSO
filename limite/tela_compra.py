@@ -3,8 +3,8 @@ import pygame
 
 
 class TelaCompra:
-    def opcao_compra(self):
-        self.init_components()
+    def opcao_compra(self, jogo):
+        self.init_components(jogo)
         button, values = self.__window.Read()
         opcao = 0
         if button == '-Comprar-':
@@ -24,11 +24,11 @@ class TelaCompra:
     def som(self):
         pygame.mixer.music.load('sound.mp3')
         pygame.mixer.music.play()
-    def init_components(self):
-        #sg.theme_previewer()
+    def init_components(self, jogo):
         sg.ChangeLookAndFeel('DarkGray8')
         layout = [
             [sg.Push(), sg.Text('Opçoes de Compra', font=('Minecraft', 25), pad=30, colors='White'), sg.Push()],
+            [sg.Push(), sg.Image(filename=jogo.imagem, size=(170, 80), pad=(5)), sg.Text(jogo.titulo, font=('Minecraft', 15), text_color='LightGray'), sg.Push()], 
             [sg.Push(), sg.Text('Escolha uma opçao!', font=("Minecraft", 20), pad=15, colors="#f7cb05"), sg.Push()],
             [sg.Push(), sg.Button('Comprar', key='-Comprar-', button_color=("White", "#1c1d1f"), size = 25, font=("Minecraft", 15), mouseover_colors="#6e6f70"), sg.Push()],
             [sg.Push(), sg.Button('Presentear', key='-Presentear-', button_color=("White", "#1c1d1f"), size = 25, font=("Minecraft", 15), mouseover_colors="#6e6f70"), sg.Push()],
@@ -67,22 +67,6 @@ class TelaCompra:
         self.som()
         self.close()
         return senha
-
-    def solicitar_jogo(self, mensagem):
-        sg.ChangeLookAndFeel('DarkGray8')
-        layout = [
-            [sg.Text(mensagem, font=('Minecraft', 15), pad=6, colors='LightGray')],
-            [sg.InputText('', key='jogo', background_color='Gray', size=100, text_color='Black')],
-            [sg.Button('Confirmar', pad=10, key='-confirmar-', button_color=('White', 'DarkGreen'), size=30, font=("Minecraft", 15))]
-        ]
-        self.__window = sg.Window('Sistema de Jogos').Layout(layout)
-
-        button, values = self.open()
-        jogo = values['jogo']
-
-        self.som()
-        self.close()
-        return jogo
 
     def mostra_mensagem(self, msg):
         sg.popup("", msg)

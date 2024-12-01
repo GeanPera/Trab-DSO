@@ -135,25 +135,33 @@ class TelaLoja:
     def exibir_lista_jogos(self, mensagem, jogos):
         sg.ChangeLookAndFeel('DarkGray8')
         jogos_layout = [
-            [sg.Image(filename= jogo['imagem'], size=(115, 54), pad=(10)),
-             sg.Text(f"{jogo['nome']} - R$: {jogo['preco']}", font=('Minecraft', 15), colors='LightGray'),
-             sg.Push(),
-             sg.Button('Comprar', key=f'{jogo['nome']}', button_color=('White', 'DarkGreen'), font=("Minecraft", 15))]
+            [
+                sg.Image(filename=jogo['imagem'], size=(170, 80), pad=(5)),  # Imagem do jogo
+                sg.Column(
+                    [
+                        [sg.Text(f"{jogo['texto']}", font=('Minecraft', 15), text_color='LightGray', pad=(0, 0))],
+                        [sg.Text(jogo['descricao'], font=('Minecraft', 12), text_color='LightGray', pad=(0, 0))],
+                    ],
+                    vertical_alignment='top',
+                    pad=(0, 0),
+                ),
+                sg.Push(),
+                sg.Button('Comprar', key=f'{jogo["nome"]}', button_color=('White', 'DarkGreen'), font=("Minecraft", 15),pad=(10, 10))
+            ]
             for jogo in jogos
         ]
-
         jogos_count = len(jogos)
         altura_base = 175
-        altura_por_jogo = 60
+        altura_por_jogo = 80
         altura_max = 600
         altura_dinamica = min(altura_base + jogos_count * altura_por_jogo, altura_max)
 
         layout = [
-            [sg.Text(mensagem, font=('Minecraft', 15), pad=6, colors='LightGray')],
-            [sg.Column(jogos_layout, scrollable=True, vertical_scroll_only=True, size=(800, (altura_dinamica - 150)))],
+            [sg.Text(mensagem, font=('Minecraft', 15), pad=(6, 10), colors='LightGray')],
+            [sg.Column(jogos_layout, scrollable=True, vertical_scroll_only=True, size=(860, (altura_dinamica - 150)))],
             [sg.Push(), sg.Cancel('Retornar', key='-Retornar-', button_color=("White", "Red"), pad = 10, font=("Minecraft", 15))]
         ]
-        self.__window = sg.Window('Lista de Jogos', size=(800, altura_dinamica), border_depth=15).Layout(layout)
+        self.__window = sg.Window('Lista de Jogos', size=(860, altura_dinamica), border_depth=15).Layout(layout)
 
         button, values = self.open()
         self.som()

@@ -16,7 +16,7 @@ class ControladorJogos:
     def listar_jogos(self):
         lista_jogos = []
         for jogo in self.__jogos:
-            lista_jogos.append({'nome': jogo.titulo, 'preco': jogo.preco, 'imagem': jogo.imagem})
+                lista_jogos.append({'nome': f'{jogo.titulo}', 'texto': f"{jogo.titulo} - R$: {jogo.preco}", 'descricao': jogo.descricao, 'imagem': jogo.imagem})
         mensagem = "Todos os Jogos:"
         self.exibir_comprar(mensagem, lista_jogos)
 
@@ -35,7 +35,7 @@ class ControladorJogos:
         # Retorna o primeiro jogo da lista ordenada (com a maior quantidade de vendas)
         jogo = jogos_ordenados[0] if jogos_ordenados else None
         if jogo:
-            lista_jogos.append({'nome': jogo.titulo, 'preco': f"{jogo.qntd_vendida} vendas.", 'imagem': jogo.imagem})
+            lista_jogos.append({'nome': f'{jogo.titulo}', 'texto': f'{jogo.titulo} - R$: {jogo.preco} - {jogo.qntd_vendida} vendas', 'descricao': jogo.descricao, 'imagem': jogo.imagem})
         else:
             self.__tela.mostra_mensagem("Nenhum jogo disponível.")
         mensagem = "Jogo mais comprado:"
@@ -50,7 +50,7 @@ class ControladorJogos:
             jogos_gen = [jogo for jogo in self.__jogos if jogo.genero == genero]
             if jogos_gen:
                 for jogo in jogos_gen:
-                    lista_jogos.append({'nome': jogo.titulo, 'preco': jogo.preco, 'imagem': jogo.imagem})
+                    lista_jogos.append({'nome': f'{jogo.titulo}', 'texto': f"{jogo.titulo} - R$: {jogo.preco}", 'descricao': jogo.descricao, 'imagem': jogo.imagem})
                 mensagem = "Jogos no gênero selecionado:"
                 self.exibir_comprar(mensagem, lista_jogos)
         else:
@@ -72,7 +72,7 @@ class ControladorJogos:
             jogos_por_dev = [jogo for jogo in self.__jogos if jogo.desenvolvedora == desenvolvedora]
             if jogos_por_dev:
                 for jogo in jogos_por_dev:
-                    lista_jogos.append({'nome': jogo.titulo, 'preco': jogo.preco, 'imagem': jogo.imagem})
+                    lista_jogos.append({'nome': f'{jogo.titulo}', 'texto': f"{jogo.titulo} - R$: {jogo.preco}", 'descricao': jogo.descricao, 'imagem': jogo.imagem})
                 mensagem = "Jogos da desenvolvedora selecionada:"
                 self.exibir_comprar(mensagem, lista_jogos)
         else:
@@ -98,7 +98,7 @@ class ControladorJogos:
                 jogos_preco = [jogo for jogo in self.__jogos if preco_min <= jogo.preco <= preco_max]
                 if jogos_preco:
                     for jogo in jogos_preco:
-                        lista_jogos.append({'nome': jogo.titulo, 'preco': jogo.preco, 'imagem': jogo.imagem})
+                        lista_jogos.append({'nome': f'{jogo.titulo}', 'texto': jogo.titulo, 'preco': jogo.preco, 'descricao': jogo.descricao, 'imagem': jogo.imagem})
                     mensagem = "Jogos dentro da faixa de preço selecionada:"
                     self.exibir_comprar(mensagem, lista_jogos)
                 else:
