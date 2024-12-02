@@ -90,7 +90,7 @@ class TelaUsuario():
             if event == '-confirmar-':
                 nome = values['-nome-']
                 nick = values['-nick-']
-                idade = values['-idade-']
+                idade = int(values['-idade-'])
                 email = values['-email-']
                 endereco = values['-endereco-']
                 senha = values['-senha-']

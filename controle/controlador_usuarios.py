@@ -4,22 +4,25 @@ from exceptions.campo_vazio_exception import CamposVaziosError
 from exceptions.amigo_repetido_exception import AmigoRepetidoError
 from exceptions.usuario_nao_encontrado_exception import UsuarioNaoEncontradoError
 from exceptions.campo_ja_utilizado_exception import DadoJaUtilizadoError
+import pickle
+from DAOs.usuario_dao import UsuarioDAO
 
 class ControladorUsuarios():
     def __init__(self, controlador_sistema):
-        self.__usuarios = []
+        self.__usuarios_dao = UsuarioDAO()
         self.__tela_usuario = TelaUsuario()
         self.__controlador_sistema = controlador_sistema
+
 
     @property
     def usuarios(self):
         return self.__usuarios
     
     def encontrar_usuario(self, nickname):
-        for usuario in self.__usuarios:
+        for usuario in self.__usuarios_dao.get_all():
             if usuario.nickname == nickname:
                 return usuario
-        return False
+        return None
 
 
     def cadastrar(self):
@@ -33,7 +36,7 @@ class ControladorUsuarios():
                 if not all(dados_usuario.values()):
                     raise CamposVaziosError
                 
-                for usuario in self.__usuarios:
+                for usuario in self.__usuarios_dao.get_all():
                     if self.encontrar_usuario(dados_usuario["cpf"]):
                         mensagem = "CPF já utilizado!"
                         raise DadoJaUtilizadoError(mensagem)
@@ -52,7 +55,7 @@ class ControladorUsuarios():
                     return
 
                 novo_usuario = Usuario(dados_usuario["nome"], dados_usuario["nickname"], dados_usuario["idade"], dados_usuario["email"], dados_usuario["endereco"], dados_usuario["senha"], dados_usuario["cpf"], 0)
-                self.__usuarios.append(novo_usuario)
+                self.__usuarios_dao.add(novo_usuario)
                 self.__tela_usuario.mostra_mensagem("O usuário foi cadastrado com sucesso!")
                 return
             
@@ -100,6 +103,7 @@ class ControladorUsuarios():
                         usuario_encontrado.email = novos_dados.get("email", usuario_encontrado.email)
                         usuario_encontrado.endereco = novos_dados.get("endereco", usuario_encontrado.endereco)
                         usuario_encontrado.senha = novos_dados.get("senha", usuario_encontrado.senha)
+                        self.__usuarios_dao.update(usuario_encontrado)
                         self.__tela_usuario.mostra_mensagem("Dados do usuário alterados com sucesso!")
                         return
                 else:
@@ -112,8 +116,7 @@ class ControladorUsuarios():
     def excluir_usuario(self):
         while True:
             try:
-                mensagem = "Insira seu nickname: "
-                nick_usuario = self.__tela_usuario.pede_nickname(mensagem)
+                nick_usuario = self.__tela_usuario.pede_nickname()
                 
                 if nick_usuario == 0:
                     return
@@ -128,7 +131,7 @@ class ControladorUsuarios():
                 senha = self.__tela_usuario.pede_senha()
                 if usuario.senha == senha:
                     self.__tela_usuario.mostra_mensagem(f"O usuário {usuario.nickname} foi excluído com sucesso!")
-                    self.usuarios.remove(usuario)
+                    self.__usuarios_dao.remove(usuario)
                 else:
                     self.__tela_usuario.mostra_mensagem("Senha Incorreta!")
                 
@@ -263,6 +266,7 @@ class ControladorUsuarios():
                 return
             
             usuario.saldo += valor
+            self.__usuarios_dao.update(usuario)
             self.__tela_usuario.mostra_mensagem(f"Depósito realizado! Seu saldo atual: R${usuario.saldo:.2f}")
         except UsuarioNaoEncontradoError as e:
             self.__tela_usuario.mostra_mensagem(str(e))
@@ -297,6 +301,7 @@ class ControladorUsuarios():
                 return None
         usuario.jogos.append(jogo)
         usuario.saldo -= jogo.preco
+        self.__usuarios_dao.update(usuario)
         return 
 
     def presentear_amigo(self, jogo, amigo, usuario):
@@ -309,7 +314,7 @@ class ControladorUsuarios():
 
     def relatorio_usuarios(self):
         relatorios = []
-        for usuario in self.__usuarios:
+        for usuario in self.__usuarios_dao.get_all():
             total_gasto = sum(jogo.preco for jogo in usuario.jogos)
             amigos = [amigo.nickname for amigo in usuario.amigos]
             relatorios.append(f"Nome: {usuario.nome}, Nickname: {usuario.nickname}, Idade: {usuario.idade}, Saldo: {usuario.saldo}, Quantidade de Jogos Comprados: {len(usuario.jogos)}, Total Gasto: {total_gasto}, Amigos: {', '.join(amigos) if amigos else 'Sem amigos'}")
