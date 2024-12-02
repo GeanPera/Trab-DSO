@@ -84,8 +84,28 @@ class TelaUsuario():
         pygame.mixer.music.play()
         
     def dados_usuario(self):
+        self.novo_cadastro()
+        while True:
+            event, values = self.__window.read()
+            if event == '-confirmar-':
+                nome = values['-nome-']
+                nick = values['-nick-']
+                idade = values['-idade-']
+                email = values['-email-']
+                endereco = values['-endereco-']
+                senha = values['-senha-']
+                cpf = values['-cpf-']
+
+                self.close()
+                return {"nome": nome, "nickname": nick, "idade": idade, "email": email, "endereco": endereco, "senha": senha, "cpf": cpf}
+
+            if event == '-Retornar-':
+                self.close()
+                return 0
+            
+    def novo_cadastro(self):
         sg.ChangeLookAndFeel('DarkGray8')
-        
+
         layout = [
             [sg.Push(), sg.Text('Insira suas informaçoes!', font=('Minecraft', 25), pad=30, colors='White'), sg.Push()],
             [sg.Text('Nome:', font=('Minecraft', 15), pad=6, colors='LightGray'), sg.InputText('', key='-nome-', background_color='Gray', size=100, text_color='Black')],
@@ -96,55 +116,103 @@ class TelaUsuario():
             [sg.Text('Senha:', font=('Minecraft', 15), pad=6, colors='LightGray'), sg.InputText('', key='-senha-', background_color='Gray', size=100, text_color='Black', password_char='*')],
             [sg.Text('CPF:', font=('Minecraft', 15), pad=6, colors='LightGray'), sg.InputText('', key='-cpf-', background_color='Gray', size=100, text_color='Black')],
             [sg.Push(), sg.Button('Realizar Cadastro', pad=10, key='-confirmar-', button_color=('White', 'DarkGreen'), size=30, font=("Minecraft", 15)), sg.Push(), sg.Button('Retornar', key='-Retornar-', button_color=("White", "Red"), size= 30, font=("Minecraft", 15)), sg.Push()]
-            
+
         ]
         self.__window = sg.Window('Cadastro', size=(700, 500)).Layout(layout)
-        button, values = self.open()
-        dados_usuario = values['-nome-']
-        '''while True:
-            try:
-                print("-----DADOS USUÁRIO-----")
-                nome = input("Nome: ")
-                nickname = input("Nickname: ")
-                idade = int(input("Idade: "))
-                email = input("E-mail: ")
-                endereco = input("Endereço: ")
-                senha = input("Senha: ")
-                cpf = input("CPF: ")
-                return {"nome": nome, "nickname": nickname, "idade": idade, "email": email, "endereco": endereco, "senha": senha, "cpf": cpf}
-            except ValueError:
-                self.mostra_mensagem("Informação inválida, tente novamente!")'''
-    
 
-    def pede_nickname(self, nome):
-        nickname = input(nome)
-        return nickname
+    def pede_nickname(self):
+        sg.ChangeLookAndFeel('DarkGray8')
+        layout = [
+            [sg.Push(), sg.Text('Insira o nickname', font=('Minecraft', 25), pad=15, colors='White'), sg.Push()],
+            [sg.Text('Nickname:', font=('Minecraft', 15), pad=2, colors='LightGray'), sg.InputText('', key='-nick-', background_color='Gray', size=100, text_color='Black')],
+            [sg.Push(), sg.Button('Confirmar', pad=10, key='-confirmar-', button_color=('White', 'DarkGreen'), size=30, font=("Minecraft", 15)), sg.Push(), sg.Button('Retornar', key='-Retornar-', button_color=("White", "Red"), size= 30, font=("Minecraft", 15)), sg.Push()]
+        ]
+        self.__window = sg.Window('Solicitar nick', size=(600, 200)).Layout(layout)
+
+        button, values = self.open()
+        nick = values['-nick-']
+        self.som()
+        self.close()
+        if button == '-confirmar-':
+            return nick
+        elif button == '-Retornar-':
+            return 0
+        
+        self.__window = sg.Window('Cadastro', size=(700, 500)).Layout(layout)
+
 
     def pede_senha(self):
-        senha = input("Insira sua senha: ")
-        return senha
+        sg.ChangeLookAndFeel('DarkGray8')
+        layout = [
+            [sg.Push(), sg.Text('Insira sua senha!', font=('Minecraft', 25), pad=15, colors='White'), sg.Push()],
+            [sg.Text('Senha:', font=('Minecraft', 15), pad=2, colors='LightGray'), sg.InputText('', key='-senha-', background_color='Gray', size=100, text_color='Black', password_char="*")],
+            [sg.Push(), sg.Button('Confirmar', pad=10, key='-confirmar-', button_color=('White', 'DarkGreen'), size=30, font=("Minecraft", 15)), sg.Push(), sg.Button('Retornar', key='-Retornar-', button_color=("White", "Red"), size= 30, font=("Minecraft", 15)), sg.Push()]
+        ]
+        self.__window = sg.Window('Solicitar senha', size=(600, 200)).Layout(layout)
+
+        button, values = self.open()
+        senha = values['-senha-']
+        self.som()
+        self.close()
+        if button == '-confirmar-':
+            return senha
+        elif button == '-Retornar-':
+            return 0
 
     def valor_deposito(self):
-        valor = float(input("Insira a quantia que deseja depositar: "))
-        return valor
+        sg.ChangeLookAndFeel('DarkGray8')
+        layout = [
+            [sg.Push(), sg.Text('Insira o valor que deseja depositar', font=('Minecraft', 20), pad=15, colors='White'), sg.Push()],
+            [sg.Text('Valor:', font=('Minecraft', 15), pad=2, colors='LightGray'), sg.InputText('', key='-deposito-', background_color='Gray', size=100, text_color='Black')],
+            [sg.Push(), sg.Button('Depositar', pad=10, key='-confirmar-', button_color=('White', 'DarkGreen'), size=30, font=("Minecraft", 15)), sg.Push(), sg.Button('Retornar', key='-Retornar-', button_color=("White", "Red"), size= 30, font=("Minecraft", 15)), sg.Push()]
+        ]
+        self.__window = sg.Window('Solicitar deposito', size=(600, 200)).Layout(layout)
 
-    def dados_alteracao(self):
-        print("----- ALTERAR DADOS DO USUÁRIO -----")
-        nome = input("Novo Nome (deixe em branco para manter o atual): ")
-        nickname = input("Novo Nickname (deixe em branco para manter o atual): ")
-        idade = input("Nova Idade (deixe em branco para manter a atual): ")
-        email = input("Novo E-mail (deixe em branco para manter o atual): ")
-        endereco = input("Novo Endereço (deixe em branco para manter o atual): ")
-        senha = input("Nova Senha (deixe em branco para manter a atual): ")
+        button, values = self.open()
+        deposito = float(values['-deposito-'])
+        self.som()
+        self.close()
+        if button == '-confirmar-':
+            if deposito < 0:
+                self.mostra_mensagem("O depósito precisa ser maior que R$00,00")
+                return 0
+            else:
+                return deposito
+        elif button == '-Retornar-':
+            return 0
 
-        return {
-            "nome": nome if nome else None,
-            "nickname": nickname if nickname else None,
-            "idade": int(idade) if idade else None,
-            "email": email if email else None,
-            "endereco": endereco if endereco else None,
-            "senha": senha if senha else None
-        }
+    def alterar_dados(self):
+        sg.ChangeLookAndFeel('DarkGray8')
 
-    def mostra_mensagem(self, mensagem):
-        print(f"{mensagem}")
+        layout = [
+            [sg.Push(), sg.Text('Insira os novos dados!', font=('Minecraft', 25), pad=10, colors='Yellow'), sg.Push()],
+            [sg.Push(), sg.Text('(Deixe em branco para manter o atual)', font=('Minecraft', 15), pad=10, colors='White'), sg.Push()],
+            [sg.Text('Nome:', font=('Minecraft', 15), pad=6, colors='LightGray'), sg.InputText('', key='-nome-', background_color='Gray', size=100, text_color='Black')],
+            [sg.Text('Nickname:', font=('Minecraft', 15), pad=6, colors='LightGray'), sg.InputText('', key='-nick-', background_color='Gray', size=100, text_color='Black')],
+            [sg.Text('Idade:', font=('Minecraft', 15), pad=6, colors='LightGray'), sg.InputText('', key='-idade-', background_color='Gray', size=100, text_color='Black')],
+            [sg.Text('E-mail:', font=('Minecraft', 15), pad=6, colors='LightGray'), sg.InputText('', key='-email-', background_color='Gray', size=100, text_color='Black')],
+            [sg.Text('Endereço:', font=('Minecraft', 15), pad=6, colors='LightGray'), sg.InputText('', key='-endereco-', background_color='Gray', size=100, text_color='Black')],
+            [sg.Text('Senha:', font=('Minecraft', 15), pad=6, colors='LightGray'), sg.InputText('', key='-senha-', background_color='Gray', size=100, text_color='Black', password_char='*')],
+            [sg.Push(), sg.Button('Realizar Cadastro', pad=10, key='-confirmar-', button_color=('White', 'DarkGreen'), size=30, font=("Minecraft", 15)), sg.Push(), sg.Button('Retornar', key='-Retornar-', button_color=("White", "Red"), size= 30, font=("Minecraft", 15)), sg.Push()]
+
+        ]
+        self.__window = sg.Window('Cadastro', size=(700, 500)).Layout(layout)
+        
+        event, values = self.__window.read()
+        if event == '-confirmar-':
+            nome = values['-nome-']
+            nick = values['-nick-']
+            idade = values['-idade-']
+            email = values['-email-']
+            endereco = values['-endereco-']
+            senha = values['-senha-']
+
+            self.close()
+            return {"nome": nome, "nickname": nick, "idade": idade, "email": email, "endereco": endereco, "senha": senha}
+
+        if event == '-Retornar-':
+            self.close()
+            return 0
+
+    def mostra_mensagem(self, msg):
+        sg.popup("", msg, font=('Minecraft', 15), text_color='#1c1d1f', background_color='Gray', button_color=("White", "#1c1d1f"))

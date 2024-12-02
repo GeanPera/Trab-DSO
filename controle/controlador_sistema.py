@@ -2,6 +2,7 @@ from limite.tela_sistema import TelaSistema
 from controle.controlador_jogos import ControladorJogos
 from controle.controlador_usuarios import ControladorUsuarios
 from controle.controlador_compra import ControladorCompra
+from entidade.usuario import Usuario
 
 
 class ControladorSistema:
@@ -10,7 +11,7 @@ class ControladorSistema:
         self.__controlador_jogos = ControladorJogos(self)
         self.__controlador_compra = ControladorCompra(self)
         self.__tela_sistema = TelaSistema()
-
+    
     @property
     def controlador_usuarios(self):
         return self.__controlador_usuarios
@@ -24,9 +25,15 @@ class ControladorSistema:
         return self.__controlador_compra
 
     def inicializa_sistema(self):
+        usuario = Usuario('Luan', 'Cellmander', 22, 'luan@gmail', 'rua 30', '123', '123', 1000)
+        usuario.saldo = 1000
+        usuario2 = Usuario('Gean', 'Gean', 22, 'gean@gmail', 'rua 30', '321', '321')
+        self.__controlador_usuarios.usuarios.append(usuario)
+        self.__controlador_usuarios.usuarios.append(usuario2)
         self.__tela_sistema.mostra_mensagem("Bem-vindo!")
         self.inicializa_jogos()
         self.abre_tela()
+        
 
     def encerra_sistema(self):
         self.__tela_sistema.mostra_mensagem("Sistema encerrado com sucesso.")
