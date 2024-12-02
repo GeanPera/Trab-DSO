@@ -24,7 +24,11 @@ class ControladorCompra:
             if usuario.idade < jogo_escolhido.faixa_etaria:
                 raise ValueError("Você não possui idade suficiente para comprar esse jogo!")
 
-            self.__controlador_sistema.controlador_usuarios.adicionar_jogo(jogo_escolhido, usuario)
+            jogo_adicionado = self.__controlador_sistema.controlador_usuarios.adicionar_jogo(jogo_escolhido, usuario)
+
+            if jogo_adicionado is None:
+                self.__tela_compra.mostra_mensagem(f"Você já possui este jogo!")
+                return
             self.__tela_compra.mostra_mensagem(f"Compra realizada com sucesso. Saldo atual: {usuario.saldo}")
         except AttributeError as e:
             self.__tela_compra.mostra_mensagem(str(e))

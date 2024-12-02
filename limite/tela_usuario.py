@@ -213,6 +213,6 @@ class TelaUsuario():
         if event == '-Retornar-':
             self.close()
             return 0
-       
+
     def mostra_mensagem(self, msg):
         sg.popup("", msg, font=('Minecraft', 15), text_color='#1c1d1f', background_color='Gray', button_color=("White", "#1c1d1f"))
