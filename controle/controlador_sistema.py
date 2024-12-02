@@ -25,7 +25,8 @@ class ControladorSistema:
         return self.__controlador_compra
 
     def inicializa_sistema(self):
-        usuario = Usuario('Luan', 'Cellmander', 22, 'luan@gmail', 'rua 30', '123', '123')
+        usuario = Usuario('Luan', 'Cellmander', 22, 'luan@gmail', 'rua 30', '123', '123', 1000)
+        usuario.saldo = 1000
         usuario2 = Usuario('Gean', 'Gean', 22, 'gean@gmail', 'rua 30', '321', '321')
         self.__controlador_usuarios.usuarios.append(usuario)
         self.__controlador_usuarios.usuarios.append(usuario2)

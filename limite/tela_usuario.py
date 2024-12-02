@@ -145,7 +145,7 @@ class TelaUsuario():
         sg.ChangeLookAndFeel('DarkGray8')
         layout = [
             [sg.Push(), sg.Text('Insira sua senha!', font=('Minecraft', 25), pad=15, colors='White'), sg.Push()],
-            [sg.Text('Senha:', font=('Minecraft', 15), pad=2, colors='LightGray'), sg.InputText('', key='-senha-', background_color='Gray', size=100, text_color='Black')],
+            [sg.Text('Senha:', font=('Minecraft', 15), pad=2, colors='LightGray'), sg.InputText('', key='-senha-', background_color='Gray', size=100, text_color='Black', password_char="*")],
             [sg.Push(), sg.Button('Confirmar', pad=10, key='-confirmar-', button_color=('White', 'DarkGreen'), size=30, font=("Minecraft", 15)), sg.Push(), sg.Button('Retornar', key='-Retornar-', button_color=("White", "Red"), size= 30, font=("Minecraft", 15)), sg.Push()]
         ]
         self.__window = sg.Window('Solicitar senha', size=(600, 200)).Layout(layout)
@@ -160,8 +160,26 @@ class TelaUsuario():
             return 0
 
     def valor_deposito(self):
-        valor = float(input("Insira a quantia que deseja depositar: "))
-        return valor
+        sg.ChangeLookAndFeel('DarkGray8')
+        layout = [
+            [sg.Push(), sg.Text('Insira o valor que deseja depositar', font=('Minecraft', 20), pad=15, colors='White'), sg.Push()],
+            [sg.Text('Valor:', font=('Minecraft', 15), pad=2, colors='LightGray'), sg.InputText('', key='-deposito-', background_color='Gray', size=100, text_color='Black')],
+            [sg.Push(), sg.Button('Depositar', pad=10, key='-confirmar-', button_color=('White', 'DarkGreen'), size=30, font=("Minecraft", 15)), sg.Push(), sg.Button('Retornar', key='-Retornar-', button_color=("White", "Red"), size= 30, font=("Minecraft", 15)), sg.Push()]
+        ]
+        self.__window = sg.Window('Solicitar deposito', size=(600, 200)).Layout(layout)
+
+        button, values = self.open()
+        deposito = float(values['-deposito-'])
+        self.som()
+        self.close()
+        if button == '-confirmar-':
+            if deposito < 0:
+                self.mostra_mensagem("O depósito precisa ser maior que R$00,00")
+                return 0
+            else:
+                return deposito
+        elif button == '-Retornar-':
+            return 0
 
     def alterar_dados(self):
         sg.ChangeLookAndFeel('DarkGray8')

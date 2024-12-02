@@ -183,7 +183,11 @@ class ControladorUsuarios():
 
 
     def mostrar_amigos(self):
-        nick_usuario = self.__tela_usuario.pede_nickname("Insira seu nickname: ")
+        nick_usuario = self.__tela_usuario.pede_nickname()
+        
+        if nick_usuario == 0:
+            return
+        
         usuario = self.encontrar_usuario(nick_usuario)
         if len(usuario.amigos) == 0:
             self.__tela_usuario.mostra_mensagem('Você ainda nao possui amigos!')
@@ -236,9 +240,12 @@ class ControladorUsuarios():
         try:
             while True:
                 mensagem = "Insira seu nickname: "
-                nick_usuario = self.__tela_usuario.pede_nickname(mensagem)
+                nick_usuario = self.__tela_usuario.pede_nickname()
                 senha = self.__tela_usuario.pede_senha()
                 usuario = self.encontrar_usuario(nick_usuario)
+                
+                if nick_usuario == 0 or senha == 0:
+                    return
                     
                 if not senha == usuario.senha:
                     self.__tela_usuario.mostra_mensagem("Senha inválida! Tente novamente ou digite 0 para voltar pro menu anterior.")
@@ -251,8 +258,12 @@ class ControladorUsuarios():
                     break
             
             valor = self.__tela_usuario.valor_deposito()
+            
+            if valor == 0:
+                return
+            
             usuario.saldo += valor
-            self.__tela_usuario.mostra_mensagem(f"Depósito realizado! Seu saldo atual é R${usuario.saldo:.2f}")
+            self.__tela_usuario.mostra_mensagem(f"Depósito realizado! Seu saldo atual: R${usuario.saldo:.2f}")
         except UsuarioNaoEncontradoError as e:
             self.__tela_usuario.mostra_mensagem(str(e))
 
@@ -260,9 +271,11 @@ class ControladorUsuarios():
     def verificar_saldo(self):
         try:
             while True:
-                mensagem = "Insira seu nickname: "
-                nick_usuario = self.__tela_usuario.pede_nickname(mensagem)
+                nick_usuario = self.__tela_usuario.pede_nickname()
                 senha = self.__tela_usuario.pede_senha()
+                
+                if nick_usuario == 0 or senha == 0:
+                    return
                 usuario = self.encontrar_usuario(nick_usuario)
                     
                 if not senha == usuario.senha:
@@ -273,7 +286,7 @@ class ControladorUsuarios():
                 
                 else:
                     usuario = self.encontrar_usuario(nick_usuario)
-                    self.__tela_usuario.mostra_mensagem(f"Seu saldo é R${usuario.saldo:.2f}")
+                    self.__tela_usuario.mostra_mensagem(f"Seu saldo: R${usuario.saldo:.2f}")
                     return
         except UsuarioNaoEncontradoError as e:
             self.__tela_usuario.mostra_mensagem(str(e))
@@ -281,10 +294,10 @@ class ControladorUsuarios():
     def adicionar_jogo(self, jogo, usuario):
         for game in usuario.jogos:
             if game == jogo:
-                return "Você já possui esse jogo!"
+                return None
         usuario.jogos.append(jogo)
         usuario.saldo -= jogo.preco
-        return f"Jogo comprado com sucesso! Seu saldo atual é R${usuario.saldo}"
+        return 
 
     def presentear_amigo(self, jogo, amigo, usuario):
         for game in amigo.jogos:
@@ -303,7 +316,10 @@ class ControladorUsuarios():
         return relatorios
     def meus_jogos(self):
         try:
-            nickname = self.__tela_usuario.pede_nickname("Insira seu nickname: ")
+            nickname = self.__tela_usuario.pede_nickname()
+            
+            if nickname == 0:
+                return
             usuario = self.encontrar_usuario(nickname)
             if not self.encontrar_usuario(nickname):
                 raise UsuarioNaoEncontradoError
