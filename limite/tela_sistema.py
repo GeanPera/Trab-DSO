@@ -33,7 +33,44 @@ class TelaSistema:
             
     def close(self):
         self.__window.Close()
-                
+    def opcoes_relatorio(self):
+        sg.ChangeLookAndFeel('DarkGray8')
+        layout = [
+            [sg.Push(), sg.Text('Relat0rios', font=("Minecrafter Alt",35), colors='LightGray', pad=10), sg.Push()],
+            [sg.Push(), sg.Text('Escolha o relatorio!', font=("Minecraft", 20), pad=15, colors="#f7cb05"), sg.Push()],
+            [sg.Push(), sg.Button('Vendas', key='1', button_color=("White", "#1c1d1f"), size = 25, font=("Minecraft", 15), mouseover_colors="#6e6f70"), sg.Push()],
+            [sg.Push(), sg.Button('Jogos por Faixa Etária', key='2', button_color=("White", "#1c1d1f"), size = 25, font=("Minecraft", 15), mouseover_colors="#6e6f70"), sg.Push()],
+            [sg.Push(), sg.Button('Usuários', key='3', button_color=("White", "#1c1d1f"), size = 25, font=("Minecraft", 15), mouseover_colors="#6e6f70"), sg.Push()],
+            [sg.Push(), sg.Button('Jogos por Gênero', key='4', button_color=("White", "#1c1d1f"), size = 25, font=("Minecraft", 15), mouseover_colors="#6e6f70"), sg.Push()],
+            [sg.Push(), sg.Cancel('↩️ Retornar', key='0', button_color=("White", "Red"), pad = 30, font=("Minecraft", 15)), sg.Push()]
+        ]
+        self.__window = sg.Window('Opcoes relatório', size=(600, 500), border_depth=15).Layout(layout)
+
+        button, values = self.open()
+
+        self.som()
+        self.close()
+        return button
+
+    def exibir_relatorio(self, mensagem, relatorios):
+        sg.ChangeLookAndFeel('DarkGray8')
+        relatorio_layout = [
+            [sg.Text(relatorio, font=('Minecraft', 15), colors='LightGray')]
+            for relatorio in relatorios
+        ]
+
+        layout = [
+            [sg.Text(mensagem, font=('Minecraft', 15), pad=6, colors='LightGray')],
+            [sg.Column(relatorio_layout, scrollable=True, vertical_scroll_only=True, size=(800, 450))],
+            [sg.Push(), sg.Cancel('Retornar', key='0', button_color=("White", "Red"), pad = 10, font=("Minecraft", 15))]
+        ]
+        self.__window = sg.Window('Lista de Jogos', size=(800, 600), border_depth=15).Layout(layout)
+
+        button, values = self.open()
+        self.som()
+        self.close()
+        return button
+
     def init_components(self):
         #sg.theme_previewer()
         sg.ChangeLookAndFeel('DarkGray8')
@@ -51,5 +88,7 @@ class TelaSistema:
 
     def mostra_mensagem(self, mensagem):
         print(f"{mensagem}")
-        
-        
+
+    def open(self):
+        button, values = self.__window.Read()
+        return button, values

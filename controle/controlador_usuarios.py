@@ -7,7 +7,6 @@ from exceptions.campo_ja_utilizado_exception import DadoJaUtilizadoError
 
 class ControladorUsuarios():
     def __init__(self, controlador_sistema):
-        self.__usuarios = []
         self.__tela_usuario = TelaUsuario()
         self.__controlador_sistema = controlador_sistema
 

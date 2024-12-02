@@ -48,7 +48,6 @@ class ControladorSistema:
         self.__controlador_jogos.novo_jogo("Subnautica", "Aventura/Sobrevivência", "Unknown Worlds Entertainment", 10, "Exploração submarina e sobrevivência", 49.99, 4500, 'imagem\subnautica.png')
         self.__controlador_jogos.novo_jogo("The Forest", "Sobrevivência/Terror", "Endnight Games", 16, "Sobrevivência em uma ilha aterrorizante", 49.99, 3000, 'imagem\The_forest.png')
         self.__controlador_jogos.novo_jogo("Dead Cells", "Roguelike/Metroidvania", "Motion Twin", 12, "Jogo de ação dinâmico", 59.99, 5000, 'imagem\dead_cells.png')
-
         self.__controlador_jogos.novo_jogo("Final Fantasy", "RPG", "Square Enix", 16, "RPG envolvente", 69.99, 500, 'imagem\Final_fantasy.png')
         self.__controlador_jogos.novo_jogo("The Witcher 3", "RPG", "CD Projekt Red", 18, "Mundo aberto e denso", 89.99, 2000, 'imagem\The_witcher.png')
         self.__controlador_jogos.novo_jogo("Cyberpunk 2077", "Ação", "CD Projekt Red", 18, "Futurístico", 199.99, 2000, 'imagem\cyberpunk.png')
@@ -63,28 +62,26 @@ class ControladorSistema:
         self.__controlador_jogos.abre_tela()
 
     def relatorio(self):
-        self.__tela_sistema.mostra_mensagem(f"\nRelatório de Vendas por Jogo: ")
-        relatorio_vendas = self.controlador_jogos.relatorio_vendas_por_jogo()
-        for x in relatorio_vendas:
-            self.__tela_sistema.mostra_mensagem(x)
+        lista_opcoes = {1: self.relatorio_vendas, 2: self.relatorio_faixa_etaria,3: self.relatorio_usuarios, 4: self.relatorio_genero}
+        
+        while True:
+            opcao_escolhida = int(self.__tela_sistema.opcoes_relatorio())
+            funcao_escolhida = lista_opcoes[opcao_escolhida]
+            funcao_escolhida()
 
-        self.__tela_sistema.mostra_mensagem(f"\nRelatório de Jogos por Faixa Etária: ")
+    def relatorio_vendas(self):
+        mensagem = 'Relatória de Vendas:'
+        relatorio_venda = self.controlador_jogos.relatorio_vendas_por_jogo()
+        self.__tela_sistemas.exibir_relatorio(mensagem, relatorio_venda)
+
+    def relatorio_faixa_etaria():
         relatorio_faixa_etaria = self.controlador_jogos.relatorio_jogos_por_faixa_etaria()
-        for x in relatorio_faixa_etaria:
-            self.__tela_sistema.mostra_mensagem(x)
 
-        self.__tela_sistema.mostra_mensagem(f"\nRelatório de Usuários: ")
+    def relatorio_usuarios():
         relatorio_usuarios = self.controlador_usuarios.relatorio_usuarios()
-        if relatorio_usuarios != []:
-            for x in relatorio_usuarios:
-                self.__tela_sistema.mostra_mensagem(x)
-        else:
-            self.__tela_sistema.mostra_mensagem("Nenhum usuário cadastrado.")
 
-        self.__tela_sistema.mostra_mensagem(f"\nRelatório de Gêneros Populares: ")
+    def relatorio_genero():
         relatorio_genero = self.controlador_jogos.relatorio_generos_populares()
-        for x in relatorio_genero:
-            self.__tela_sistema.mostra_mensagem(x)
 
     def abre_tela(self):
         lista_opcoes = {1: self.loja_tela, 2: self.usuario_tela,3: self.relatorio, 0: self.encerra_sistema}
