@@ -39,37 +39,43 @@ class TelaCompra:
     def pede_nickname(self, mensagem):
         sg.ChangeLookAndFeel('DarkGray8')
         layout = [
-            [sg.Text(mensagem, font=('Minecraft', 15), pad=6, colors='LightGray')],
-            [sg.InputText('', key='-nick-', background_color='Gray', size=100, text_color='Black')],
-            [sg.Button('Confirmar', pad=10, key='-confirmar-', button_color=('White', 'DarkGreen'), size=30, font=("Minecraft", 15))]
+            [sg.Push(), sg.Text(mensagem, font=('Minecraft', 16), pad=15, colors='White'), sg.Push()],
+            [sg.Text('Nickname:', font=('Minecraft', 15), pad=2, colors='LightGray'), sg.InputText('', key='-nick-', background_color='Gray', size=100, text_color='Black')],
+            [sg.Push(), sg.Button('Confirmar', pad=10, key='-confirmar-', button_color=('White', 'DarkGreen'), size=30, font=("Minecraft", 15)), sg.Push(), sg.Button('Retornar', key='-Retornar-', button_color=("White", "Red"), size= 30, font=("Minecraft", 15)), sg.Push()]
         ]
-        self.__window = sg.Window('Sistema de Jogos').Layout(layout)
+        self.__window = sg.Window('Solicitar nick', size=(800, 200)).Layout(layout)
 
         button, values = self.open()
-        nickname = values['-nick-']
-
+        nick = values['-nick-']
         self.som()
         self.close()
-        return nickname
-    
+        if button == '-confirmar-':
+            return nick
+        elif button == '-Retornar-':
+            return None
+
+        self.__window = sg.Window('Cadastro', size=(700, 500)).Layout(layout)
+
     def pede_senha(self):
         sg.ChangeLookAndFeel('DarkGray8')
         layout = [
-            [sg.Text('Insira sua senha:', font=('Minecraft', 15), pad=6, colors='LightGray')],
-            [sg.InputText('', key='-senha-', background_color='Gray', size=100, text_color='Black')],
-            [sg.Button('Confirmar', pad=10, key='-confirmar-', button_color=('White', 'DarkGreen'), size=30, font=("Minecraft", 15))]
+            [sg.Push(), sg.Text('Insira sua senha!', font=('Minecraft', 25), pad=15, colors='White'), sg.Push()],
+            [sg.Text('Senha:', font=('Minecraft', 15), pad=2, colors='LightGray'), sg.InputText('', key='-senha-', background_color='Gray', size=100, text_color='Black', password_char="*")],
+            [sg.Push(), sg.Button('Confirmar', pad=10, key='-confirmar-', button_color=('White', 'DarkGreen'), size=30, font=("Minecraft", 15)), sg.Push(), sg.Button('Retornar', key='-Retornar-', button_color=("White", "Red"), size= 30, font=("Minecraft", 15)), sg.Push()]
         ]
-        self.__window = sg.Window('Sistema de Jogos').Layout(layout)
+        self.__window = sg.Window('Solicitar senha', size=(600, 200)).Layout(layout)
 
         button, values = self.open()
         senha = values['-senha-']
-
         self.som()
         self.close()
-        return senha
+        if button == '-confirmar-':
+            return senha
+        elif button == '-Retornar-':
+            return None
 
     def mostra_mensagem(self, msg):
-        sg.popup("", msg)
+        sg.popup("", msg, font=('Minecraft', 15), text_color='#1c1d1f', background_color='Gray', button_color=("White", "#1c1d1f"))
 
     def close(self):
         self.__window.Close()

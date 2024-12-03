@@ -72,17 +72,12 @@ class TelaUsuario():
     
     def close(self):
         self.__window.Close()
-        
+
     pygame.mixer.init()
     def som(self):
         pygame.mixer.music.load('sound.mp3')
         pygame.mixer.music.play()
-        
-    pygame.mixer.init()
-    def som(self):
-        pygame.mixer.music.load('sound.mp3')
-        pygame.mixer.music.play()
-        
+
     def dados_usuario(self):
         self.novo_cadastro()
         while True:

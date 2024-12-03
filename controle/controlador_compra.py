@@ -10,11 +10,15 @@ class ControladorCompra:
         jogo_escolhido = self.__controlador_sistema.controlador_jogos.jogo(jogo)
         try:
             nickname = self.__tela_compra.pede_nickname("Qual seu Nickname? ")
+            if nickname == None:
+                return
             usuario = self.__controlador_sistema.controlador_usuarios.encontrar_usuario(nickname)
             if not usuario:
                 raise AttributeError("Usuário não encontrado.")
 
             senha = self.__tela_compra.pede_senha()
+            if senha == None:
+                return
             if usuario.senha != senha:
                 raise ValueError("Senha incorreta!")
 
@@ -45,15 +49,22 @@ class ControladorCompra:
 
         try:
             my_nickname = self.__tela_compra.pede_nickname("Qual seu Nickname? ")
+            if my_nickname == None:
+                return
             usuario = self.__controlador_sistema.controlador_usuarios.encontrar_usuario(my_nickname)
             if not usuario:
                 raise AttributeError("Usuário não encontrado.")
-            
+
             senha = self.__tela_compra.pede_senha()
+            if senha == None:
+                return
+
             if usuario.senha != senha:
                 raise ValueError("Senha incorreta!")
 
             amigo_nickname = self.__tela_compra.pede_nickname("Qual o Nickname do seu amigo? ")
+            if amigo_nickname == None:
+                return
             amigo = self.__controlador_sistema.controlador_usuarios.encontrar_usuario(amigo_nickname)
             if not amigo:
                 raise AttributeError("Amigo não encontrado.")

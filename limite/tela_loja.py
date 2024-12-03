@@ -169,7 +169,7 @@ class TelaLoja:
         return button
 
     def mostra_mensagem(self, msg):
-        sg.popup("", msg)
+        sg.popup("", msg, font=('Minecraft', 15), text_color='#1c1d1f', background_color='Gray', button_color=("White", "#1c1d1f"))
 
     def close(self):
         self.__window.Close()
