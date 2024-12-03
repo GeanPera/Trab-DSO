@@ -78,17 +78,23 @@ class ControladorSistema:
 
     def relatorio_vendas(self):
         mensagem = 'Relatória de Vendas:'
-        relatorio_venda = self.controlador_jogos.relatorio_vendas_por_jogo()
-        self.__tela_sistemas.exibir_relatorio(mensagem, relatorio_venda)
+        relatorios = self.controlador_jogos.relatorio_vendas_por_jogo()
+        self.__tela_sistema.exibir_relatorio(mensagem, relatorios)
 
-    def relatorio_faixa_etaria():
-        relatorio_faixa_etaria = self.controlador_jogos.relatorio_jogos_por_faixa_etaria()
+    def relatorio_faixa_etaria(self):
+        mensagem = "Relatorios de Faixa Etaria:"
+        relatorios = self.controlador_jogos.relatorio_jogos_por_faixa_etaria()
+        self.__tela_sistema.exibir_relatorio(mensagem, relatorios)
 
-    def relatorio_usuarios():
-        relatorio_usuarios = self.controlador_usuarios.relatorio_usuarios()
+    def relatorio_usuarios(self):
+        mensagem = "Relatorios de Usuarios:"
+        relatorios = self.controlador_usuarios.relatorio_usuarios()
+        self.__tela_sistema.exibir_relatorio(mensagem, relatorios)
 
-    def relatorio_genero():
-        relatorio_genero = self.controlador_jogos.relatorio_generos_populares()
+    def relatorio_genero(self):
+        mensagem = "Relatorios de Genero:"
+        relatorios = self.controlador_jogos.relatorio_generos_populares()
+        self.__tela_sistema.exibir_relatorio(mensagem, relatorios)
 
     def abre_tela(self):
         lista_opcoes = {1: self.loja_tela, 2: self.usuario_tela,3: self.relatorio, 0: self.encerra_sistema}

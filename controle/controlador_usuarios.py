@@ -317,7 +317,8 @@ class ControladorUsuarios():
         for usuario in self.__usuarios_dao.get_all():
             total_gasto = sum(jogo.preco for jogo in usuario.jogos)
             amigos = [amigo.nickname for amigo in usuario.amigos]
-            relatorios.append(f"Nome: {usuario.nome}, Nickname: {usuario.nickname}, Idade: {usuario.idade}, Saldo: {usuario.saldo}, Quantidade de Jogos Comprados: {len(usuario.jogos)}, Total Gasto: {total_gasto}, Amigos: {', '.join(amigos) if amigos else 'Sem amigos'}")
+            relatorios.append(f"Nome: {usuario.nome}\n Nickname: {usuario.nickname}\n Idade: {usuario.idade}\n Saldo: {usuario.saldo}\n Quantidade de Jogos Comprados: {len(usuario.jogos)}\n Total Gasto: {total_gasto}\n Amigos: {', '.join(amigos) if amigos else 'Sem amigos'}")
+            relatorios.append(f"----------------------------------------------------------")
         return relatorios
     def meus_jogos(self):
         minha_lista_jogos = []

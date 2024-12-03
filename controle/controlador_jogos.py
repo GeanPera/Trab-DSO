@@ -140,8 +140,9 @@ class ControladorJogos:
             for jogo in jogos:
                 receita_jogo = jogo.preco * jogo.qntd_vendida
                 receita_dev += receita_jogo
-                relatorios.append(f"Título: {jogo.titulo}, Quantidade Vendida: {jogo.qntd_vendida}, Preço: {jogo.preco}, Receita do Jogo: {receita_jogo}")
-            relatorios.append(f"Receita Total da Desenvolvedora: {receita_dev}")
+                relatorios.append(f"Título: {jogo.titulo}\n Quantidade Vendida: {jogo.qntd_vendida}\n Preço: {jogo.preco}\n Receita do Jogo: {receita_jogo}")
+            relatorios.append(f"Receita Total da {desenvolvedora}: {receita_dev}")
+            relatorios.append(f"----------------------------------------------------------")
 
         return relatorios
 
@@ -153,11 +154,12 @@ class ControladorJogos:
             if faixa not in jogos_por_faixa:
                 jogos_por_faixa[faixa] = []
             jogos_por_faixa[faixa].append(jogo)
-
+        jogos_por_faixa = dict(sorted(jogos_por_faixa.items()))
         for faixa, jogos in jogos_por_faixa.items():
-            relatorios.append(f"\nFaixa Etária: {faixa}+")
+            relatorios.append(f"Faixa Etária: {faixa}+")
             for jogo in jogos:
-                relatorios.append(f"Título: {jogo.titulo}, Gênero: {jogo.genero}, Desenvolvedora: {jogo.desenvolvedora}")
+                relatorios.append(f"Título: {jogo.titulo}\n Gênero: {jogo.genero}\n Desenvolvedora: {jogo.desenvolvedora}")
+            relatorios.append(f"----------------------------------------------------------")
         return relatorios
 
     def relatorio_generos_populares(self):
@@ -168,7 +170,8 @@ class ControladorJogos:
             generos[genero] = generos.get(genero, 0) + jogo.qntd_vendida
 
         for genero, total_vendas in generos.items():
-            relatorios.append(f"Gênero: {genero}, Quantidade Total Vendida: {total_vendas}")
+            relatorios.append(f"Gênero: {genero}\n Quantidade Total Vendida: {total_vendas}")
+            relatorios.append(f"----------------------------------------------------------")
         return relatorios
 
     def abre_tela(self):

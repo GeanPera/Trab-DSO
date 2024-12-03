@@ -59,12 +59,18 @@ class TelaSistema:
             for relatorio in relatorios
         ]
 
+        count = len(relatorios)
+        altura_base = 300
+        altura_por_relatorio = 160
+        altura_max = 600
+        altura_dinamica = min(altura_base + count * altura_por_relatorio, altura_max)
+
         layout = [
-            [sg.Text(mensagem, font=('Minecraft', 15), pad=6, colors='LightGray')],
-            [sg.Column(relatorio_layout, scrollable=True, vertical_scroll_only=True, size=(800, 450))],
+            [sg.Text(mensagem, font=('Minecraft', 15), pad=6, colors='#f7cb05')],
+            [sg.Column(relatorio_layout, scrollable=True, vertical_scroll_only=True, size=(800, altura_dinamica-150))],
             [sg.Push(), sg.Cancel('Retornar', key='0', button_color=("White", "Red"), pad = 10, font=("Minecraft", 15))]
         ]
-        self.__window = sg.Window('Lista de Jogos', size=(800, 600), border_depth=15).Layout(layout)
+        self.__window = sg.Window('Lista de Jogos', size=(800, altura_dinamica), border_depth=15).Layout(layout)
 
         button, values = self.open()
         self.som()
