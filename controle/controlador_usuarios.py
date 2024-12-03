@@ -297,12 +297,12 @@ class ControladorUsuarios():
 
     def adicionar_jogo(self, jogo, usuario):
         for game in usuario.jogos:
-            if game == jogo:
+            if game.titulo == jogo.titulo:
                 return None
         usuario.jogos.append(jogo)
         usuario.saldo -= jogo.preco
         self.__usuarios_dao.update(usuario)
-        return 
+        return "Jogo adicionado"
 
     def presentear_amigo(self, jogo, amigo, usuario):
         for game in amigo.jogos:
@@ -320,17 +320,19 @@ class ControladorUsuarios():
             relatorios.append(f"Nome: {usuario.nome}, Nickname: {usuario.nickname}, Idade: {usuario.idade}, Saldo: {usuario.saldo}, Quantidade de Jogos Comprados: {len(usuario.jogos)}, Total Gasto: {total_gasto}, Amigos: {', '.join(amigos) if amigos else 'Sem amigos'}")
         return relatorios
     def meus_jogos(self):
+        minha_lista_jogos = []
         try:
             nickname = self.__tela_usuario.pede_nickname()
             
             if nickname == 0:
                 return
             usuario = self.encontrar_usuario(nickname)
-            if not self.encontrar_usuario(nickname):
+            if usuario == None:
                 raise UsuarioNaoEncontradoError
-            self.__tela_usuario.mostra_mensagem("Seus jogos:")
+            mensagem = "Seus jogos:"
             for jogo in usuario.jogos:
-                self.__tela_usuario.mostra_mensagem(f"- {jogo.titulo}")
+                minha_lista_jogos.append({'titulo': f'{jogo.titulo}', 'descricao': jogo.descricao, 'imagem': jogo.imagem})
+            self.__tela_usuario.exibir_meus_jogos(mensagem, minha_lista_jogos)
         except UsuarioNaoEncontradoError as e:
             self.__tela_usuario.mostra_mensagem(str(e))
             
