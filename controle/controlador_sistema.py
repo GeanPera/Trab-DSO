@@ -40,6 +40,8 @@ class ControladorSistema:
         exit(0)
 
     def inicializa_jogos(self):
+        pass
+        '''
         self.__controlador_jogos.novo_jogo("Red Dead Redemption 2", "Ação/Aventura", "Rockstar Games", 18, "Faroeste épico em mundo aberto", 249.99, 1500, 'imagem\Red_dead_redemption2.png')
         self.__controlador_jogos.novo_jogo("Hades", "Roguelike", "Supergiant Games", 12, "Jogo de ação com mitologia grega", 49.99, 8000, 'imagem\hades.png')
         self.__controlador_jogos.novo_jogo("Stardew Valley", "Simulação", "ConcernedApe", 3, "Simulador de fazenda e vida social", 19.99, 12000, 'imagem\stardew_valley.png')
@@ -61,7 +63,7 @@ class ControladorSistema:
         self.__controlador_jogos.novo_jogo("FIFA 22", "Esportes", "EA Sports", 3, "Simulador de futebol", 49.99, 3000, 'imagem\Fifa22.png')
         self.__controlador_jogos.novo_jogo("NBA 2K25", "Esportes", "2K Games", 3, "Simulador de basquete", 59.99, 2500, 'imagem\imagem_nba.png')
         self.__controlador_jogos.novo_jogo("Among Us", "Casual", "InnerSloth", 10, "Jogo de dedução social", 9.99, 4000, 'imagem\Among_us.png')
-
+    '''
     def usuario_tela(self):
         self.__controlador_usuarios.abre_tela()
 

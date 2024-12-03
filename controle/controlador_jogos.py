@@ -1,21 +1,22 @@
 from limite.tela_loja import TelaLoja
 from entidade.jogo import Jogo
 from exceptions.campo_vazio_exception import CamposVaziosError
-
+import pickle
+from DAOs.jogo_dao import JogoDAO
 
 class ControladorJogos:
     def __init__(self, controlador_sistema):
-        self.__jogos = []
+        self.__jogo_dao = JogoDAO()
         self.__controlador_sistema = controlador_sistema
         self.__tela = TelaLoja()
 
     def novo_jogo(self, titulo, genero, desenvolvedora, faixa_etaria, descricao, preco, qnt_vendida, imagem):
         jogo = Jogo(titulo, genero, desenvolvedora, faixa_etaria, descricao, preco, qnt_vendida, imagem)
-        self.__jogos.append(jogo)
+        self.__jogo_dao.add(jogo)
 
     def listar_jogos(self):
         lista_jogos = []
-        for jogo in self.__jogos:
+        for jogo in self.__jogo_dao.get_all():
                 lista_jogos.append({'nome': f'{jogo.titulo}', 'texto': f"{jogo.titulo} - R$: {jogo.preco}", 'descricao': jogo.descricao, 'imagem': jogo.imagem})
         mensagem = "Todos os Jogos:"
         self.exibir_comprar(mensagem, lista_jogos)
@@ -23,7 +24,7 @@ class ControladorJogos:
     def jogo_mais_comprado(self):
     # Ordena a lista de jogos por quantidade de vendas usando Bubble Sort
         lista_jogos = []
-        jogos_ordenados = self.__jogos
+        jogos_ordenados = self.__jogo_dao.get_all()
         n = len(jogos_ordenados)
         
         for i in range(n - 1):
@@ -47,7 +48,7 @@ class ControladorJogos:
 
         genero = self.__tela.solicitar_genero(generos)
         if genero != None:
-            jogos_gen = [jogo for jogo in self.__jogos if jogo.genero == genero]
+            jogos_gen = [jogo for jogo in self.__jogo_dao.get_all() if jogo.genero == genero]
             if jogos_gen:
                 for jogo in jogos_gen:
                     lista_jogos.append({'nome': f'{jogo.titulo}', 'texto': f"{jogo.titulo} - R$: {jogo.preco}", 'descricao': jogo.descricao, 'imagem': jogo.imagem})
@@ -58,7 +59,7 @@ class ControladorJogos:
 
     def generos(self):
         generos = []
-        for jogo in self.__jogos:
+        for jogo in self.__jogo_dao.get_all():
             if jogo.genero not in generos:
                 generos.append(jogo.genero)
         return generos
@@ -69,7 +70,7 @@ class ControladorJogos:
 
         desenvolvedora = self.__tela.solicitar_desenvolvedora(desenvolvedoras)
         if desenvolvedora != None:
-            jogos_por_dev = [jogo for jogo in self.__jogos if jogo.desenvolvedora == desenvolvedora]
+            jogos_por_dev = [jogo for jogo in self.__jogo_dao.get_all() if jogo.desenvolvedora == desenvolvedora]
             if jogos_por_dev:
                 for jogo in jogos_por_dev:
                     lista_jogos.append({'nome': f'{jogo.titulo}', 'texto': f"{jogo.titulo} - R$: {jogo.preco}", 'descricao': jogo.descricao, 'imagem': jogo.imagem})
@@ -80,7 +81,7 @@ class ControladorJogos:
 
     def desenvolvedoras(self):
         desenvolvedoras = []
-        for jogo in self.__jogos:
+        for jogo in self.__jogo_dao.get_all():
             if jogo.desenvolvedora not in desenvolvedoras:
                 desenvolvedoras.append(jogo.desenvolvedora)
         return desenvolvedoras
@@ -95,7 +96,7 @@ class ControladorJogos:
                 if not preco_min or not preco_max:
                     raise CamposVaziosError
 
-                jogos_preco = [jogo for jogo in self.__jogos if preco_min <= jogo.preco <= preco_max]
+                jogos_preco = [jogo for jogo in self.__jogo_dao.get_all() if preco_min <= jogo.preco <= preco_max]
                 if jogos_preco:
                     for jogo in jogos_preco:
                         lista_jogos.append({'nome': f'{jogo.titulo}', 'texto': jogo.titulo, 'preco': jogo.preco, 'descricao': jogo.descricao, 'imagem': jogo.imagem})
@@ -119,7 +120,7 @@ class ControladorJogos:
 
     def jogo(self, nome_jogo):
         jogo_escolhido = None
-        for jogo in self.__jogos:
+        for jogo in self.__jogo_dao.get_all():
             if jogo.titulo == nome_jogo:
                 jogo_escolhido = jogo
                 break
@@ -128,7 +129,7 @@ class ControladorJogos:
     def relatorio_vendas_por_jogo(self):
         relatorios = []
         jogos_por_desenvolvedora = {}
-        for jogo in self.__jogos:
+        for jogo in self.__jogo_dao.get_all():
             desenvolvedora = jogo.desenvolvedora
             if desenvolvedora not in jogos_por_desenvolvedora:
                 jogos_por_desenvolvedora[desenvolvedora] = []
@@ -149,7 +150,7 @@ class ControladorJogos:
     def relatorio_jogos_por_faixa_etaria(self):
         relatorios = []
         jogos_por_faixa = {}
-        for jogo in self.__jogos:
+        for jogo in self.__jogo_dao.get_all():
             faixa = jogo.faixa_etaria
             if faixa not in jogos_por_faixa:
                 jogos_por_faixa[faixa] = []
@@ -165,7 +166,7 @@ class ControladorJogos:
     def relatorio_generos_populares(self):
         relatorios = []
         generos = {}
-        for jogo in self.__jogos:
+        for jogo in self.__jogo_dao.get_all():
             genero = jogo.genero
             generos[genero] = generos.get(genero, 0) + jogo.qntd_vendida
 

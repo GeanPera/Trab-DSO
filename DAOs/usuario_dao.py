@@ -4,7 +4,7 @@ from entidade.usuario import Usuario
 class UsuarioDAO(DAO):
     def __init__(self):
         super().__init__('usuarios.pkl')
-        
+
     def add(self, usuario: Usuario):
         if((usuario is not None) and isinstance(usuario, Usuario) and isinstance(usuario.nickname, str)):
             super().add(usuario.nickname, usuario)
