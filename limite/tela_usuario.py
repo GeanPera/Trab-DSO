@@ -120,14 +120,14 @@ class TelaUsuario():
         ]
         self.__window = sg.Window('Cadastro', size=(700, 500)).Layout(layout)
 
-    def pede_nickname(self):
+    def pede_nickname(self, mensagem):
         sg.ChangeLookAndFeel('DarkGray8')
         layout = [
-            [sg.Push(), sg.Text('Insira o nickname', font=('Minecraft', 25), pad=15, colors='White'), sg.Push()],
+            [sg.Push(), sg.Text(mensagem, font=('Minecraft', 16), pad=15, colors='White'), sg.Push()],
             [sg.Text('Nickname:', font=('Minecraft', 15), pad=2, colors='LightGray'), sg.InputText('', key='-nick-', background_color='Gray', size=100, text_color='Black')],
             [sg.Push(), sg.Button('Confirmar', pad=10, key='-confirmar-', button_color=('White', 'DarkGreen'), size=30, font=("Minecraft", 15)), sg.Push(), sg.Button('Retornar', key='-Retornar-', button_color=("White", "Red"), size= 30, font=("Minecraft", 15)), sg.Push()]
         ]
-        self.__window = sg.Window('Solicitar nick', size=(600, 200)).Layout(layout)
+        self.__window = sg.Window('Solicitar nick', size=(800, 200)).Layout(layout)
 
         button, values = self.open()
         nick = values['-nick-']
