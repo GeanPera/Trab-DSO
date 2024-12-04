@@ -43,7 +43,7 @@ class TelaCompra:
             [sg.Text('Nickname:', font=('Minecraft', 15), pad=2, colors='LightGray'), sg.InputText('', key='-nick-', background_color='Gray', size=100, text_color='Black')],
             [sg.Push(), sg.Button('Confirmar', pad=10, key='-confirmar-', button_color=('White', 'DarkGreen'), size=30, font=("Minecraft", 15)), sg.Push(), sg.Button('Retornar', key='-Retornar-', button_color=("White", "Red"), size= 30, font=("Minecraft", 15)), sg.Push()]
         ]
-        self.__window = sg.Window('Solicitar nick', size=(800, 200)).Layout(layout)
+        self.__window = sg.Window('Solicitar nick', size=(600, 200)).Layout(layout)
 
         button, values = self.open()
         nick = values['-nick-']

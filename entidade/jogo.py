@@ -72,3 +72,5 @@ class Jogo():
     @imagem.setter
     def imagem(self, imagem):
         self.__imagem = imagem
+        
+    

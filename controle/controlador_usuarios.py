@@ -6,12 +6,14 @@ from exceptions.usuario_nao_encontrado_exception import UsuarioNaoEncontradoErro
 from exceptions.campo_ja_utilizado_exception import DadoJaUtilizadoError
 import pickle
 from DAOs.usuario_dao import UsuarioDAO
+from entidade.jogar import JogoBrickBreaker
 
 class ControladorUsuarios():
     def __init__(self, controlador_sistema):
         self.__usuarios_dao = UsuarioDAO()
         self.__tela_usuario = TelaUsuario()
         self.__controlador_sistema = controlador_sistema
+        self.jogar = None
 
 
     @property
@@ -332,7 +334,13 @@ class ControladorUsuarios():
             mensagem = "Seus jogos:"
             for jogo in usuario.jogos:
                 minha_lista_jogos.append({'titulo': f'{jogo.titulo}', 'descricao': jogo.descricao, 'imagem': jogo.imagem})
-            self.__tela_usuario.exibir_meus_jogos(mensagem, minha_lista_jogos)
+            jogar = self.__tela_usuario.exibir_meus_jogos(mensagem, minha_lista_jogos)
+            if jogar:
+                self.jogar = JogoBrickBreaker()
+                self.jogar.loop_jogo()
+                
+            self.__tela_usuario.ativar_som()
+
         except UsuarioNaoEncontradoError as e:
             self.__tela_usuario.mostra_mensagem(str(e))
             
@@ -352,3 +360,6 @@ class ControladorUsuarios():
                     break
             except KeyError:
                 self.__tela_usuario.mostra_mensagem("Opçao inválida")
+                
+    def iniciar_jogo(self):
+        self.jogar.loop_jogo()

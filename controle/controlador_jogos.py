@@ -185,4 +185,3 @@ class ControladorJogos:
             funcao_menu()
             if opcao_menu == 0:
                 break
-

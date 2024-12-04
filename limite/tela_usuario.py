@@ -5,6 +5,7 @@ class TelaUsuario():
     def __init__(self):
         self.__window = None
         self.init_components()
+        pygame.mixer.init()
 
     def opcoes_tela(self):
         self.init_components()
@@ -73,7 +74,9 @@ class TelaUsuario():
     def close(self):
         self.__window.Close()
 
-    pygame.mixer.init()
+    def ativar_som(self):
+        pygame.mixer.init()
+        
     def som(self):
         pygame.mixer.music.load('sound.mp3')
         pygame.mixer.music.play()
@@ -122,7 +125,7 @@ class TelaUsuario():
             [sg.Text('Nickname:', font=('Minecraft', 15), pad=2, colors='LightGray'), sg.InputText('', key='-nick-', background_color='Gray', size=100, text_color='Black')],
             [sg.Push(), sg.Button('Confirmar', pad=10, key='-confirmar-', button_color=('White', 'DarkGreen'), size=30, font=("Minecraft", 15)), sg.Push(), sg.Button('Retornar', key='-Retornar-', button_color=("White", "Red"), size= 30, font=("Minecraft", 15)), sg.Push()]
         ]
-        self.__window = sg.Window('Solicitar nick', size=(800, 200)).Layout(layout)
+        self.__window = sg.Window('Solicitar nick', size=(600, 200)).Layout(layout)
 
         button, values = self.open()
         nick = values['-nick-']
@@ -234,13 +237,16 @@ class TelaUsuario():
         layout = [
             [sg.Text(mensagem, font=('Minecraft', 15), pad=(6, 10), colors='LightGray')],
             [sg.Column(jogos_layout, scrollable=True, vertical_scroll_only=True, size=(700, (altura_dinamica - 150)))],
-            [sg.Push(), sg.Cancel('Retornar', key='-Retornar-', button_color=("White", "Red"), pad = 10, font=("Minecraft", 15))]
+            [sg.Push(),sg.Button('Jogar', pad=10, key='-jogar-', button_color=('White', 'DarkGreen'), size=30, font=("Minecraft", 15)), sg.Cancel('Retornar', key='-Retornar-', button_color=("White", "Red"), pad = 10, font=("Minecraft", 15))]
         ]
         self.__window = sg.Window('Lista de Jogos', size=(700, altura_dinamica), border_depth=15).Layout(layout)
 
         button, values = self.open()
         self.som()
         self.close()
+        if button == '-jogar-':
+            return True
+        
 
     def mostra_mensagem(self, msg):
         sg.popup("", msg, font=('Minecraft', 15), text_color='#1c1d1f', background_color='Gray', button_color=("White", "#1c1d1f"))
