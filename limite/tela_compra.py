@@ -22,7 +22,7 @@ class TelaCompra:
 
     pygame.mixer.init()
     def som(self):
-        pygame.mixer.music.load('sound.mp3')
+        pygame.mixer.music.load('som/sound.mp3')
         pygame.mixer.music.play()
     def init_components(self, jogo):
         sg.ChangeLookAndFeel('DarkGray8')

@@ -3,7 +3,7 @@ from entidade.jogo import Jogo
 
 class JogoDAO(DAO):
     def __init__(self):
-        super().__init__('jogos.pkl')
+        super().__init__('dados/jogos.pkl')
         
     def add(self, jogo: Jogo):
         if((jogo is not None) and isinstance(jogo, Jogo) and isinstance(jogo.titulo, str)):
