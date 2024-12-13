@@ -24,7 +24,7 @@ class ControladorJogos:
     def jogo_mais_comprado(self):
     # Ordena a lista de jogos por quantidade de vendas usando Bubble Sort
         lista_jogos = []
-        jogos_ordenados = self.__jogo_dao.get_all()
+        jogos_ordenados = list(self.__jogo_dao.get_all())
         n = len(jogos_ordenados)
         
         for i in range(n - 1):

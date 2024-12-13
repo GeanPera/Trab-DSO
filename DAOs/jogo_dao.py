@@ -17,6 +17,6 @@ class JogoDAO(DAO):
         if isinstance(key, int):
             return super().get(key)
 
-    def remove(selfself, key:int):
+    def remove(self, key:int):
         if(isinstance(key, int)):
             return super().remove(key)

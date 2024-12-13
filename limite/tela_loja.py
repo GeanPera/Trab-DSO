@@ -96,7 +96,6 @@ class TelaLoja:
         self.__window = sg.Window('Solicitar Dev', size=(400, 600), border_depth=15).Layout(layout)
 
         button, values = self.open()
-        print(button, values)
         self.som()
         self.close()
         for value in values:
